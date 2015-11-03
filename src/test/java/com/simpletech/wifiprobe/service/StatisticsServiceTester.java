@@ -1,6 +1,7 @@
-package com.simpletech.wifiprobe.mapper;
+package com.simpletech.wifiprobe.service;
 
 import com.simpletech.wifiprobe.aspect.LoggingAspect;
+import com.simpletech.wifiprobe.mapper.StatisticsMapper;
 import com.simpletech.wifiprobe.util.JacksonUtil;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,13 +19,13 @@ import java.text.SimpleDateFormat;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:spring-*.xml")
-public class StatisticsMapperTester {
+public class StatisticsServiceTester {
 
 
 	SimpleDateFormat monthf = new SimpleDateFormat("y-M-d");
 
 	@Autowired
-	StatisticsMapper mapper;
+	StatisticsService service;
 
 	@Before
 	public void setUp() {
@@ -32,16 +33,14 @@ public class StatisticsMapperTester {
 	}
 
 	@Test
-	public void macvisit() throws Exception{
-		Object result = mapper.visitmac("1", "c4:6a:b7:3a:ec:11", monthf.parse("2015-11-0"), monthf.parse("2015-11-30"));
+	public void visitfrequency() throws Exception{
+		Object result = service.visitfrequency("1", monthf.parse("2015-11-0"), monthf.parse("2015-11-30"));
 		System.out.println(JacksonUtil.toJson(result).replace("{","\n{"));
 	}
 
 	@Test
-	public void visitfrequency() throws Exception{
-		Object result = mapper.visitfrequency("1", 1,1, monthf.parse("2015-11-0"), monthf.parse("2015-11-30"));
+	public void visitduration() throws Exception{
+		Object result = service.visitduration("1", monthf.parse("2015-11-0"), monthf.parse("2015-11-30"));
 		System.out.println(JacksonUtil.toJson(result).replace("{","\n{"));
 	}
-
-
 }

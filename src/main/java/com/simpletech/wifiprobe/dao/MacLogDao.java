@@ -8,7 +8,7 @@ import com.simpletech.wifiprobe.model.MacLog;
 /**
  * 数据库表t_mac_log的Dao接口
  * @author 树朾
- * @date 2015-11-02 17:16:40 中国标准时间
+ * @date 2015-11-03 17:09:44 中国标准时间
  */
 public interface MacLogDao extends BaseDao<MacLog>{
 

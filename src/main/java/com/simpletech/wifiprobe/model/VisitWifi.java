@@ -8,7 +8,7 @@ import com.simpletech.wifiprobe.model.base.ModelBase;
 /**
  * 数据库表t_visit_wifi
  * @author 树朾
- * @date 2015-11-02 17:16:40 中国标准时间
+ * @date 2015-11-03 17:09:44 中国标准时间
  */
 @Table("t_visit_wifi")
 public class VisitWifi extends ModelBase{
@@ -42,7 +42,7 @@ public class VisitWifi extends ModelBase{
 	@Column("time_leave")
 	private java.util.Date timeLeave;
 	/**
-	 * 停留时长
+	 * 停留时间
 	 */
 	@Column("time_duration")
 	private Integer timeDuration;

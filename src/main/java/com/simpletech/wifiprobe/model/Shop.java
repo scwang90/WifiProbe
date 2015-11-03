@@ -8,7 +8,7 @@ import com.simpletech.wifiprobe.model.base.ModelBase;
 /**
  * 数据库表t_shop
  * @author 树朾
- * @date 2015-11-02 17:16:40 中国标准时间
+ * @date 2015-11-03 17:09:44 中国标准时间
  */
 @Table("t_shop")
 public class Shop extends ModelBase{
@@ -43,6 +43,21 @@ public class Shop extends ModelBase{
 	 */
 	@Column("config_visit_signal_wifi")
 	private Integer configVisitSignalWifi;
+	/**
+	 * 到访次数统计规则（1,2,5）次数
+	 */
+	@Column("config_api_visit_counts")
+	private String configApiVisitCounts;
+	/**
+	 * 到访时长统计规则（5,30,60,120）分钟
+	 */
+	@Column("config_api_visit_duration")
+	private String configApiVisitDuration;
+	/**
+	 * 到访周期统计规则（1,2,4,7,14）天
+	 */
+	@Column("config_api_visit_period")
+	private String configApiVisitPeriod;
 	/**
 	 * 服务器时间
 	 */
@@ -103,6 +118,30 @@ public class Shop extends ModelBase{
 
 	public void setConfigVisitSignalWifi(Integer configVisitSignalWifi) {
 		this.configVisitSignalWifi = configVisitSignalWifi;
+	}
+	
+	public String getConfigApiVisitCounts(){
+		return this.configApiVisitCounts;
+	}
+
+	public void setConfigApiVisitCounts(String configApiVisitCounts) {
+		this.configApiVisitCounts = configApiVisitCounts;
+	}
+	
+	public String getConfigApiVisitDuration(){
+		return this.configApiVisitDuration;
+	}
+
+	public void setConfigApiVisitDuration(String configApiVisitDuration) {
+		this.configApiVisitDuration = configApiVisitDuration;
+	}
+	
+	public String getConfigApiVisitPeriod(){
+		return this.configApiVisitPeriod;
+	}
+
+	public void setConfigApiVisitPeriod(String configApiVisitPeriod) {
+		this.configApiVisitPeriod = configApiVisitPeriod;
 	}
 	
 	public java.util.Date getCreateTime(){

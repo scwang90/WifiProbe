@@ -3,6 +3,8 @@ package com.simpletech.wifiprobe.dao.impl;
 import com.simpletech.wifiprobe.dao.StatisticsDao;
 import com.simpletech.wifiprobe.mapper.StatisticsMapper;
 import com.simpletech.wifiprobe.model.Visit;
+import com.simpletech.wifiprobe.model.entity.DurationValue;
+import com.simpletech.wifiprobe.model.entity.FrequencyValue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -22,8 +24,24 @@ public class StatisticsDaoImpl implements StatisticsDao {
     StatisticsMapper mapper;
 
     @Override
-    public List<Visit> macvisit(String idshop, String mac, Date start, Date end) throws Exception {
-        return mapper.macvisit(idshop, mac, start, end);
+    public List<Visit> visitmac(String idshop, String mac, Date start, Date end) throws Exception {
+        return mapper.visitmac(idshop, mac, start, end);
     }
+
+    @Override
+    public int visitfrequency(String idshop, int min, int max, Date start, Date end) throws Exception {
+        return mapper.visitfrequency(idshop, min, max, start, end);
+    }
+
+//    @Override
+//    public List<FrequencyValue> visitfrequency(String idshop, Date start, Date end) throws Exception {
+//        return mapper.visitfrequency(idshop, start, end);
+//    }
+
+    @Override
+    public int visitduration(String idshop, int min, int max, Date start, Date end) throws Exception {
+        return mapper.visitduration(idshop, min, max, start, end);
+    }
+
 }
 

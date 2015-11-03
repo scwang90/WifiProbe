@@ -1,6 +1,7 @@
 package com.simpletech.wifiprobe.controller;
 
 import com.simpletech.wifiprobe.model.constant.Period;
+import com.simpletech.wifiprobe.model.entity.ChartValue;
 import com.simpletech.wifiprobe.model.entity.PeriodValue;
 import com.simpletech.wifiprobe.service.StatisticsService;
 import com.simpletech.wifiprobe.util.AfReflecter;
@@ -36,28 +37,82 @@ public class StatisticsController {
     }
 
     /**
-     * 自定义时段 Visit|PV|UV|IP统计数据获取API
+     * 统计Mac的访问记录
      *
      * @param shopId 网站ID
-     * @param shopId 店铺ID
+     * @param mac    Mac地址
      * @param offset 偏移 0=当天 -1=昨天 1=明天 -2 2 -3...
      * @param span   跨度 [day|week|month|year]
      * @param start  开始时间 ("yyyyMMddHHmmss")
      * @param end    结束时间 ("yyyyMMddHHmmss")
-     * @return event统计数据
+     * @return 统计数据
      */
-    @RequestMapping("macvisit/shop/{shopId:\\d+}/mac/{mac}")
-    public Object macvisit(@PathVariable String shopId,@PathVariable String mac, Integer offset, Period span, Date start, Date end) throws Exception {
+    @RequestMapping("visitmac/shop/{shopId:\\d+}/mac/{mac}")
+    public Object visitmac(@PathVariable String shopId, @PathVariable String mac, Integer offset, Period span, Date start, Date end) throws Exception {
         end = timeEnd(end, span, offset);
         start = timeStart(start, span, offset);
-        return service.macvisit(shopId, mac, start, end);
-//        List<VisitValue> list = service.macvisit(shopId, period, start, end);
+        return service.visitmac(shopId, mac, start, end);
+//        List<VisitValue> list = service.visitmac(shopId, period, start, end);
 //        list = fulldata(list, period.getFormat(), period.getField(), start, end, VisitValue.class);
 //        return list;
     }
 
+
+    /**
+     * 统计店铺的到访频次
+     *
+     * @param shopId 网站ID
+     * @param offset 偏移 0=当天 -1=昨天 1=明天 -2 2 -3...
+     * @param span   跨度 [day|week|month|year]
+     * @param start  开始时间 ("yyyyMMddHHmmss")
+     * @param end    结束时间 ("yyyyMMddHHmmss")
+     * @return 统计数据
+     */
+    @RequestMapping("visitfrequency/shop/{shopId:\\d+}")
+    public Object visitfrequency(@PathVariable String shopId, Integer offset, Period span, Date start, Date end) throws Exception {
+        end = timeEnd(end, span, offset);
+        start = timeStart(start, span, offset);
+        return service.visitfrequency(shopId, start, end);
+    }
+
+
+    /**
+     * 统计店铺的到访时长
+     *
+     * @param shopId 网站ID
+     * @param offset 偏移 0=当天 -1=昨天 1=明天 -2 2 -3...
+     * @param span   跨度 [day|week|month|year]
+     * @param start  开始时间 ("yyyyMMddHHmmss")
+     * @param end    结束时间 ("yyyyMMddHHmmss")
+     * @return 统计数据
+     */
+    @RequestMapping("visitduration/shop/{shopId:\\d+}")
+    public Object visitduration(@PathVariable String shopId, Integer offset, Period span, Date start, Date end) throws Exception {
+        end = timeEnd(end, span, offset);
+        start = timeStart(start, span, offset);
+        return service.visitduration(shopId, start, end);
+    }
+
+    /**
+     * 统计店铺的到访周期
+     *
+     * @param shopId 网站ID
+     * @param offset 偏移 0=当天 -1=昨天 1=明天 -2 2 -3...
+     * @param span   跨度 [day|week|month|year]
+     * @param start  开始时间 ("yyyyMMddHHmmss")
+     * @param end    结束时间 ("yyyyMMddHHmmss")
+     * @return 统计数据
+     */
+    @RequestMapping("visitperiod/shop/{shopId:\\d+}")
+    public Object visitperiod(@PathVariable String shopId, Integer offset, Period span, Date start, Date end) throws Exception {
+        end = timeEnd(end, span, offset);
+        start = timeStart(start, span, offset);
+        return service.visitperiod(shopId, start, end);
+    }
+
     /**
      * 检测时间分段合理性
+     *
      * @param period 时段周期 [时|日|周|月]
      * @param start  开始时间
      * @param end    结束时间
@@ -124,7 +179,7 @@ public class StatisticsController {
      * @param list 数据库有效数据列表
      * @return 填充的数据
      */
-    private <T extends PeriodValue> List<T> fulldata(List<T> list, DateFormat format, int field, Date start, Date end, Class<T> clazz) {
+    private <T extends ChartValue> List<T> fulldata(List<T> list, DateFormat format, int field, Date start, Date end, Class<T> clazz) {
         Map<String, T> map = tomap(list);
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(start);
@@ -156,7 +211,7 @@ public class StatisticsController {
      * @param list 数据库有效数据列表
      * @return map
      */
-    private <T extends PeriodValue> Map<String, T> tomap(List<T> list) {
+    private <T extends ChartValue> Map<String, T> tomap(List<T> list) {
         Map<String, T> map = new LinkedHashMap<>();
         for (T value : list) {
             map.put(value.getDate(), value);

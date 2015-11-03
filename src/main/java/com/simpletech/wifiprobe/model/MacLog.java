@@ -8,7 +8,7 @@ import com.simpletech.wifiprobe.model.base.ModelBase;
 /**
  * 数据库表t_mac_log
  * @author 树朾
- * @date 2015-11-02 17:16:40 中国标准时间
+ * @date 2015-11-03 17:09:44 中国标准时间
  */
 @Table("t_mac_log")
 public class MacLog extends ModelBase{
@@ -31,7 +31,7 @@ public class MacLog extends ModelBase{
 	 */
 	private String idvisit;
 	/**
-	 * WIFi访问ID
+	 * WIFI访问ID
 	 */
 	private String idvisitwifi;
 	/**

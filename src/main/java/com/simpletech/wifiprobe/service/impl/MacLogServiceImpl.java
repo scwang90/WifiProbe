@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * 数据库表t_mac_log的Service接实现
  * @author 树朾
- * @date 2015-11-02 17:16:40 中国标准时间
+ * @date 2015-11-03 17:09:44 中国标准时间
  */
 @Service
 public class MacLogServiceImpl extends BaseServiceImpl<MacLog> implements MacLogService{
