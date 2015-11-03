@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="
+          http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+          http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <!-- 开启AOP监听 只对当前配置文件有效 -->
+    <aop:aspectj-autoproxy expose-proxy="true"/>
+    
+    <!-- 开启AOP切面日志 -->
+    <bean id="loggingaspect" class="com.simpletech.wifiprobe.aspect.LoggingAspect"/>
+    <aop:config>
+        <!-- 切入点配置 -->
+        <aop:pointcut expression="execution(* com.simpletech.wifiprobe.controller.*.*(..))" id="ptc-controller"/>
+        <aop:pointcut expression="execution(* com.simpletech.wifiprobe.service.*.*(..))" id="ptc-service"/>
+        <aop:pointcut expression="execution(* com.simpletech.wifiprobe.dao.*.*(..))" id="ptc-dao"/>
+        <aop:pointcut expression="execution(* com.simpletech.wifiprobe.mapper.*.*(..))" id="ptc-mapper"/>
+        <!-- 日志切面 -->
+        <aop:aspect ref="loggingaspect">
+            <!--
+            <aop:after method="after" pointcut-ref="ptc-service"/>
+            <aop:after method="after" pointcut-ref="ptc-dao"/>
+            <aop:after method="after" pointcut-ref="ptc-mapper"/>
+
+            <aop:after-throwing method="throwed" pointcut-ref="ptc-service" throwing="ex"/>
+            <aop:after-throwing method="throwed" pointcut-ref="ptc-dao" throwing="ex"/>
+            <aop:after-throwing method="throwed" pointcut-ref="ptc-mapper" throwing="ex"/>
+            -->
+
+            <aop:before method="before" pointcut-ref="ptc-controller"/>
+            <aop:after-returning method="returned" pointcut-ref="ptc-controller" returning="result"/>
+            <aop:after-throwing method="throwed" pointcut-ref="ptc-controller" throwing="ex"/>
+            <aop:after method="after" pointcut-ref="ptc-controller"/>
+
+            <aop:before method="before" pointcut-ref="ptc-service"/>
+            <aop:after-returning method="returned" pointcut-ref="ptc-service" returning="result"/>
+
+            <aop:before method="before" pointcut-ref="ptc-dao"/>
+            <aop:after-returning method="returned" pointcut-ref="ptc-dao" returning="result"/>
+
+            <aop:before method="before" pointcut-ref="ptc-mapper"/>
+            <aop:after-returning method="returned" pointcut-ref="ptc-mapper" returning="result"/>
+
+        </aop:aspect>
+    </aop:config>
+    
+</beans>
