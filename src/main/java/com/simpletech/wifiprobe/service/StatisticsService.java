@@ -48,7 +48,7 @@ public interface StatisticsService {
     /**
      * 统计店铺的到访周期
      *
-     * @param shopId 网站ID
+     * @param idshop 网站ID
      * @param start  开始时间
      * @param end    结束时间
      * @return 统计数据

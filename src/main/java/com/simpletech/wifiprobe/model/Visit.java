@@ -8,7 +8,7 @@ import com.simpletech.wifiprobe.model.base.ModelBase;
 /**
  * 数据库表t_visit
  * @author 树朾
- * @date 2015-11-03 17:09:44 中国标准时间
+ * @date 2015-11-04 14:00:34 中国标准时间
  */
 @Table("t_visit")
 public class Visit extends ModelBase{
@@ -46,6 +46,11 @@ public class Visit extends ModelBase{
 	 */
 	@Column("time_duration")
 	private Integer timeDuration;
+	/**
+	 * 上次访问到现在的时间差
+	 */
+	@Column("time_from_last")
+	private Integer timeFromLast;
 	/**
 	 * 是否新用户
 	 */
@@ -129,6 +134,14 @@ public class Visit extends ModelBase{
 
 	public void setTimeDuration(Integer timeDuration) {
 		this.timeDuration = timeDuration;
+	}
+	
+	public Integer getTimeFromLast(){
+		return this.timeFromLast;
+	}
+
+	public void setTimeFromLast(Integer timeFromLast) {
+		this.timeFromLast = timeFromLast;
 	}
 	
 	public Boolean getIsNewUser(){

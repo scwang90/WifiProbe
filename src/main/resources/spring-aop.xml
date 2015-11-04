@@ -29,19 +29,22 @@
             <aop:after-throwing method="throwed" pointcut-ref="ptc-mapper" throwing="ex"/>
             -->
 
-            <!--<aop:before method="before" pointcut-ref="ptc-controller"/>-->
-            <!--<aop:after-returning method="returned" pointcut-ref="ptc-controller" returning="result"/>-->
             <aop:after-throwing method="throwed" pointcut-ref="ptc-controller" throwing="ex"/>
-            <!--<aop:after method="after" pointcut-ref="ptc-controller"/>-->
 
-            <!--<aop:before method="before" pointcut-ref="ptc-service"/>
+            <!--
+            <aop:before method="before" pointcut-ref="ptc-controller"/>
+            <aop:after-returning method="returned" pointcut-ref="ptc-controller" returning="result"/>
+            <aop:after method="after" pointcut-ref="ptc-controller"/>
+
+            <aop:before method="before" pointcut-ref="ptc-service"/>
             <aop:after-returning method="returned" pointcut-ref="ptc-service" returning="result"/>
 
             <aop:before method="before" pointcut-ref="ptc-dao"/>
             <aop:after-returning method="returned" pointcut-ref="ptc-dao" returning="result"/>
 
             <aop:before method="before" pointcut-ref="ptc-mapper"/>
-            <aop:after-returning method="returned" pointcut-ref="ptc-mapper" returning="result"/>-->
+            <aop:after-returning method="returned" pointcut-ref="ptc-mapper" returning="result"/>
+            -->
 
         </aop:aspect>
     </aop:config>

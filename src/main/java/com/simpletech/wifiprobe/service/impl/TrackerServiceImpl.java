@@ -16,7 +16,7 @@ import java.util.Date;
  * Created by Administrator on 2015/10/30.
  */
 @Service
-public class TrackerServiceImpl implements TrackerService{
+public class TrackerServiceImpl implements TrackerService {
 
 
     @Autowired
@@ -24,6 +24,7 @@ public class TrackerServiceImpl implements TrackerService{
 
     /**
      * 接收探针日志数据
+     *
      * @param log 日志数据
      */
     @Override
@@ -34,8 +35,8 @@ public class TrackerServiceImpl implements TrackerService{
             MacLog last = dao.findLastLogByMacAndShop(shop.getId(), log.getMacDevice());
             String idvisit = "";
             String idvisitwifi = "";
-            if (log.getSignalStrength() >= (90-30)*shop.getConfigVisitSignal()/100-90) {//信号过滤
-                if (last == null || last.getCreateTime().getTime() < now.getTime() - shop.getConfigVisitExpired()*60*1000) {
+            if (log.getSignalStrength() >= (90 - 30) * shop.getConfigVisitSignal() / 100 - 90) {//信号过滤
+                if (last == null || last.getCreateTime().getTime() < now.getTime() - shop.getConfigVisitExpired() * 60 * 1000) {
                     Visit lastVist = dao.findLastVistByMacAndShop(shop.getId(), log.getMacDevice());
                     Visit visit = new Visit();
                     visit.setMacDevice(log.getMacDevice());
@@ -46,10 +47,11 @@ public class TrackerServiceImpl implements TrackerService{
                     visit.setUpdateTime(now);
                     visit.setTimeEntry(now);
                     visit.setTimeLeave(now);
+                    visit.setTimeFromLast((int) (now.getTime() - ((lastVist != null)?lastVist.getCreateTime().getTime():now.getTime())));
                     visit.setTimeDuration(0);
                     visit.setCountLogs(1);
-                    visit.setEndBrand(log.getMacDevice().replace(":","").substring(0,6).toUpperCase());
-                    visit.setIsNewUser((lastVist==null||lastVist.getCreateTime().getTime() < now.getTime() - shop.getConfigUserExpired()*24*60*60*1000));
+                    visit.setEndBrand(log.getMacDevice().replace(":", "").substring(0, 6).toUpperCase());
+                    visit.setIsNewUser((lastVist == null || lastVist.getCreateTime().getTime() < now.getTime() - shop.getConfigUserExpired() * 24 * 60 * 60 * 1000));
                     dao.insertVisit(visit);
                     idvisit = visit.getId();
                 } else {
@@ -62,8 +64,8 @@ public class TrackerServiceImpl implements TrackerService{
                     dao.updateVisitByMacLog(last);
                 }
             }
-            if (log.getSignalStrength() >= (90-30)*shop.getConfigVisitSignalWifi()/100-90) {//信号过滤
-                if (last == null || last.getCreateTime().getTime() < now.getTime() - shop.getConfigVisitExpiredWifi()*60*1000) {
+            if (log.getSignalStrength() >= (90 - 30) * shop.getConfigVisitSignalWifi() / 100 - 90) {//信号过滤
+                if (last == null || last.getCreateTime().getTime() < now.getTime() - shop.getConfigVisitExpiredWifi() * 60 * 1000) {
                     VisitWifi visit = new VisitWifi();
                     visit.setMacDevice(log.getMacDevice());
                     visit.setIdwifi(log.getIdwifi());

@@ -48,7 +48,7 @@ public class StatisticsServiceImpl implements StatisticsService {
             count = count.matches("(\\d+,)+\\d+") ? count : "1,2,5";
             count = count + "," + Integer.MAX_VALUE;
             String[] counts = count.split(",");
-            int lastValue = 1,total = 0;
+            int lastValue = 1, total = 0;
             for (String _count : counts) {
                 FrequencyValue value = new FrequencyValue();
                 if (lastValue == Integer.valueOf(_count)) {
@@ -58,7 +58,7 @@ public class StatisticsServiceImpl implements StatisticsService {
                 }
                 value.setNum(dao.visitfrequency(idshop, lastValue, Integer.parseInt(_count), start, end));
 
-                if (value.getFre().indexOf(""+Integer.MAX_VALUE) > 0) {
+                if (value.getFre().indexOf("" + Integer.MAX_VALUE) > 0) {
                     if (value.getNum() > 0) {
                         value.setFre(value.getFre().replace("" + Integer.MAX_VALUE, ""));
                         values.add(value);
@@ -70,11 +70,12 @@ public class StatisticsServiceImpl implements StatisticsService {
                 lastValue = Integer.parseInt(_count) + 1;
             }
             for (FrequencyValue value : values) {
-                value.setRate(1f*value.getNum()/total);
+                value.setRate(1f * value.getNum() / total);
             }
         }
         return values;
     }
+
 //    @Override
 //    public List<FrequencyValue> visitfrequency(String idshop, Date start, Date end) throws Exception {
 //        List<FrequencyValue> values = new ArrayList<>();
@@ -129,15 +130,15 @@ public class StatisticsServiceImpl implements StatisticsService {
             duration = duration.matches("(\\d+,)+\\d+") ? duration : "5,30,60,120";
             duration = duration + "," + Integer.MAX_VALUE;
             String[] durations = duration.split(",");
-            int lastValue = 0,total = 0;
+            int lastValue = 0, total = 0;
             for (String durate : durations) {
                 DurationValue value = new DurationValue();
                 value.setDur(lastValue + "-" + durate);
                 value.setNum(dao.visitduration(idshop, lastValue * 100, Integer.parseInt(durate) * 100, start, end));
 
-                if (value.getDur().indexOf(""+Integer.MAX_VALUE) > 0) {
+                if (value.getDur().indexOf("" + Integer.MAX_VALUE) > 0) {
                     if (value.getNum() > 0) {
-                        value.setDur(value.getDur().replace(""+Integer.MAX_VALUE,""));
+                        value.setDur(value.getDur().replace("" + Integer.MAX_VALUE, ""));
                         values.add(value);
                     }
                 } else {
@@ -147,7 +148,7 @@ public class StatisticsServiceImpl implements StatisticsService {
                 lastValue = Integer.parseInt(durate);
             }
             for (DurationValue value : values) {
-                value.setRate(1f*value.getNum()/total);
+                value.setRate(1f * value.getNum() / total);
             }
         }
         return values;
@@ -162,7 +163,7 @@ public class StatisticsServiceImpl implements StatisticsService {
 //            period = period.matches("(\\d+,)+\\d+") ? period : "5,30,60,120";
 //            period = period + "," + Integer.MAX_VALUE;
 //            String[] periods = period.split(",");
-
+//            dao.visitperiod(idshop, shop.getConfigApiVisitPeriodDuration(), shop, end);
         }
         return values;
     }

@@ -8,7 +8,7 @@ import com.simpletech.wifiprobe.model.base.ModelBase;
 /**
  * 数据库表t_shop
  * @author 树朾
- * @date 2015-11-03 17:09:44 中国标准时间
+ * @date 2015-11-04 14:00:34 中国标准时间
  */
 @Table("t_shop")
 public class Shop extends ModelBase{
@@ -58,6 +58,16 @@ public class Shop extends ModelBase{
 	 */
 	@Column("config_api_visit_period")
 	private String configApiVisitPeriod;
+	/**
+	 * 到访周期统计 最小停留时间（过滤用，分钟）
+	 */
+	@Column("config_api_visit_period__min_duration")
+	private Integer configApiVisitPeriodMinDuration;
+	/**
+	 * 到访周期统计 最小到访次数（过滤用，次数）
+	 */
+	@Column("config_api_visit_period__min_visit")
+	private Integer configApiVisitPeriodMinVisit;
 	/**
 	 * 服务器时间
 	 */
@@ -142,6 +152,22 @@ public class Shop extends ModelBase{
 
 	public void setConfigApiVisitPeriod(String configApiVisitPeriod) {
 		this.configApiVisitPeriod = configApiVisitPeriod;
+	}
+	
+	public Integer getConfigApiVisitPeriodMinDuration(){
+		return this.configApiVisitPeriodMinDuration;
+	}
+
+	public void setConfigApiVisitPeriodMinDuration(Integer configApiVisitPeriodMinDuration) {
+		this.configApiVisitPeriodMinDuration = configApiVisitPeriodMinDuration;
+	}
+	
+	public Integer getConfigApiVisitPeriodMinVisit(){
+		return this.configApiVisitPeriodMinVisit;
+	}
+
+	public void setConfigApiVisitPeriodMinVisit(Integer configApiVisitPeriodMinVisit) {
+		this.configApiVisitPeriodMinVisit = configApiVisitPeriodMinVisit;
 	}
 	
 	public java.util.Date getCreateTime(){
