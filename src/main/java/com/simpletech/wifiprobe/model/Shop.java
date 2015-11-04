@@ -8,7 +8,7 @@ import com.simpletech.wifiprobe.model.base.ModelBase;
 /**
  * 数据库表t_shop
  * @author 树朾
- * @date 2015-11-04 15:08:56 中国标准时间
+ * @date 2015-11-04 17:29:11 中国标准时间
  */
 @Table("t_shop")
 public class Shop extends ModelBase{
@@ -53,6 +53,16 @@ public class Shop extends ModelBase{
 	 */
 	@Column("config_api_visit_duration")
 	private String configApiVisitDuration;
+	/**
+	 * 到访时长达到深访的标准（分钟）
+	 */
+	@Column("config_api_visit_duration_deep")
+	private Integer configApiVisitDurationDeep;
+	/**
+	 * 到访时长达到跳出的标准（分钟）
+	 */
+	@Column("config_api_visit_duration_jump")
+	private Integer configApiVisitDurationJump;
 	/**
 	 * 到访周期统计规则（1,2,4,7,14）天
 	 */
@@ -144,6 +154,22 @@ public class Shop extends ModelBase{
 
 	public void setConfigApiVisitDuration(String configApiVisitDuration) {
 		this.configApiVisitDuration = configApiVisitDuration;
+	}
+	
+	public Integer getConfigApiVisitDurationDeep(){
+		return this.configApiVisitDurationDeep;
+	}
+
+	public void setConfigApiVisitDurationDeep(Integer configApiVisitDurationDeep) {
+		this.configApiVisitDurationDeep = configApiVisitDurationDeep;
+	}
+	
+	public Integer getConfigApiVisitDurationJump(){
+		return this.configApiVisitDurationJump;
+	}
+
+	public void setConfigApiVisitDurationJump(Integer configApiVisitDurationJump) {
+		this.configApiVisitDurationJump = configApiVisitDurationJump;
 	}
 	
 	public String getConfigApiVisitPeriod(){

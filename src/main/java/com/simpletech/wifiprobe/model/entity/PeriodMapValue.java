@@ -1,10 +1,10 @@
 package com.simpletech.wifiprobe.model.entity;
 
 /**
- * 访问频次值
- * Created by Administrator on 2015/11/3.
+ * 访问周期
+ * Created by 树朾 on 2015/9/25.
  */
-public class FrequencyValue {
+public class PeriodMapValue {
 
     private String fre;
     private Integer num;
@@ -33,4 +33,5 @@ public class FrequencyValue {
     public void setRate(Float rate) {
         this.rate = rate;
     }
+
 }

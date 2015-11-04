@@ -45,7 +45,7 @@ public interface TrackerMapper {
      * @param visit 添加的数据
      * @return 改变的行数
      */
-    @Insert("INSERT INTO t_visit ( id , idshop , idwifi , mac_device , end_brand , time_entry , time_leave , time_duration , is_new_user , count_logs , create_time , update_time ) VALUES ( #{id} , #{idshop} , #{idwifi} , #{macDevice} , #{endBrand} , NOW() , NOW() , 0 , #{isNewUser} , 1 , NOW() , NOW() )")
+    @Insert("INSERT INTO t_visit ( id , idshop , idwifi , mac_device , end_brand , time_entry , time_leave , time_duration , time_from_last , is_new_user , count_logs , create_time , update_time ) VALUES ( #{id} , #{idshop} , #{idwifi} , #{macDevice} , #{endBrand} , NOW() , NOW() , 0 , #{timeFromLast}, #{isNewUser} , 1 , NOW() , NOW() )")
     int insertVisit(Visit visit) throws Exception;
 
 //    /**

@@ -6,6 +6,7 @@ import com.simpletech.wifiprobe.model.Shop;
 import com.simpletech.wifiprobe.model.Visit;
 import com.simpletech.wifiprobe.model.VisitWifi;
 import com.simpletech.wifiprobe.service.TrackerService;
+import com.simpletech.wifiprobe.util.AfStringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,7 +37,7 @@ public class TrackerServiceImpl implements TrackerService {
             String idvisit = "";
             String idvisitwifi = "";
             if (log.getSignalStrength() >= (90 - 30) * shop.getConfigVisitSignal() / 100 - 90) {//信号过滤
-                if (last == null || last.getCreateTime().getTime() < now.getTime() - shop.getConfigVisitExpired() * 60 * 1000) {
+                if (last == null || AfStringUtil.isEmpty(last.getIdvisit()) || last.getCreateTime().getTime() < now.getTime() - shop.getConfigVisitExpired() * 60 * 1000) {
                     Visit lastVist = dao.findLastVistByMacAndShop(shop.getId(), log.getMacDevice());
                     Visit visit = new Visit();
                     visit.setMacDevice(log.getMacDevice());
@@ -65,7 +66,7 @@ public class TrackerServiceImpl implements TrackerService {
                 }
             }
             if (log.getSignalStrength() >= (90 - 30) * shop.getConfigVisitSignalWifi() / 100 - 90) {//信号过滤
-                if (last == null || last.getCreateTime().getTime() < now.getTime() - shop.getConfigVisitExpiredWifi() * 60 * 1000) {
+                if (last == null || AfStringUtil.isEmpty(last.getIdvisitwifi()) || last.getCreateTime().getTime() < now.getTime() - shop.getConfigVisitExpiredWifi() * 60 * 1000) {
                     VisitWifi visit = new VisitWifi();
                     visit.setMacDevice(log.getMacDevice());
                     visit.setIdwifi(log.getIdwifi());

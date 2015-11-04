@@ -1,21 +1,21 @@
 package com.simpletech.wifiprobe.model.entity;
 
 /**
- * 访问时长
+ * 访问频次-分布
  * Created by Administrator on 2015/11/3.
  */
-public class DurationValue {
+public class FrequencyMapValue {
 
-    private String dur;
+    private String fre;
     private Integer num;
     private Float rate;
 
-    public String getDur() {
-        return dur;
+    public String getFre() {
+        return fre;
     }
 
-    public void setDur(String dur) {
-        this.dur = dur;
+    public void setFre(String fre) {
+        this.fre = fre;
     }
 
     public Integer getNum() {

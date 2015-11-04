@@ -1,8 +1,8 @@
-package com.simpletech.wifiprobe.service;
+package com.simpletech.wifiprobe.controller;
 
 import com.simpletech.wifiprobe.aspect.LoggingAspect;
-import com.simpletech.wifiprobe.mapper.StatisticsMapper;
 import com.simpletech.wifiprobe.model.constant.Period;
+import com.simpletech.wifiprobe.service.StatisticsService;
 import com.simpletech.wifiprobe.util.JacksonUtil;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,13 +20,13 @@ import java.text.SimpleDateFormat;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:spring-*.xml")
-public class StatisticsServiceTester {
+public class StatisticsControllerTester {
 
 
 	SimpleDateFormat monthf = new SimpleDateFormat("y-M-d");
 
 	@Autowired
-	StatisticsService service;
+	StatisticsController controller;
 
 	@Before
 	public void setUp() {
@@ -35,31 +35,31 @@ public class StatisticsServiceTester {
 
 	@Test
 	public void visitFrequencyMap() throws Exception{
-		Object result = service.visitFrequencyMap("1", monthf.parse("2015-11-0"), monthf.parse("2015-11-30"));
+		Object result = controller.visitFrequencyMap("1", null, null, monthf.parse("2015-11-0"), monthf.parse("2015-11-30"));
 		System.out.println(JacksonUtil.toJson(result).replace("{","\n{"));
 	}
 
 	@Test
 	public void visitDurationMap() throws Exception{
-		Object result = service.visitDurationMap("1", monthf.parse("2015-11-0"), monthf.parse("2015-11-30"));
+		Object result = controller.visitDurationMap("1", null, null, monthf.parse("2015-11-0"), monthf.parse("2015-11-30"));
 		System.out.println(JacksonUtil.toJson(result).replace("{","\n{"));
 	}
 
 	@Test
 	public void visitPeriodMap() throws Exception{
-		Object result = service.visitPeriodMap("1", monthf.parse("2015-11-0"), monthf.parse("2015-11-30"));
+		Object result = controller.visitPeriodMap("1", null, null, monthf.parse("2015-11-0"), monthf.parse("2015-11-30"));
 		System.out.println(JacksonUtil.toJson(result).replace("{","\n{"));
 	}
 
 	@Test
 	public void visitDurationSpan() throws Exception{
-		Object result = service.visitDurationSpan("1", monthf.parse("2015-11-0"), monthf.parse("2015-11-30"));
+		Object result = controller.visitDurationSpan("1", null, null, monthf.parse("2015-11-0"), monthf.parse("2015-11-30"));
 		System.out.println(JacksonUtil.toJson(result).replace("{","\n{"));
 	}
 
 	@Test
 	public void visitDurationTrend() throws Exception{
-		Object result = service.visitDurationTrend("1", Period.day, monthf.parse("2015-11-0"), monthf.parse("2015-11-30"));
+		Object result = controller.visitDurationTrend("1", Period.day, null, null, monthf.parse("2015-11-0"), monthf.parse("2015-11-30"));
 		System.out.println(JacksonUtil.toJson(result).replace("{","\n{"));
 	}
 }

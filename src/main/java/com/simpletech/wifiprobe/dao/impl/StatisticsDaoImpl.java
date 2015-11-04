@@ -3,9 +3,8 @@ package com.simpletech.wifiprobe.dao.impl;
 import com.simpletech.wifiprobe.dao.StatisticsDao;
 import com.simpletech.wifiprobe.mapper.StatisticsMapper;
 import com.simpletech.wifiprobe.model.Visit;
-import com.simpletech.wifiprobe.model.entity.DurationValue;
-import com.simpletech.wifiprobe.model.entity.FrequencyValue;
-import com.simpletech.wifiprobe.model.entity.PeriodValue;
+import com.simpletech.wifiprobe.model.entity.DurationSpanValue;
+import com.simpletech.wifiprobe.model.entity.DurationTrendValue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -30,23 +29,48 @@ public class StatisticsDaoImpl implements StatisticsDao {
     }
 
     @Override
-    public int visitfrequency(String idshop, int min, int max, Date start, Date end) throws Exception {
-        return mapper.visitfrequency(idshop, min, max, start, end);
+    public int visitFrequencyMap(String idshop, int min, int max, Date start, Date end) throws Exception {
+        return mapper.visitFrequencyMap(idshop, min, max, start, end);
     }
 
 //    @Override
-//    public List<FrequencyValue> visitfrequency(String idshop, Date start, Date end) throws Exception {
-//        return mapper.visitfrequency(idshop, start, end);
+//    public List<FrequencyMapValue> visitFrequencyMap(String idshop, Date start, Date end) throws Exception {
+//        return mapper.visitFrequencyMap(idshop, start, end);
 //    }
 
     @Override
-    public int visitduration(String idshop, int min, int max, Date start, Date end) throws Exception {
-        return mapper.visitduration(idshop, min, max, start, end);
+    public int visitDurationMap(String idshop, int min, int max, Date start, Date end) throws Exception {
+        return mapper.visitDurationMap(idshop, min, max, start, end);
     }
 
     @Override
-    public List<PeriodValue> visitperiod(String idshop, int minvisit, int minduration, Date start, Date end) throws Exception {
-        return null;
+    public List<Integer> visitPeriodMap(String idshop, int minduration, Date start, Date end) throws Exception {
+        return mapper.visitPeriodMap(idshop, minduration, start, end);
+    }
+
+    @Override
+    public DurationSpanValue visitDurationSpan(String idshop, int deep, int jump, Date start, Date end) throws Exception {
+        return mapper.visitDurationSpan(idshop, deep, jump, start, end);
+    }
+
+    @Override
+    public List<DurationTrendValue> visitDurationTrendHour(String idshop, int deep, int jump, Date start, Date end) throws Exception {
+        return mapper.visitDurationTrendHour(idshop, deep, jump, start, end);
+    }
+
+    @Override
+    public List<DurationTrendValue> visitDurationTrendDay(String idshop, int deep, int jump, Date start, Date end) throws Exception {
+        return mapper.visitDurationTrendDay(idshop, deep, jump, start, end);
+    }
+
+    @Override
+    public List<DurationTrendValue> visitDurationTrendWeek(String idshop, int deep, int jump, Date start, Date end) throws Exception {
+        return mapper.visitDurationTrendWeek(idshop, deep, jump, start, end);
+    }
+
+    @Override
+    public List<DurationTrendValue> visitDurationTrendMonth(String idshop, int deep, int jump, Date start, Date end) throws Exception {
+        return mapper.visitDurationTrendMonth(idshop, deep, jump, start, end);
     }
 
 }

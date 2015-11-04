@@ -1,8 +1,8 @@
 package com.simpletech.wifiprobe.controller;
 
 import com.simpletech.wifiprobe.model.constant.Period;
-import com.simpletech.wifiprobe.model.entity.ChartValue;
-import com.simpletech.wifiprobe.model.entity.PeriodValue;
+import com.simpletech.wifiprobe.model.entity.DurationTrendValue;
+import com.simpletech.wifiprobe.model.entity.TrendValue;
 import com.simpletech.wifiprobe.service.StatisticsService;
 import com.simpletech.wifiprobe.util.AfReflecter;
 import com.simpletech.wifiprobe.util.AfStringUtil;
@@ -59,7 +59,7 @@ public class StatisticsController {
 
 
     /**
-     * 统计店铺的到访频次
+     * 店铺-到访频次-分布
      *
      * @param shopId 网站ID
      * @param offset 偏移 0=当天 -1=昨天 1=明天 -2 2 -3...
@@ -68,16 +68,54 @@ public class StatisticsController {
      * @param end    结束时间 ("yyyyMMddHHmmss")
      * @return 统计数据
      */
-    @RequestMapping("visitfrequency/shop/{shopId:\\d+}")
-    public Object visitfrequency(@PathVariable String shopId, Integer offset, Period span, Date start, Date end) throws Exception {
+    @RequestMapping("visit/frequency/map/shop/{shopId:\\d+}")
+    public Object visitFrequencyMap(@PathVariable String shopId, Integer offset, Period span, Date start, Date end) throws Exception {
         end = timeEnd(end, span, offset);
         start = timeStart(start, span, offset);
-        return service.visitfrequency(shopId, start, end);
+        return service.visitFrequencyMap(shopId, start, end);
+    }
+
+    /**
+     * 店铺-到访时长-时段
+     *
+     * @param shopId 网站ID
+     * @param offset 偏移 0=当天 -1=昨天 1=明天 -2 2 -3...
+     * @param span   跨度 [day|week|month|year]
+     * @param start  开始时间 ("yyyyMMddHHmmss")
+     * @param end    结束时间 ("yyyyMMddHHmmss")
+     * @return 统计数据
+     */
+    @RequestMapping("visit/duration/span/shop/{shopId:\\d+}")
+    public Object visitDurationSpan(@PathVariable String shopId, Integer offset, Period span, Date start, Date end) throws Exception {
+        end = timeEnd(end, span, offset);
+        start = timeStart(start, span, offset);
+        return service.visitDurationSpan(shopId, start, end);
+    }
+
+    /**
+     * 店铺-到访时长-趋势
+     *
+     * @param shopId 网站ID
+     * @param period 时段周期 [时|日|周|月]
+     * @param offset 偏移 0=当天 -1=昨天 1=明天 -2 2 -3...
+     * @param span   跨度 [day|week|month|year]
+     * @param start  开始时间 ("yyyyMMddHHmmss")
+     * @param end    结束时间 ("yyyyMMddHHmmss")
+     * @return 统计数据
+     */
+    @RequestMapping("visit/duration/trend/shop/{shopId:\\d+}/{period:hour|day|week|month}")
+    public Object visitDurationTrend(@PathVariable String shopId, @PathVariable Period period, Integer offset, Period span, Date start, Date end) throws Exception {
+        end = timeEnd(end, span, offset);
+        start = timeStart(start, span, offset);
+        this.doCheckPeriod(period, start, end);
+        List<DurationTrendValue> list = service.visitDurationTrend(shopId, period, start, end);
+        list = fulldata(list, period.getFormat(), period.getField(), start, end, DurationTrendValue.class);
+        return list;
     }
 
 
     /**
-     * 统计店铺的到访时长
+     * 店铺-到访时长-分布
      *
      * @param shopId 网站ID
      * @param offset 偏移 0=当天 -1=昨天 1=明天 -2 2 -3...
@@ -86,15 +124,15 @@ public class StatisticsController {
      * @param end    结束时间 ("yyyyMMddHHmmss")
      * @return 统计数据
      */
-    @RequestMapping("visitduration/shop/{shopId:\\d+}")
-    public Object visitduration(@PathVariable String shopId, Integer offset, Period span, Date start, Date end) throws Exception {
+    @RequestMapping("visit/duration/map/shop/{shopId:\\d+}")
+    public Object visitDurationMap(@PathVariable String shopId, Integer offset, Period span, Date start, Date end) throws Exception {
         end = timeEnd(end, span, offset);
         start = timeStart(start, span, offset);
-        return service.visitduration(shopId, start, end);
+        return service.visitDurationMap(shopId, start, end);
     }
 
     /**
-     * 统计店铺的到访周期
+     * 店铺-到访周期-分布
      *
      * @param shopId 网站ID
      * @param offset 偏移 0=当天 -1=昨天 1=明天 -2 2 -3...
@@ -103,11 +141,11 @@ public class StatisticsController {
      * @param end    结束时间 ("yyyyMMddHHmmss")
      * @return 统计数据
      */
-    @RequestMapping("visitperiod/shop/{shopId:\\d+}")
-    public Object visitperiod(@PathVariable String shopId, Integer offset, Period span, Date start, Date end) throws Exception {
+    @RequestMapping("visit/period/map/shop/{shopId:\\d+}")
+    public Object visitPeriodMap(@PathVariable String shopId, Integer offset, Period span, Date start, Date end) throws Exception {
         end = timeEnd(end, span, offset);
         start = timeStart(start, span, offset);
-        return service.visitperiod(shopId, start, end);
+        return service.visitPeriodMap(shopId, start, end);
     }
 
     /**
@@ -120,12 +158,12 @@ public class StatisticsController {
     private void doCheckPeriod(Period period, Date start, Date end) throws ServiceException {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(start);
-        int count = 0;
+        int count = 0,max = 200;
         while (calendar.getTime().before(end)) {
-            count++;
-        }
-        if (count > 200) {
-            throw new ServiceException("数据量偏大，请调整时间跨度再试！");
+            if (count++ > max) {
+                throw new ServiceException("数据量偏大，请调整时间跨度再试！");
+            }
+            calendar.add(period.getField(), 1);
         }
     }
 
@@ -179,7 +217,7 @@ public class StatisticsController {
      * @param list 数据库有效数据列表
      * @return 填充的数据
      */
-    private <T extends ChartValue> List<T> fulldata(List<T> list, DateFormat format, int field, Date start, Date end, Class<T> clazz) {
+    private <T extends TrendValue> List<T> fulldata(List<T> list, DateFormat format, int field, Date start, Date end, Class<T> clazz) {
         Map<String, T> map = tomap(list);
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(start);
@@ -211,7 +249,7 @@ public class StatisticsController {
      * @param list 数据库有效数据列表
      * @return map
      */
-    private <T extends ChartValue> Map<String, T> tomap(List<T> list) {
+    private <T extends TrendValue> Map<String, T> tomap(List<T> list) {
         Map<String, T> map = new LinkedHashMap<>();
         for (T value : list) {
             map.put(value.getDate(), value);
