@@ -8,7 +8,7 @@ import com.simpletech.wifiprobe.model.base.ModelBase;
 /**
  * 数据库表t_wifi
  * @author 树朾
- * @date 2015-11-04 14:00:34 中国标准时间
+ * @date 2015-11-04 15:08:56 中国标准时间
  */
 @Table("t_wifi")
 public class Wifi extends ModelBase{

@@ -8,7 +8,7 @@ import com.simpletech.wifiprobe.model.base.ModelBase;
 /**
  * 数据库表t_shop
  * @author 树朾
- * @date 2015-11-04 14:00:34 中国标准时间
+ * @date 2015-11-04 15:08:56 中国标准时间
  */
 @Table("t_shop")
 public class Shop extends ModelBase{
@@ -61,13 +61,13 @@ public class Shop extends ModelBase{
 	/**
 	 * 到访周期统计 最小停留时间（过滤用，分钟）
 	 */
-	@Column("config_api_visit_period__min_duration")
+	@Column("config_api_visit_period_min_duration")
 	private Integer configApiVisitPeriodMinDuration;
 	/**
-	 * 到访周期统计 最小到访次数（过滤用，次数）
+	 * 活跃度统计(1,7,15,30,60天)
 	 */
-	@Column("config_api_visit_period__min_visit")
-	private Integer configApiVisitPeriodMinVisit;
+	@Column("config_api_liveness")
+	private String configApiLiveness;
 	/**
 	 * 服务器时间
 	 */
@@ -162,12 +162,12 @@ public class Shop extends ModelBase{
 		this.configApiVisitPeriodMinDuration = configApiVisitPeriodMinDuration;
 	}
 	
-	public Integer getConfigApiVisitPeriodMinVisit(){
-		return this.configApiVisitPeriodMinVisit;
+	public String getConfigApiLiveness(){
+		return this.configApiLiveness;
 	}
 
-	public void setConfigApiVisitPeriodMinVisit(Integer configApiVisitPeriodMinVisit) {
-		this.configApiVisitPeriodMinVisit = configApiVisitPeriodMinVisit;
+	public void setConfigApiLiveness(String configApiLiveness) {
+		this.configApiLiveness = configApiLiveness;
 	}
 	
 	public java.util.Date getCreateTime(){

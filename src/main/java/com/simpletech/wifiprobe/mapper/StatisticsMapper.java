@@ -66,15 +66,16 @@ public interface StatisticsMapper {
     @Select("SELECT COUNT(id) FROM t_visit WHERE idshop=#{idshop} AND time_duration>#{min} AND time_duration<=#{max} AND (create_time BETWEEN #{start} AND #{end}) ")
     int visitduration(@Param("idshop") String idshop, @Param("min") int min, @Param("max") int max, @Param("start") Date start, @Param("end") Date end) throws Exception;
 
+
     /**
      * 获取[统计店铺的到访周期]所需的元数据
      *
      * @param idshop      网站ID
-     * @param minvisit 最小停留时间（过滤用）
-     * @param minduration 最小到访次数（过滤用）
+     * @param minduration 最小停留时间（过滤用）
      * @param start       开始时间
      * @param end         结束时间
      * @return 统计数据
      */
-    List<PeriodValue> visitperiod(String idshop, int minvisit, int minduration, Date start, Date end) throws Exception;
+    @Select("")
+    List<PeriodValue> visitperiod(@Param("idshop") String idshop, @Param("min") int minduration, @Param("start") Date start, @Param("end") Date end) throws Exception;
 }
