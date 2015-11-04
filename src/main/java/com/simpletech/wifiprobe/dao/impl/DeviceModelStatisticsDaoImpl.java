@@ -15,10 +15,10 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * 数据库表t_url的Dao实现
+ * 鏁版嵁搴撹〃t_url鐨凞ao瀹炵幇
  *
- * @author 树朾
- * @date 2015-09-21 17:03:53 中国标准时间
+ * @author 鏍戞溇
+ * @date 2015-09-21 17:03:53 涓浗鏍囧噯鏃堕棿
  */
 @Repository
 public class DeviceModelStatisticsDaoImpl implements DeviceModelStatisticsDao{

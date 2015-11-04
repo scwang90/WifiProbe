@@ -1,10 +1,11 @@
 package com.simpletech.wifiprobe.controller;
 
 import com.simpletech.wifiprobe.model.constant.Period;
-
 import com.simpletech.wifiprobe.model.entity.TrendValue;
+import com.simpletech.wifiprobe.model.entity.CustomerValue;
+import com.simpletech.wifiprobe.model.entity.LivenessValue;
+import com.simpletech.wifiprobe.service.CustomerTypeStatisticsService;
 import com.simpletech.wifiprobe.service.DeviceModelStatisticsService;
-import com.simpletech.wifiprobe.service.StatisticsService;
 import com.simpletech.wifiprobe.util.AfReflecter;
 import com.simpletech.wifiprobe.util.AfStringUtil;
 import com.simpletech.wifiprobe.util.ServiceException;
@@ -27,10 +28,10 @@ import java.util.*;
  */
 @RestController
 @RequestMapping("api/statistics")
-public class DeviceModelStatisticsController {
+public class CustomerTypeStatisticsController {
 
     @Autowired
-    DeviceModelStatisticsService service;
+    CustomerTypeStatisticsService service;
 
     @InitBinder
     public void initBinder(ServletRequestDataBinder binder) throws Exception {
@@ -38,21 +39,44 @@ public class DeviceModelStatisticsController {
     }
 
     /**
-     * 自定义时段获取店铺设备类型API
+     * 新老用户
      *
-     * @param shopId 店铺ID
+     * @param shopId 网站ID
+     * @param period 时段周期 [时|日|周|月]
      * @param offset 偏移 0=当天 -1=昨天 1=明天 -2 2 -3...
      * @param span   跨度 [day|week|month|year]
      * @param start  开始时间 ("yyyyMMddHHmmss")
      * @param end    结束时间 ("yyyyMMddHHmmss")
-     * @return event统计数据
+     * @return 新老用户
      */
-    @RequestMapping("deviceModel/shop/{shopId:\\d+}")
-    public Object brand(@PathVariable String shopId,Integer offset, Period span, Date start, Date end) throws Exception {
+    @RequestMapping("customer/shop/{shopId:\\d+}/{period:hour|day|week|month}")
+    public Object customer(@PathVariable String shopId, @PathVariable Period period, Integer offset, Period span, Date start, Date end) throws Exception {
         end = timeEnd(end, span, offset);
         start = timeStart(start, span, offset);
-        return service.brand(shopId,start, end);
+        this.doCheckPeriod(period, start, end);
+        List<CustomerValue> list = service.customer(shopId, period, start, end);
+        list = fulldata(list, period.getFormat(), period.getField(), start, end, CustomerValue.class);
+        return list;
+    }
 
+    /**
+     * 统计店铺到访顾客的活跃度
+     *
+     * @param shopId 网站ID
+     * @param offset 偏移 0=当天 -1=昨天 1=明天 -2 2 -3...
+     * @param span   跨度 [day|week|month|year]
+     * @param start  开始时间 ("yyyyMMddHHmmss")
+     * @param end    结束时间 ("yyyyMMddHHmmss")
+     * @return 统计数据
+     */
+    @RequestMapping("customer/liveness/{shopId:\\d+}/{period:hour|day|week|month}")
+    public Object customerLiveness(@PathVariable String shopId, @PathVariable Period period, Integer offset, Period span, Date start, Date end) throws Exception {
+        end = timeEnd(end, span, offset);
+        start = timeStart(start, span, offset);
+        this.doCheckPeriod(period, start, end);
+        List<LivenessValue> list = service.customerLiveness(shopId, period, start, end);
+        list = fulldata(list, period.getFormat(), period.getField(), start, end, LivenessValue.class);
+        return list;
     }
 
     /**
@@ -164,11 +188,11 @@ public class DeviceModelStatisticsController {
     }
 
     /**
-     * 把 int shopId 转成 string idshop
+     * 把 int shopId 转成 string shopId
      *
      * @param shopId  网站ID
      * @param subshop 子项目
-     * @return idshop
+     * @return shopId
      */
     private String getIdSite(int shopId, String subshop) {
         if (AfStringUtil.isNotEmpty(subshop)) {

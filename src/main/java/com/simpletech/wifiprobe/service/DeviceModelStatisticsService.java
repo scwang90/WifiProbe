@@ -7,18 +7,18 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Í³¼ÆAPI Service
- * Created by Ê÷–b on 2015/9/25.
+ * ç»Ÿè®¡API Service
+ * Created by æ ‘æœ¾ on 2015/9/25.
  */
 public interface DeviceModelStatisticsService {
 
     /**
-     * macµÄ·ÃÎÊ¼ÇÂ¼
+     * è®¾å¤‡ç±»å‹
      *
-     * @param idshop ÍøÕ¾ID
-     * @param start  ¿ªÊ¼Ê±¼ä
-     * @param end    ½áÊøÊ±¼ä
-     * @return macµÄ·ÃÎÊ¼ÇÂ¼
+     * @param idshop ç½‘ç«™ID
+     * @param start  å¼€å§‹æ—¶é—´
+     * @param end    ç»“æŸæ—¶é—´
+     * @return è®¾å¤‡ç±»å‹è®°å½•
      */
     List<BrandValue> brand(String idshop, Date start, Date end) throws Exception;
 }

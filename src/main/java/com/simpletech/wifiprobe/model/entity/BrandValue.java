@@ -1,7 +1,7 @@
 package com.simpletech.wifiprobe.model.entity;
 
 /**
- * WifiProbe
+ * 设备类型
  * Created by ChenQi on 2015/11/3 13:20.
  */
 public class BrandValue {

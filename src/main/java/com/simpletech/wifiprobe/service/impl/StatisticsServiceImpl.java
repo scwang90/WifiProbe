@@ -41,6 +41,7 @@ public class StatisticsServiceImpl implements StatisticsService {
     public List<FrequencyMapValue> visitFrequencyMap(String idshop, Date start, Date end) throws Exception {
         List<FrequencyMapValue> values = new ArrayList<>();
         Shop shop = shopDao.findById(idshop);
+        System.out.println(shop.getConfigApiLiveness());
         if (shop != null) {
             String count = "" + shop.getConfigApiVisitCounts();
             count = count.matches("(\\d+,)+\\d+") ? count : "1,2,5";

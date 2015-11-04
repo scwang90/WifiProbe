@@ -7,19 +7,19 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Êı¾İÍ³¼Æ µÄDao½Ó¿Ú
- * @author Ê÷–b
- * @date 2015-09-21 17:03:53 ÖĞ¹ú±ê×¼Ê±¼ä
+ * æ•°æ®ç»Ÿè®¡ çš„Daoæ¥å£
+ * @author æ ‘æœ¾
+ * @date 2015-09-21 17:03:53 ä¸­å›½æ ‡å‡†æ—¶é—´
  */
 public interface DeviceModelStatisticsDao {
 
 	/**
-	 * macµÄ·ÃÎÊ¼ÇÂ¼
+	 * è®¾å¤‡ç±»å‹
 	 *
-	 * @param idshop ÍøÕ¾ID
-	 * @param start  ¿ªÊ¼Ê±¼ä
-	 * @param end    ½áÊøÊ±¼ä
-	 * @return macµÄ·ÃÎÊ¼ÇÂ¼
+	 * @param idshop ç½‘ç«™ID
+	 * @param start  å¼€å§‹æ—¶é—´
+	 * @param end    ç»“æŸæ—¶é—´
+	 * @return è®¾å¤‡ç±»å‹è®°å½•
 	 */
 	List<BrandValue> brand(String idshop, Date start, Date end) throws Exception;
 

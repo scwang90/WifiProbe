@@ -14,8 +14,8 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * 统计API Service 实现
- * Created by 树朾 on 2015/9/25.
+ * 缁熻API Service 瀹炵幇
+ * Created by 鏍戞溇 on 2015/9/25.
  */
 @Service
 public class DeviceModelStatisticsServiceImpl implements DeviceModelStatisticsService {

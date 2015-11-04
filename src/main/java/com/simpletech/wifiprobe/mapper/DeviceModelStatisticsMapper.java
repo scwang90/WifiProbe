@@ -8,28 +8,28 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Í³¼ÆMapper½Ó¿Ú
- * Created by Ê÷–b on 2015/9/29.
+ * ç»Ÿè®¡Mapperæ¥å£
+ * Created by æ ‘æœ¾ on 2015/9/29.
  */
 public interface DeviceModelStatisticsMapper {
 
     /**
-     * Í³¼ÆÉè±¸ĞÅÏ¢
+     * ç»Ÿè®¡è®¾å¤‡ä¿¡æ¯
      *
-     * @param idshop µêÆÌID
-     * @param start  ¿ªÊ¼
-     * @param end    ½áÊøÊ±¼ä
-     * @return Éè±¸µÄ·ÃÎÊ¼ÇÂ¼
+     * @param idshop åº—é“ºID
+     * @param start  å¼€å§‹
+     * @param end    ç»“æŸæ—¶é—´
+     * @return è®¾å¤‡çš„è®¿é—®è®°å½•
      */
     @Select("SELECT end_brand name, COUNT(id) vt,COUNT(DISTINCT end_brand) uv  FROM t_visit WHERE idshop=#{idshop} AND (create_time BETWEEN #{start} AND #{end}) group by name")
     List<BrandValue> brand(@Param("idshop") String idshop, @Param("start") Date start, @Param("end") Date end) throws Exception;
 
     /**
-     * Í³¼ÆÅÅĞĞ×ÜÁ¿£¨visit|uv|pv£©
-     * @param idshop µêÆÌID
-     * @param start  ¿ªÊ¼Ê±¼ä
-     * @param end    ½áÊøÊ±¼ä
-     * @return Êı¾İ×ÜÁ¿
+     * ç»Ÿè®¡æ’è¡Œæ€»é‡ï¼ˆvisit|uv|pvï¼‰
+     * @param idshop åº—é“ºID
+     * @param start  å¼€å§‹æ—¶é—´
+     * @param end    ç»“æŸæ—¶é—´
+     * @return æ•°æ®æ€»é‡
      */
     @Select("SELECT COUNT(id) vt,COUNT(DISTINCT end_brand) uv  FROM t_visit WHERE idshop=#{idshop} AND (create_time BETWEEN #{start} AND #{end}) ")
     BrandValue coutBrand(@Param("idshop") String idshop, @Param("start") Date start, @Param("end") Date end) throws Exception;
