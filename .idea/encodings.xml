@@ -2,17 +2,18 @@
 <project version="4">
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/src/main/java/com/simpletech/wifiprobe/controller/CustomerTypeStatisticsController.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/src/main/java/com/simpletech/wifiprobe/controller/DeviceModelStatisticsController.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/src/main/java/com/simpletech/wifiprobe/dao/CustomerTypeStatisticsDao.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/src/main/java/com/simpletech/wifiprobe/dao/DeviceModelStatisticsDao.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/src/main/java/com/simpletech/wifiprobe/dao/impl/CustomerTypeStatisticsDaoImpl.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/src/main/java/com/simpletech/wifiprobe/dao/impl/DeviceModelStatisticsDaoImpl.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/src/main/java/com/simpletech/wifiprobe/mapper/CustomerTypeStatisticsMapper.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/src/main/java/com/simpletech/wifiprobe/mapper/DeviceModelStatisticsMapper.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/src/main/java/com/simpletech/wifiprobe/service/CustomerTypeStatisticsService.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/src/main/java/com/simpletech/wifiprobe/service/DeviceModelStatisticsService.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/src/main/java/com/simpletech/wifiprobe/service/impl/CustomerTypeStatisticsServiceImpl.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/src/main/java/com/simpletech/wifiprobe/service/impl/DeviceModelStatisticsServiceImpl.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/simpletech/wifiprobe/controller/StatisticsCustomerTypeController.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/simpletech/wifiprobe/controller/StatisticsDeviceModelController.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/simpletech/wifiprobe/dao/StatisticsCustomerTypeDao.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/simpletech/wifiprobe/dao/StatisticsDeviceModelDao.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/simpletech/wifiprobe/dao/impl/StatisticsCustomerTypeDaoImpl.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/simpletech/wifiprobe/dao/impl/StatisticsDeviceModelDaoImpl.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/simpletech/wifiprobe/mapper/StatisticsCustomerTypeMapper.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/simpletech/wifiprobe/mapper/StatisticsDeviceModelMapper.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/simpletech/wifiprobe/model/constant/RankingType.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/simpletech/wifiprobe/service/StatisticsCustomerTypeService.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/simpletech/wifiprobe/service/StatisticsDeviceModelService.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/simpletech/wifiprobe/service/impl/StatisticsCustomerTypeServiceImpl.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/simpletech/wifiprobe/service/impl/StatisticsDeviceModelServiceImpl.java" charset="UTF-8" />
   </component>
 </project>

@@ -2,6 +2,7 @@ package com.simpletech.wifiprobe.dao;
 
 import com.simpletech.wifiprobe.model.constant.Period;
 import com.simpletech.wifiprobe.model.entity.BrandValue;
+import com.simpletech.wifiprobe.model.entity.CustomerTrendValue;
 import com.simpletech.wifiprobe.model.entity.CustomerValue;
 import com.simpletech.wifiprobe.model.entity.LivenessValue;
 
@@ -13,7 +14,7 @@ import java.util.List;
  * @author 树朾
  * @date 2015-09-21 17:03:53 中国标准时间
  */
-public interface CustomerTypeStatisticsDao {
+public interface StatisticsCustomerTypeDao {
 
 	/**
 	 * 新老用户
@@ -23,11 +24,18 @@ public interface CustomerTypeStatisticsDao {
 	 * @param end    结束时间
 	 * @return 新老用户
 	 */
-	List<CustomerValue> customerHour(String idshop, Date start, Date end) throws Exception;
-	List<CustomerValue> customerDay(String idshop, Date start, Date end) throws Exception;
-	List<CustomerValue> customerWeek(String idshop, Date start, Date end) throws Exception;
-	List<CustomerValue> customerMonth(String idshop, Date start, Date end) throws Exception;
+	List<CustomerValue> customer(String idshop, Date start, Date end) throws Exception;
 
+
+	/**
+	 * 老顾客活跃度
+	 * @param idshop
+	 * @param start
+	 * @param end
+	 * @return
+	 * @throws Exception
+	 */
+	List<LivenessValue> customerLiveness(String idshop, Date start, Date end) throws Exception;
 	/**
 	 *
 	 * @param idshop
@@ -36,7 +44,7 @@ public interface CustomerTypeStatisticsDao {
 	 * @return
 	 * @throws Exception
 	 */
-	List<LivenessValue> customerLiveness(String idshop, Period period, int min, int max, Date start, Date end) throws Exception;
+	List<CustomerTrendValue> customerTrend(String idshop, Period period, Date start, Date end) throws Exception;
 //	List<LivenessValue> customerLivenessDay(String idshop, int min, int max, Date start, Date end)throws Exception;
 //	List<LivenessValue> customerLivenessWeek(String idshop, int min, int max, Date start, Date end) throws Exception;
 //	List<LivenessValue> customerLivenessMonth(String idshop, int min, int max, Date start, Date end) throws Exception;

@@ -1,11 +1,8 @@
 package com.simpletech.wifiprobe.controller;
 
 import com.simpletech.wifiprobe.model.constant.Period;
-import com.simpletech.wifiprobe.model.entity.TrendValue;
-import com.simpletech.wifiprobe.model.entity.CustomerValue;
-import com.simpletech.wifiprobe.model.entity.LivenessValue;
-import com.simpletech.wifiprobe.service.CustomerTypeStatisticsService;
-import com.simpletech.wifiprobe.service.DeviceModelStatisticsService;
+import com.simpletech.wifiprobe.model.entity.*;
+import com.simpletech.wifiprobe.service.StatisticsCustomerTypeService;
 import com.simpletech.wifiprobe.util.AfReflecter;
 import com.simpletech.wifiprobe.util.AfStringUtil;
 import com.simpletech.wifiprobe.util.ServiceException;
@@ -28,10 +25,10 @@ import java.util.*;
  */
 @RestController
 @RequestMapping("api/statistics")
-public class CustomerTypeStatisticsController {
+public class StatisticsCustomerTypeController {
 
     @Autowired
-    CustomerTypeStatisticsService service;
+    StatisticsCustomerTypeService service;
 
     @InitBinder
     public void initBinder(ServletRequestDataBinder binder) throws Exception {
@@ -42,25 +39,41 @@ public class CustomerTypeStatisticsController {
      * 新老用户
      *
      * @param shopId 网站ID
-     * @param period 时段周期 [时|日|周|月]
      * @param offset 偏移 0=当天 -1=昨天 1=明天 -2 2 -3...
      * @param span   跨度 [day|week|month|year]
      * @param start  开始时间 ("yyyyMMddHHmmss")
      * @param end    结束时间 ("yyyyMMddHHmmss")
      * @return 新老用户
      */
-    @RequestMapping("customer/shop/{shopId:\\d+}/{period:hour|day|week|month}")
-    public Object customer(@PathVariable String shopId, @PathVariable Period period, Integer offset, Period span, Date start, Date end) throws Exception {
+    @RequestMapping("customer/shop/{shopId:\\d+}")
+    public Object customer(@PathVariable String shopId, Integer offset, Period span, Date start, Date end) throws Exception {
         end = timeEnd(end, span, offset);
         start = timeStart(start, span, offset);
-        this.doCheckPeriod(period, start, end);
-        List<CustomerValue> list = service.customer(shopId, period, start, end);
-        list = fulldata(list, period.getFormat(), period.getField(), start, end, CustomerValue.class);
-        return list;
+        return service.customer(shopId, start, end);
     }
 
     /**
-     * 统计店铺到访顾客的活跃度
+     * 老顾客的活跃度
+     * @param shopId
+     * @param offset
+     * @param span
+     * @param start
+     * @param end
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping("customer/liveness/{shopId:\\d+}")
+    public Object customerLiveness(@PathVariable String shopId,Integer offset, Period span, Date start, Date end) throws Exception {
+        end = timeEnd(end, span, offset);
+        start = timeStart(start, span, offset);
+//        this.doCheckPeriod(period, start, end);
+//        List<LivenessValue> list = service.customerLiveness(shopId, period, start, end);
+//        list = fulldata(list, period.getFormat(), period.getField(), start, end, LivenessValue.class);
+        return service.customerLiveness(shopId, start, end);
+    }
+
+    /**
+     * 统计店铺到访顾客的趋势
      *
      * @param shopId 网站ID
      * @param offset 偏移 0=当天 -1=昨天 1=明天 -2 2 -3...
@@ -69,13 +82,13 @@ public class CustomerTypeStatisticsController {
      * @param end    结束时间 ("yyyyMMddHHmmss")
      * @return 统计数据
      */
-    @RequestMapping("customer/liveness/{shopId:\\d+}/{period:hour|day|week|month}")
-    public Object customerLiveness(@PathVariable String shopId, @PathVariable Period period, Integer offset, Period span, Date start, Date end) throws Exception {
+    @RequestMapping("customer/trend/{shopId:\\d+}/{period:hour|day|week|month}")
+    public Object customerTrend(@PathVariable String shopId, @PathVariable Period period, Integer offset, Period span, Date start, Date end) throws Exception {
         end = timeEnd(end, span, offset);
         start = timeStart(start, span, offset);
         this.doCheckPeriod(period, start, end);
-        List<LivenessValue> list = service.customerLiveness(shopId, period, start, end);
-        list = fulldata(list, period.getFormat(), period.getField(), start, end, LivenessValue.class);
+        List<CustomerTrendValue> list = service.customerTrend(shopId, period, start, end);
+        list = fulldata(list, period.getFormat(), period.getField(), start, end, CustomerTrendValue.class);
         return list;
     }
 

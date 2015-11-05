@@ -7,8 +7,12 @@ package com.simpletech.wifiprobe.model.entity;
 public class BrandValue {
     private String name;        //排行名称
     private int uv;             //独立设备数
-    private float ruv;          //设备品牌占比
     private int vt;             //到访频次（独立设备在规定时间段内访问的次数）
+    private int pv;             //设备数
+    private float ruv;          //设备品牌占比
+    private float rvt;          //访问频次占比
+    private float rpv;          //设备数占比
+
 
     public BrandValue(){}
 
@@ -36,6 +40,13 @@ public class BrandValue {
         this.vt = vt;
     }
 
+    public int getPv() {
+        return pv;
+    }
+
+    public void setPv(int pv) {
+        this.pv = pv;
+    }
 
     public float getRuv() {
         return ruv;
@@ -45,5 +56,19 @@ public class BrandValue {
         this.ruv = ruv;
     }
 
+    public float getRvt() {
+        return rvt;
+    }
 
+    public void setRvt(float rvt) {
+        this.rvt = rvt;
+    }
+
+    public float getRpv() {
+        return rpv;
+    }
+
+    public void setRpv(float rpv) {
+        this.rpv = rpv;
+    }
 }

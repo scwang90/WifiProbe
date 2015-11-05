@@ -2,9 +2,9 @@ package com.simpletech.wifiprobe.controller;
 
 import com.simpletech.wifiprobe.model.constant.Period;
 
+import com.simpletech.wifiprobe.model.constant.RankingType;
 import com.simpletech.wifiprobe.model.entity.TrendValue;
-import com.simpletech.wifiprobe.service.DeviceModelStatisticsService;
-import com.simpletech.wifiprobe.service.StatisticsService;
+import com.simpletech.wifiprobe.service.StatisticsDeviceModelService;
 import com.simpletech.wifiprobe.util.AfReflecter;
 import com.simpletech.wifiprobe.util.AfStringUtil;
 import com.simpletech.wifiprobe.util.ServiceException;
@@ -27,10 +27,10 @@ import java.util.*;
  */
 @RestController
 @RequestMapping("api/statistics")
-public class DeviceModelStatisticsController {
+public class StatisticsDeviceModelController {
 
     @Autowired
-    DeviceModelStatisticsService service;
+    StatisticsDeviceModelService service;
 
     @InitBinder
     public void initBinder(ServletRequestDataBinder binder) throws Exception {
@@ -47,11 +47,11 @@ public class DeviceModelStatisticsController {
      * @param end    结束时间 ("yyyyMMddHHmmss")
      * @return event统计数据
      */
-    @RequestMapping("deviceModel/shop/{shopId:\\d+}")
-    public Object brand(@PathVariable String shopId,Integer offset, Period span, Date start, Date end) throws Exception {
+    @RequestMapping("device/model/shop/{shopId:\\d+}/{ranktype:vt|uv|ip|pv}/{limit:\\d+}/{skip:\\d+}")
+    public Object brand(@PathVariable String shopId,@PathVariable RankingType ranktype, @PathVariable int limit, @PathVariable int skip, Integer offset, Period span, Date start, Date end) throws Exception {
         end = timeEnd(end, span, offset);
         start = timeStart(start, span, offset);
-        return service.brand(shopId,start, end);
+        return service.brand(shopId,ranktype, start, end, limit, skip);
 
     }
 

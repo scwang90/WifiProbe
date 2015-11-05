@@ -1,18 +1,17 @@
 package com.simpletech.wifiprobe.model.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * WifiProbe
  * Created by ChenQi on 2015/11/4 10:36.
  */
-public class LivenessValue extends TrendValue{
+public class LivenessValue{
     private String live;    //活跃度
     private Integer num;    //人数
-    private int uv;         //老客户数量
+//    private int uv;         //老客户数量
     private Float rate;     //占比
-    private int dt;         //驻店时长 duration time
-    private int vp;         //来访周期 visit period
+    private float dt;         //驻店时长 duration time
+    private float vp;         //来访周期 visit period
 
     public String getLive() {
         return live;
@@ -30,13 +29,13 @@ public class LivenessValue extends TrendValue{
         this.num = num;
     }
 
-    public int getUv() {
-        return uv;
-    }
-
-    public void setUv(int uv) {
-        this.uv = uv;
-    }
+//    public int getUv() {
+//        return uv;
+//    }
+//
+//    public void setUv(int uv) {
+//        this.uv = uv;
+//    }
 
     public Float getRate() {
         return rate;
@@ -46,19 +45,19 @@ public class LivenessValue extends TrendValue{
         this.rate = rate;
     }
 
-    public int getDt() {
+    public float getDt() {
         return dt;
     }
 
-    public void setDt(int dt) {
+    public void setDt(float dt) {
         this.dt = dt;
     }
 
-    public int getVp() {
+    public float getVp() {
         return vp;
     }
 
-    public void setVp(int vp) {
+    public void setVp(float vp) {
         this.vp = vp;
     }
 }

@@ -1,6 +1,7 @@
 package com.simpletech.wifiprobe.mapper;
 
 import com.simpletech.wifiprobe.aspect.LoggingAspect;
+import com.simpletech.wifiprobe.model.constant.RankingType;
 import com.simpletech.wifiprobe.util.JacksonUtil;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,13 +19,13 @@ import java.text.SimpleDateFormat;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:spring-*.xml")
-public class DeviceModelStatisticsMapperTester {
+public class StatisticsDeviceModelMapperTester {
 
 
 	SimpleDateFormat monthf = new SimpleDateFormat("y-M-d");
 
 	@Autowired
-	DeviceModelStatisticsMapper mapper;
+	StatisticsDeviceModelMapper mapper;
 
 	@Before
 	public void setUp() {
@@ -33,7 +34,7 @@ public class DeviceModelStatisticsMapperTester {
 
 	@Test
 	public void brand() throws Exception{
-		Object result = mapper.brand("1" , monthf.parse("2015-11-01"), monthf.parse("2015-11-30"));
+		Object result = mapper.brand("1" , "pv", monthf.parse("2015-11-01"), monthf.parse("2015-11-30"),10,0);
 		System.out.println(JacksonUtil.toJson(result).replace("{","\n{"));
 	}
 

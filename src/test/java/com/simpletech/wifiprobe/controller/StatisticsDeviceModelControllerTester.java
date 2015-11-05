@@ -1,6 +1,7 @@
-package com.simpletech.wifiprobe.dao;
+package com.simpletech.wifiprobe.controller;
 
 import com.simpletech.wifiprobe.model.constant.Period;
+import com.simpletech.wifiprobe.model.constant.RankingType;
 import com.simpletech.wifiprobe.util.JacksonUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,24 +13,18 @@ import java.text.SimpleDateFormat;
 
 /**
  * WifiProbe
- * Created by ChenQi on 2015/11/3 14:18.
+ * Created by ChenQi on 2015/11/3 14:28.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:spring-*.xml")
-public class CustomerTypeStatisticsDaoTester {
+public class StatisticsDeviceModelControllerTester {
     SimpleDateFormat monthf = new SimpleDateFormat("y-M-d");
     @Autowired
-    CustomerTypeStatisticsDao dao;
+    StatisticsDeviceModelController controller;
 
     @Test
-    public void customerHour()throws Exception{
-        Object result = dao.customerHour("1", monthf.parse("2015-11-01"),monthf.parse("2015-11-30"));
-        System.out.println(JacksonUtil.toJson(result).replace("{","\n{"));
-    }
-
-    @Test
-    public void customerLiveness()throws Exception{
-        Object result = dao.customerLiveness("1", Period.day,1,7, monthf.parse("2015-11-01"), monthf.parse("2015-11-30"));
+    public void brand()throws Exception{
+        Object result = controller.brand("1", RankingType.pv,10,0,0,Period.week,monthf.parse("2015-11-01"),monthf.parse("2015-11-30"));
         System.out.println(JacksonUtil.toJson(result).replace("{","\n{"));
     }
 }

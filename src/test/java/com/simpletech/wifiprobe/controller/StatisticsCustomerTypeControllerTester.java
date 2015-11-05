@@ -1,8 +1,6 @@
 package com.simpletech.wifiprobe.controller;
 
 import com.simpletech.wifiprobe.model.constant.Period;
-import com.simpletech.wifiprobe.service.CustomerTypeStatisticsService;
-import com.simpletech.wifiprobe.service.DeviceModelStatisticsService;
 import com.simpletech.wifiprobe.util.JacksonUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,14 +16,14 @@ import java.text.SimpleDateFormat;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:spring-*.xml")
-public class CustomerTypeStatisticsControllerTester {
+public class StatisticsCustomerTypeControllerTester {
     SimpleDateFormat monthf = new SimpleDateFormat("y-M-d");
     @Autowired
-    CustomerTypeStatisticsController controller;
+    StatisticsCustomerTypeController controller;
 
     @Test
     public void customer()throws Exception{
-        Object result = controller.customer("1", Period.day,-1,Period.day, monthf.parse("2015-11-01"), monthf.parse("2015-11-30"));
+        Object result = controller.customer("1",-1,Period.day, monthf.parse("2015-11-01"), monthf.parse("2015-11-30"));
         System.out.println(JacksonUtil.toJson(result).replace("{","\n{"));
     }
 }
