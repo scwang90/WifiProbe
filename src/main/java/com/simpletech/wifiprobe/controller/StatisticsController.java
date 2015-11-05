@@ -47,14 +47,11 @@ public class StatisticsController {
      * @param end    结束时间 ("yyyyMMddHHmmss")
      * @return 统计数据
      */
-    @RequestMapping("visitmac/shop/{shopId:\\d+}/mac/{mac}")
+    @RequestMapping("shop/{shopId}/visit/mac/{mac}")
     public Object visitmac(@PathVariable String shopId, @PathVariable String mac, Integer offset, Period span, Date start, Date end) throws Exception {
         end = timeEnd(end, span, offset);
         start = timeStart(start, span, offset);
         return service.visitmac(shopId, mac, start, end);
-//        List<VisitValue> list = service.visitmac(shopId, period, start, end);
-//        list = fulldata(list, period.getFormat(), period.getField(), start, end, VisitValue.class);
-//        return list;
     }
 
 
@@ -68,7 +65,7 @@ public class StatisticsController {
      * @param end    结束时间 ("yyyyMMddHHmmss")
      * @return 统计数据
      */
-    @RequestMapping("visit/frequency/map/shop/{shopId:\\d+}")
+    @RequestMapping("shop/{shopId}/visit/frequency/map")
     public Object visitFrequencyMap(@PathVariable String shopId, Integer offset, Period span, Date start, Date end) throws Exception {
         end = timeEnd(end, span, offset);
         start = timeStart(start, span, offset);
@@ -76,7 +73,7 @@ public class StatisticsController {
     }
 
     /**
-     * 店铺-到访时长-时段
+     * 店铺-驻店时长-时段
      *
      * @param shopId 网站ID
      * @param offset 偏移 0=当天 -1=昨天 1=明天 -2 2 -3...
@@ -85,7 +82,7 @@ public class StatisticsController {
      * @param end    结束时间 ("yyyyMMddHHmmss")
      * @return 统计数据
      */
-    @RequestMapping("visit/duration/span/shop/{shopId:\\d+}")
+    @RequestMapping("shop/{shopId}/visit/duration/span")
     public Object visitDurationSpan(@PathVariable String shopId, Integer offset, Period span, Date start, Date end) throws Exception {
         end = timeEnd(end, span, offset);
         start = timeStart(start, span, offset);
@@ -93,7 +90,7 @@ public class StatisticsController {
     }
 
     /**
-     * 店铺-到访时长-趋势
+     * 店铺-驻店时长-趋势
      *
      * @param shopId 网站ID
      * @param period 时段周期 [时|日|周|月]
@@ -103,7 +100,7 @@ public class StatisticsController {
      * @param end    结束时间 ("yyyyMMddHHmmss")
      * @return 统计数据
      */
-    @RequestMapping("visit/duration/trend/shop/{shopId:\\d+}/{period:hour|day|week|month}")
+    @RequestMapping("shop/{shopId}/visit/duration/trend/{period:hour|day|week|month}")
     public Object visitDurationTrend(@PathVariable String shopId, @PathVariable Period period, Integer offset, Period span, Date start, Date end) throws Exception {
         end = timeEnd(end, span, offset);
         start = timeStart(start, span, offset);
@@ -113,9 +110,8 @@ public class StatisticsController {
         return list;
     }
 
-
     /**
-     * 店铺-到访时长-分布
+     * 店铺-驻店时长-分布
      *
      * @param shopId 网站ID
      * @param offset 偏移 0=当天 -1=昨天 1=明天 -2 2 -3...
@@ -124,7 +120,7 @@ public class StatisticsController {
      * @param end    结束时间 ("yyyyMMddHHmmss")
      * @return 统计数据
      */
-    @RequestMapping("visit/duration/map/shop/{shopId:\\d+}")
+    @RequestMapping("shop/{shopId}/visit/duration/map")
     public Object visitDurationMap(@PathVariable String shopId, Integer offset, Period span, Date start, Date end) throws Exception {
         end = timeEnd(end, span, offset);
         start = timeStart(start, span, offset);
@@ -141,11 +137,29 @@ public class StatisticsController {
      * @param end    结束时间 ("yyyyMMddHHmmss")
      * @return 统计数据
      */
-    @RequestMapping("visit/period/map/shop/{shopId:\\d+}")
+    @RequestMapping("shop/{shopId}/visit/period/map")
     public Object visitPeriodMap(@PathVariable String shopId, Integer offset, Period span, Date start, Date end) throws Exception {
         end = timeEnd(end, span, offset);
         start = timeStart(start, span, offset);
         return service.visitPeriodMap(shopId, start, end);
+    }
+
+    /**
+     * 店铺-入店人次-趋势
+     *
+     * @param shopId 网站ID
+     * @param period 时段周期 [时|日|周|月]
+     * @param offset 偏移 0=当天 -1=昨天 1=明天 -2 2 -3...
+     * @param span   跨度 [day|week|month|year]
+     * @param start  开始时间 ("yyyyMMddHHmmss")
+     * @param end    结束时间 ("yyyyMMddHHmmss")
+     * @return 统计数据
+     */
+    @RequestMapping("shop/{shopId}/visit/entry/trend/{period:hour|day|week|month}")
+    public Object visitEntryTrend(@PathVariable String shopId, @PathVariable Period period, Integer offset, Period span, Date start, Date end) throws Exception {
+        end = timeEnd(end, span, offset);
+        start = timeStart(start, span, offset);
+        return service.visitEntryTrend(shopId, period, start, end);
     }
 
     /**

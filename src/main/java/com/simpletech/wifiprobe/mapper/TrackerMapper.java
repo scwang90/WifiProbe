@@ -69,7 +69,7 @@ public interface TrackerMapper {
      * @param log Log数据
      * @return 改变行数
      */
-    @Update("UPDATE t_visit SET time_leave=NOW() , time_duration=NOW()-time_entry , count_logs=count_logs+1 , update_time=#{updateTime} WHERE id=#{idvisit} ")
+    @Update("UPDATE t_visit SET time_leave=NOW() , time_duration=TIMESTAMPDIFF(SECOND,time_entry,NOW()) , count_logs=count_logs+1 , update_time=#{updateTime} WHERE id=#{idvisit} ")
     int updateVisitByMacLog(MacLog log) throws Exception;
 
     /**
@@ -85,7 +85,7 @@ public interface TrackerMapper {
      * @param log Log数据
      * @return 改变行数
      */
-    @Update("UPDATE t_visit_wifi SET time_leave=NOW() , time_duration=NOW()-time_entry , count_logs=count_logs+1 , update_time=#{updateTime} WHERE id=#{idvisitwifi} ")
+    @Update("UPDATE t_visit_wifi SET time_leave=NOW() , time_duration=TIMESTAMPDIFF(SECOND,time_entry,NOW()) , count_logs=count_logs+1 , update_time=#{updateTime} WHERE id=#{idvisitwifi} ")
     int updateVisitWifiByMacLog(MacLog log) throws Exception;
 
     /**

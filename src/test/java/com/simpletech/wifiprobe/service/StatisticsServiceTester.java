@@ -34,8 +34,8 @@ public class StatisticsServiceTester {
 	}
 
 	@Test
-	public void visitFrequencyMap() throws Exception{
-		Object result = service.visitFrequencyMap("1", monthf.parse("2015-11-0"), monthf.parse("2015-11-30"));
+	public void visitDurationSpan() throws Exception{
+		Object result = service.visitDurationSpan("1", monthf.parse("2015-11-0"), monthf.parse("2015-11-30"));
 		System.out.println(JacksonUtil.toJson(result).replace("{","\n{"));
 	}
 
@@ -46,20 +46,26 @@ public class StatisticsServiceTester {
 	}
 
 	@Test
+	public void visitDurationTrend() throws Exception{
+		Object result = service.visitDurationTrend("1", Period.day, monthf.parse("2015-11-0"), monthf.parse("2015-11-30"));
+		System.out.println(JacksonUtil.toJson(result).replace("{","\n{"));
+	}
+
+	@Test
+	public void visitFrequencyMap() throws Exception{
+		Object result = service.visitFrequencyMap("1", monthf.parse("2015-11-0"), monthf.parse("2015-11-30"));
+		System.out.println(JacksonUtil.toJson(result).replace("{","\n{"));
+	}
+
+	@Test
 	public void visitPeriodMap() throws Exception{
 		Object result = service.visitPeriodMap("1", monthf.parse("2015-11-0"), monthf.parse("2015-11-30"));
 		System.out.println(JacksonUtil.toJson(result).replace("{","\n{"));
 	}
 
 	@Test
-	public void visitDurationSpan() throws Exception{
-		Object result = service.visitDurationSpan("1", monthf.parse("2015-11-0"), monthf.parse("2015-11-30"));
-		System.out.println(JacksonUtil.toJson(result).replace("{","\n{"));
-	}
-
-	@Test
-	public void visitDurationTrend() throws Exception{
-		Object result = service.visitDurationTrend("1", Period.day, monthf.parse("2015-11-0"), monthf.parse("2015-11-30"));
+	public void visitEntryTrend() throws Exception{
+		Object result = service.visitEntryTrend("1", Period.day, monthf.parse("2015-11-0"), monthf.parse("2015-11-30"));
 		System.out.println(JacksonUtil.toJson(result).replace("{","\n{"));
 	}
 }

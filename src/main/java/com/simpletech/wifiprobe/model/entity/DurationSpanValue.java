@@ -7,6 +7,7 @@ package com.simpletech.wifiprobe.model.entity;
 public class DurationSpanValue {
 
     private int dur_avg;            //平均访问时长
+    private int dur_entry;          //驻店访问时长
     private int dur_deep;           //深度访问时长（也是平均）
     private int amount_total;       //总量（人次）
     private int amount_deep;        //深访量（人次）
@@ -20,6 +21,14 @@ public class DurationSpanValue {
 
     public void setDur_avg(int dur_avg) {
         this.dur_avg = dur_avg;
+    }
+
+    public int getDur_entry() {
+        return dur_entry;
+    }
+
+    public void setDur_entry(int dur_entry) {
+        this.dur_entry = dur_entry;
     }
 
     public int getDur_deep() {

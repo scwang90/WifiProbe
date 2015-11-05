@@ -5,6 +5,7 @@ import com.simpletech.wifiprobe.mapper.StatisticsMapper;
 import com.simpletech.wifiprobe.model.Visit;
 import com.simpletech.wifiprobe.model.entity.DurationSpanValue;
 import com.simpletech.wifiprobe.model.entity.DurationTrendValue;
+import com.simpletech.wifiprobe.model.entity.EntryTrendValue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -49,28 +50,48 @@ public class StatisticsDaoImpl implements StatisticsDao {
     }
 
     @Override
-    public DurationSpanValue visitDurationSpan(String idshop, int deep, int jump, Date start, Date end) throws Exception {
-        return mapper.visitDurationSpan(idshop, deep, jump, start, end);
+    public DurationSpanValue visitDurationSpan(String idshop, int entry, int deep, int jump, Date start, Date end) throws Exception {
+        return mapper.visitDurationSpan(idshop, entry, deep, jump, start, end);
     }
 
     @Override
-    public List<DurationTrendValue> visitDurationTrendHour(String idshop, int deep, int jump, Date start, Date end) throws Exception {
-        return mapper.visitDurationTrendHour(idshop, deep, jump, start, end);
+    public List<DurationTrendValue> visitDurationTrendHour(String idshop, int entry, int deep, int jump, Date start, Date end) throws Exception {
+        return mapper.visitDurationTrendHour(idshop, entry, deep, jump, start, end);
     }
 
     @Override
-    public List<DurationTrendValue> visitDurationTrendDay(String idshop, int deep, int jump, Date start, Date end) throws Exception {
-        return mapper.visitDurationTrendDay(idshop, deep, jump, start, end);
+    public List<DurationTrendValue> visitDurationTrendDay(String idshop, int entry, int deep, int jump, Date start, Date end) throws Exception {
+        return mapper.visitDurationTrendDay(idshop, entry, deep, jump, start, end);
     }
 
     @Override
-    public List<DurationTrendValue> visitDurationTrendWeek(String idshop, int deep, int jump, Date start, Date end) throws Exception {
-        return mapper.visitDurationTrendWeek(idshop, deep, jump, start, end);
+    public List<DurationTrendValue> visitDurationTrendWeek(String idshop, int entry, int deep, int jump, Date start, Date end) throws Exception {
+        return mapper.visitDurationTrendWeek(idshop, entry, deep, jump, start, end);
     }
 
     @Override
-    public List<DurationTrendValue> visitDurationTrendMonth(String idshop, int deep, int jump, Date start, Date end) throws Exception {
-        return mapper.visitDurationTrendMonth(idshop, deep, jump, start, end);
+    public List<DurationTrendValue> visitDurationTrendMonth(String idshop, int entry, int deep, int jump, Date start, Date end) throws Exception {
+        return mapper.visitDurationTrendMonth(idshop, entry, deep, jump, start, end);
+    }
+
+    @Override
+    public List<EntryTrendValue> visitEntryTrendHour(String idshop, int entry, Date start, Date end) throws Exception {
+        return mapper.visitEntryTrendHour(idshop, entry, start, end);
+    }
+
+    @Override
+    public List<EntryTrendValue> visitEntryTrendDay(String idshop, int entry, Date start, Date end) throws Exception {
+        return mapper.visitEntryTrendDay(idshop, entry, start, end);
+    }
+
+    @Override
+    public List<EntryTrendValue> visitEntryTrendWeek(String idshop, int entry, Date start, Date end) throws Exception {
+        return mapper.visitEntryTrendWeek(idshop, entry, start, end);
+    }
+
+    @Override
+    public List<EntryTrendValue> visitEntryTrendMonth(String idshop, int entry, Date start, Date end) throws Exception {
+        return mapper.visitEntryTrendMonth(idshop, entry, start, end);
     }
 
 }

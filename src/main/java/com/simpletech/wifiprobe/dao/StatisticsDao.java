@@ -3,6 +3,7 @@ package com.simpletech.wifiprobe.dao;
 import com.simpletech.wifiprobe.model.Visit;
 import com.simpletech.wifiprobe.model.entity.DurationSpanValue;
 import com.simpletech.wifiprobe.model.entity.DurationTrendValue;
+import com.simpletech.wifiprobe.model.entity.EntryTrendValue;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.Date;
@@ -51,7 +52,7 @@ public interface StatisticsDao {
     int visitFrequencyMap(String idshop, int min, int max, Date start, Date end) throws Exception;
 
     /**
-     * 店铺-到访时长-分布
+     * 店铺-驻店时长-分布
      * 统计店铺停留时间在min，max之间的条数
      *
      * @param idshop 网站ID
@@ -75,25 +76,45 @@ public interface StatisticsDao {
     List<Integer> visitPeriodMap(String idshop, int minduration, Date start, Date end) throws Exception;
 
     /**
-     * 店铺-到访时长-时段
+     * 店铺-驻店时长-时段
      *
      * @param idshop 网站ID
+     * @param entry  驻店标准
+     * @param deep   深访标准
+     * @param jump   跳出标准
      * @param start  开始时间
      * @param end    结束时间
      * @return 统计数据
      */
-    DurationSpanValue visitDurationSpan(String idshop, int deep, int jump, Date start, Date end) throws Exception;
+    DurationSpanValue visitDurationSpan(String idshop, int entry, int deep, int jump, Date start, Date end) throws Exception;
 
     /**
-     * 店铺-到访时长-趋势
+     * 店铺-驻店时长-趋势
      *
      * @param idshop 网站ID
+     * @param entry  入店标准
+     * @param deep   深访标准
+     * @param jump   跳出标准
      * @param start  开始时间
      * @param end    结束时间
      * @return 统计数据
      */
-    List<DurationTrendValue> visitDurationTrendHour(String idshop, int deep, int jump, Date start, Date end) throws Exception;
-    List<DurationTrendValue> visitDurationTrendDay(String idshop, int deep, int jump, Date start, Date end) throws Exception;
-    List<DurationTrendValue> visitDurationTrendWeek(String idshop, int deep, int jump, Date start, Date end) throws Exception;
-    List<DurationTrendValue> visitDurationTrendMonth(String idshop, int deep, int jump, Date start, Date end) throws Exception;
+    List<DurationTrendValue> visitDurationTrendHour(String idshop, int entry, int deep, int jump, Date start, Date end) throws Exception;
+    List<DurationTrendValue> visitDurationTrendDay(String idshop, int entry, int deep, int jump, Date start, Date end) throws Exception;
+    List<DurationTrendValue> visitDurationTrendWeek(String idshop, int entry, int deep, int jump, Date start, Date end) throws Exception;
+    List<DurationTrendValue> visitDurationTrendMonth(String idshop, int entry, int deep, int jump, Date start, Date end) throws Exception;
+
+    /**
+     * 店铺-入店人次-趋势
+     *
+     * @param idshop 网站ID
+     * @param entry  入店标准
+     * @param start  开始时间
+     * @param end    结束时间
+     * @return 统计数据
+     */
+    List<EntryTrendValue> visitEntryTrendHour(String idshop, int entry, Date start, Date end) throws Exception;
+    List<EntryTrendValue> visitEntryTrendDay(String idshop, int entry, Date start, Date end) throws Exception;
+    List<EntryTrendValue> visitEntryTrendWeek(String idshop, int entry, Date start, Date end) throws Exception;
+    List<EntryTrendValue> visitEntryTrendMonth(String idshop, int entry, Date start, Date end) throws Exception;
 }
