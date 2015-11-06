@@ -47,7 +47,7 @@ public class StatisticsDeviceModelController {
      * @param end    结束时间 ("yyyyMMddHHmmss")
      * @return event统计数据
      */
-    @RequestMapping("device/model/shop/{shopId:\\d+}/{ranktype:vt|uv|ip|pv}/{limit:\\d+}/{skip:\\d+}")
+    @RequestMapping("shop/{shopId:\\d+}/device/model/{ranktype:vt|uv|ip|pv}/{limit:\\d+}/{skip:\\d+}")
     public Object brand(@PathVariable String shopId,@PathVariable RankingType ranktype, @PathVariable int limit, @PathVariable int skip, Integer offset, Period span, Date start, Date end) throws Exception {
         end = timeEnd(end, span, offset);
         start = timeStart(start, span, offset);
