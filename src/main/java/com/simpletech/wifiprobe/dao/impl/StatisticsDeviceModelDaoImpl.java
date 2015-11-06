@@ -25,8 +25,8 @@ public class StatisticsDeviceModelDaoImpl implements StatisticsDeviceModelDao {
     StatisticsDeviceModelMapper mapper;
 
     @Override
-    public List<BrandValue> brand(String idshop, RankingType rankingtype, Date start, Date end, int limit, int skip) throws Exception {
-        return mapper.brand(idshop, rankingtype.name(), start, end, limit, skip);
+    public List<BrandValue> brand(String idshop, RankingType rankingtype, Date start, Date end) throws Exception {
+        return mapper.brand(idshop, rankingtype.name(), start, end);
     }
     @Override
     public BrandValue countBrand(String idshop, Date start, Date end) throws Exception {

@@ -23,7 +23,7 @@ public class StatisticsDeviceModelDaoTester {
 
     @Test
     public void brand()throws Exception{
-        Object result = dao.brand("1" , RankingType.pv, monthf.parse("2015-11-01"), monthf.parse("2015-11-30"),10,0);
+        Object result = dao.brand("1" , RankingType.pv, monthf.parse("2015-11-01"), monthf.parse("2015-11-30"));
         System.out.println(JacksonUtil.toJson(result).replace("{","\n{"));
     }
 }

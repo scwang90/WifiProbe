@@ -4,7 +4,7 @@ package com.simpletech.wifiprobe.model.entity;
  * 设备类型
  * Created by ChenQi on 2015/11/3 13:20.
  */
-public class BrandValue {
+public class BrandValue{
     private String name;        //排行名称
     private int uv;             //独立设备数
     private int vt;             //到访频次（独立设备在规定时间段内访问的次数）

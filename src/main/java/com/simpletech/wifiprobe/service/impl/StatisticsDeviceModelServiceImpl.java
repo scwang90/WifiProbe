@@ -4,13 +4,12 @@ import com.simpletech.wifiprobe.dao.StatisticsDeviceModelDao;
 import com.simpletech.wifiprobe.mac.MacBrand;
 import com.simpletech.wifiprobe.model.constant.RankingType;
 import com.simpletech.wifiprobe.model.entity.BrandValue;
+import com.simpletech.wifiprobe.page.Page;
 import com.simpletech.wifiprobe.service.StatisticsDeviceModelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * 统计API Service 实现
@@ -24,7 +23,7 @@ public class StatisticsDeviceModelServiceImpl implements StatisticsDeviceModelSe
 
     @Override
     public List<BrandValue> brand(String idshop,RankingType rankingtype, Date start, Date end, int limit, int skip) throws Exception {
-        List<BrandValue> list = dao.brand(idshop, rankingtype, start, end, limit, skip);
+        List<BrandValue> list = dao.brand(idshop, rankingtype, start, end);
         List<BrandValue> list1=new ArrayList<>();
         BrandValue count = dao.countBrand(idshop, start, end);
         for (BrandValue value : list) {
@@ -55,6 +54,38 @@ public class StatisticsDeviceModelServiceImpl implements StatisticsDeviceModelSe
                 }
             }
         }
-        return list1;
+        //对排重后的list进行按排序类型重新进行排序
+        switch (rankingtype){
+            case uv:
+                Collections.sort(list1, new Comparator<BrandValue>() {
+                    @Override
+                    public int compare(BrandValue o1, BrandValue o2) {
+                        return o2.getUv()-o1.getUv();//o2-o1为从大到小排序，o1-o2为从小到大排序
+
+                    }
+                });
+                break;
+            case vt:
+                Collections.sort(list1, new Comparator<BrandValue>() {
+                    @Override
+                    public int compare(BrandValue o1, BrandValue o2) {
+                        return o2.getVt()-o1.getVt();//o2-o1为从大到小排序，o1-o2为从小到大排序
+                    }
+                });
+                break;
+            case pv:
+                Collections.sort(list1, new Comparator<BrandValue>() {
+                    @Override
+                    public int compare(BrandValue o1, BrandValue o2) {
+                        return o2.getPv()-o1.getPv();//o2-o1为从大到小排序，o1-o2为从小到大排序
+                    }
+                });
+                break;
+        }
+
+        //分页显示
+        Page page=new Page();
+        return page.paging(list1, limit, skip);
     }
+
 }

@@ -34,7 +34,7 @@ public class StatisticsDeviceModelServiceTester {
 
 	@Test
 	public void brand() throws Exception{
-		Object result = service.brand("1", RankingType.pv,monthf.parse("2015-11-01"), monthf.parse("2015-11-30"),10,0);
+		Object result = service.brand("1", RankingType.pv,monthf.parse("2015-11-01"), monthf.parse("2015-11-30"),10,1);
 		System.out.println(JacksonUtil.toJson(result).replace("{","\n{"));
 	}
 

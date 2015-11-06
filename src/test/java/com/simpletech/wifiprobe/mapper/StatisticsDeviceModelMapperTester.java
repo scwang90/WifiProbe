@@ -34,7 +34,7 @@ public class StatisticsDeviceModelMapperTester {
 
 	@Test
 	public void brand() throws Exception{
-		Object result = mapper.brand("1" , "pv", monthf.parse("2015-11-01"), monthf.parse("2015-11-30"),10,0);
+		Object result = mapper.brand("1" , "pv", monthf.parse("2015-11-01"), monthf.parse("2015-11-30"));
 		System.out.println(JacksonUtil.toJson(result).replace("{","\n{"));
 	}
 
