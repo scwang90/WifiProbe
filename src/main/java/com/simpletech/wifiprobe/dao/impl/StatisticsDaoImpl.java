@@ -30,8 +30,8 @@ public class StatisticsDaoImpl implements StatisticsDao {
     }
 
     @Override
-    public int visitFrequencyMap(String idshop, int min, int max, Date start, Date end) throws Exception {
-        return mapper.visitFrequencyMap(idshop, min, max, start, end);
+    public int visitFrequencyMap(String idshop, int entry, int min, int max, Date start, Date end) throws Exception {
+        return mapper.visitFrequencyMap(idshop, entry, min, max, start, end);
     }
 
 //    @Override
@@ -45,8 +45,8 @@ public class StatisticsDaoImpl implements StatisticsDao {
     }
 
     @Override
-    public List<Integer> visitPeriodMap(String idshop, int minduration, Date start, Date end) throws Exception {
-        return mapper.visitPeriodMap(idshop, minduration, start, end);
+    public List<Integer> visitPeriodMap(String idshop, int entry, Date start, Date end) throws Exception {
+        return mapper.visitPeriodMap(idshop, entry, start, end);
     }
 
     @Override

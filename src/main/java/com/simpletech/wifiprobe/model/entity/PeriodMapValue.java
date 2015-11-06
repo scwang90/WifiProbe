@@ -4,18 +4,17 @@ package com.simpletech.wifiprobe.model.entity;
  * 访问周期
  * Created by 树朾 on 2015/9/25.
  */
-public class PeriodMapValue {
+public class PeriodMapValue extends MapValue{
 
-    private String fre;
     private Integer num;
     private Float rate;
 
-    public String getFre() {
-        return fre;
+    public PeriodMapValue() {
+
     }
 
-    public void setFre(String fre) {
-        this.fre = fre;
+    public PeriodMapValue(float min,float max,String unit) {
+        super(min,max,unit);
     }
 
     public Integer getNum() {

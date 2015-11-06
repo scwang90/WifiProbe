@@ -39,7 +39,7 @@ public class StatisticsMapperTester {
 
 	@Test
 	public void visitFrequencyMap() throws Exception{
-		Object result = mapper.visitFrequencyMap("1", 1, 1, monthf.parse("2015-11-0"), monthf.parse("2015-11-30"));
+		Object result = mapper.visitFrequencyMap("1",1, 1, 1, monthf.parse("2015-11-0"), monthf.parse("2015-11-30"));
 		System.out.println(JacksonUtil.toJson(result).replace("{","\n{"));
 	}
 

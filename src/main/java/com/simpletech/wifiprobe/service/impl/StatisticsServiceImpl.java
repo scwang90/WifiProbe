@@ -48,17 +48,11 @@ public class StatisticsServiceImpl implements StatisticsService {
             String[] counts = count.split(",");
             int lastValue = 1, total = 0;
             for (String _count : counts) {
-                FrequencyMapValue value = new FrequencyMapValue();
-                if (lastValue == Integer.valueOf(_count)) {
-                    value.setFre(_count);
-                } else {
-                    value.setFre(lastValue + "~" + _count);
-                }
-                value.setNum(dao.visitFrequencyMap(idshop, lastValue, Integer.parseInt(_count), start, end));
+                FrequencyMapValue value = new FrequencyMapValue(lastValue, Integer.valueOf(_count),"次");
+                value.setNum(dao.visitFrequencyMap(idshop,(int)(shop.getConfigApiVisitDurationEnter()*60), lastValue, Integer.parseInt(_count), start, end));
 
-                if (value.getFre().indexOf("" + Integer.MAX_VALUE) > 0) {
+                if (_count.equals(Integer.MAX_VALUE)) {
                     if (value.getNum() > 0) {
-                        value.setFre(value.getFre().replace("" + Integer.MAX_VALUE, ""));
                         values.add(value);
                     }
                 } else {
@@ -125,25 +119,24 @@ public class StatisticsServiceImpl implements StatisticsService {
         Shop shop = shopDao.findById(idshop);
         if (shop != null) {
             String duration = "" + shop.getConfigApiVisitDuration();
-            duration = duration.matches("(\\d+,)+\\d+") ? duration : "5,30,60,120";
+            duration = duration.matches("(\\d[\\d\\.]*,)+\\d[\\d\\.]*") ? duration : "5,30,60,120";
             duration = duration + "," + Integer.MAX_VALUE;
             String[] durations = duration.split(",");
-            int lastValue = 0, total = 0;
+            int total = 0;
+            float lastValue = 0;
             for (String durate : durations) {
-                DurationMapValue value = new DurationMapValue();
-                value.setDur(lastValue + "-" + durate);
-                value.setNum(dao.visitDurationMap(idshop, lastValue * 60, Integer.parseInt(durate) * 60, start, end));
+                DurationMapValue value = new DurationMapValue(lastValue,Float.parseFloat(durate),"分钟");
+                value.setNum(dao.visitDurationMap(idshop, (int)(lastValue * 60), (int)(Float.parseFloat(durate) * 60), start, end));
 
-                if (value.getDur().indexOf("" + Integer.MAX_VALUE) > 0) {
+                if (durate.equals(Integer.MAX_VALUE)) {
                     if (value.getNum() > 0) {
-                        value.setDur(value.getDur().replace("" + Integer.MAX_VALUE, ""));
                         values.add(value);
                     }
                 } else {
                     values.add(value);
                 }
                 total += value.getNum();
-                lastValue = Integer.parseInt(durate);
+                lastValue = Float.parseFloat(durate);
             }
             for (DurationMapValue value : values) {
                 value.setRate(1f * value.getNum() / total);
@@ -158,35 +151,29 @@ public class StatisticsServiceImpl implements StatisticsService {
         Shop shop = shopDao.findById(idshop);
         if (shop != null) {
             String period = "" + shop.getConfigApiVisitPeriod();
-            period = period.matches("(\\d+,)+\\d+") ? period : "1,2,4,7,14";
+            period = period.matches("(\\d[\\d\\.]*,)+\\d[\\d\\.]*") ? period : "1,2,4,7,14";
 //            period = period + "," + (Integer.MAX_VALUE/24/60/60);
             String[] periods = period.split(",");
 
-            List<Integer> list = dao.visitPeriodMap(idshop, shop.getConfigApiVisitPeriodMinDuration() * 60, start, end);
+            List<Integer> list = dao.visitPeriodMap(idshop, (int) (shop.getConfigApiVisitDurationEnter() * 60), start, end);
             PeriodMapValue value = new PeriodMapValue();
-            int lastValue = 1, indexValue = 0;
+            float lastValue = 1, indexValue = 0;
             list.add((Integer.MAX_VALUE / 24 / 60 / 60) * 24 * 60 * 60);
             while (list.size() > 0) {
                 Integer avgperiod = list.get(0);
-                if (avgperiod <= indexValue * 24 * 60 * 60) {
+                if (avgperiod <= (int)(indexValue * 24 * 60 * 60)) {
                     if (avgperiod < Integer.MAX_VALUE) {
                         value.setNum(value.getNum() + 1);
                     }
                 } else if (values.size() < periods.length) {
-                    indexValue = Integer.parseInt(periods[values.size()]);
-                    value = new PeriodMapValue();
-                    if (lastValue == indexValue) {
-                        value.setFre(String.valueOf(indexValue));
-                    } else {
-                        value.setFre(lastValue + "~" + indexValue);
-                    }
+                    indexValue = Float.parseFloat(periods[values.size()]);
+                    value = new PeriodMapValue(lastValue, indexValue, "天");
                     value.setNum(avgperiod < Integer.MAX_VALUE ? 1 : 0);
                     lastValue = indexValue + 1;
                     values.add(value);
                 } else {
                     indexValue = Integer.MAX_VALUE / 24 / 60 / 60;
-                    value = new PeriodMapValue();
-                    value.setFre(lastValue + "~");
+                    value = new PeriodMapValue(lastValue, Integer.MAX_VALUE, "天");
                     value.setNum(avgperiod < Integer.MAX_VALUE ? 1 : 0);
                     values.add(value);
                 }
@@ -210,9 +197,9 @@ public class StatisticsServiceImpl implements StatisticsService {
         DurationSpanValue value = new DurationSpanValue();
         Shop shop = shopDao.findById(idshop);
         if (shop != null) {
-            int entry = shop.getConfigApiVisitDurationEnter() * 60;
-            int deep = shop.getConfigApiVisitDurationDeep() * 60;
-            int jump = shop.getConfigApiVisitDurationJump() * 60;
+            int entry = (int) (shop.getConfigApiVisitDurationEnter() * 60);
+            int deep = (int) (shop.getConfigApiVisitDurationDeep() * 60);
+            int jump = (int) (shop.getConfigApiVisitDurationJump() * 60);
             return dao.visitDurationSpan(idshop, entry, deep, jump, start, end);
         }
         return value;
@@ -223,9 +210,9 @@ public class StatisticsServiceImpl implements StatisticsService {
         List<DurationTrendValue> list = new ArrayList<>();
         Shop shop = shopDao.findById(idshop);
         if (shop != null) {
-            int entry = shop.getConfigApiVisitDurationEnter() * 60;
-            int jump = shop.getConfigApiVisitDurationJump() * 60;
-            int deep = shop.getConfigApiVisitDurationDeep() * 60;
+            int entry = (int) (shop.getConfigApiVisitDurationEnter() * 60);
+            int jump = (int) (shop.getConfigApiVisitDurationJump() * 60);
+            int deep = (int) (shop.getConfigApiVisitDurationDeep() * 60);
             switch (period) {
                 case hour:
                     list = dao.visitDurationTrendHour(idshop, entry, deep, jump, start, end);
@@ -249,7 +236,7 @@ public class StatisticsServiceImpl implements StatisticsService {
         List<EntryTrendValue> list = new ArrayList<>();
         Shop shop = shopDao.findById(idshop);
         if (shop != null) {
-            int entry = shop.getConfigApiVisitDurationEnter() * 60;
+            int entry = (int) (shop.getConfigApiVisitDurationEnter() * 60);
             switch (period) {
                 case hour:
                     list = dao.visitEntryTrendHour(idshop, entry, start, end);

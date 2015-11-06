@@ -48,7 +48,7 @@ public class TrackerServiceImpl implements TrackerService {
                     visit.setUpdateTime(now);
                     visit.setTimeEntry(now);
                     visit.setTimeLeave(now);
-                    visit.setTimeFromLast((int) (now.getTime() - ((lastVist != null)?lastVist.getCreateTime().getTime():now.getTime())));
+                    visit.setTimeFromLast((int) ((now.getTime() - ((lastVist != null)?lastVist.getCreateTime().getTime():now.getTime()))/1000));//除以1000换算成秒
                     visit.setTimeDuration(0);
                     visit.setCountLogs(1);
                     visit.setEndBrand(log.getMacDevice().replace(":", "").substring(0, 6).toUpperCase());

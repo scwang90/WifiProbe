@@ -8,7 +8,7 @@ import com.simpletech.wifiprobe.model.base.ModelBase;
 /**
  * 数据库表t_shop
  * @author 树朾
- * @date 2015-11-05 15:02:36 中国标准时间
+ * @date 2015-11-06 15:39:46 中国标准时间
  */
 @Table("t_shop")
 public class Shop extends ModelBase{
@@ -61,29 +61,24 @@ public class Shop extends ModelBase{
 	 * 到访时长达到深访的标准（分钟）
 	 */
 	@Column("config_api_visit_duration_deep")
-	private Integer configApiVisitDurationDeep;
+	private Double configApiVisitDurationDeep;
 	/**
 	 * 到访时长达到跳出的标准（分钟）
 	 */
 	@Column("config_api_visit_duration_jump")
-	private Integer configApiVisitDurationJump;
+	private Double configApiVisitDurationJump;
 	/**
 	 * 到访时长达到入店的标准（分钟）
 	 */
 	@Column("config_api_visit_duration_enter")
-	private Integer configApiVisitDurationEnter;
+	private Double configApiVisitDurationEnter;
 	/**
 	 * 到访周期统计规则（1,2,4,7,14）天
 	 */
 	@Column("config_api_visit_period")
 	private String configApiVisitPeriod;
 	/**
-	 * 到访周期统计 最小停留时间（过滤用，分钟）
-	 */
-	@Column("config_api_visit_period_min_duration")
-	private Integer configApiVisitPeriodMinDuration;
-	/**
-	 * 活跃度统计(1,7,15,30,60天)
+	 * 活跃度统计(1,7,15,30天)
 	 */
 	@Column("config_api_liveness")
 	private String configApiLiveness;
@@ -173,27 +168,27 @@ public class Shop extends ModelBase{
 		this.configApiVisitDuration = configApiVisitDuration;
 	}
 	
-	public Integer getConfigApiVisitDurationDeep(){
+	public Double getConfigApiVisitDurationDeep(){
 		return this.configApiVisitDurationDeep;
 	}
 
-	public void setConfigApiVisitDurationDeep(Integer configApiVisitDurationDeep) {
+	public void setConfigApiVisitDurationDeep(Double configApiVisitDurationDeep) {
 		this.configApiVisitDurationDeep = configApiVisitDurationDeep;
 	}
 	
-	public Integer getConfigApiVisitDurationJump(){
+	public Double getConfigApiVisitDurationJump(){
 		return this.configApiVisitDurationJump;
 	}
 
-	public void setConfigApiVisitDurationJump(Integer configApiVisitDurationJump) {
+	public void setConfigApiVisitDurationJump(Double configApiVisitDurationJump) {
 		this.configApiVisitDurationJump = configApiVisitDurationJump;
 	}
 	
-	public Integer getConfigApiVisitDurationEnter(){
+	public Double getConfigApiVisitDurationEnter(){
 		return this.configApiVisitDurationEnter;
 	}
 
-	public void setConfigApiVisitDurationEnter(Integer configApiVisitDurationEnter) {
+	public void setConfigApiVisitDurationEnter(Double configApiVisitDurationEnter) {
 		this.configApiVisitDurationEnter = configApiVisitDurationEnter;
 	}
 	
@@ -203,14 +198,6 @@ public class Shop extends ModelBase{
 
 	public void setConfigApiVisitPeriod(String configApiVisitPeriod) {
 		this.configApiVisitPeriod = configApiVisitPeriod;
-	}
-	
-	public Integer getConfigApiVisitPeriodMinDuration(){
-		return this.configApiVisitPeriodMinDuration;
-	}
-
-	public void setConfigApiVisitPeriodMinDuration(Integer configApiVisitPeriodMinDuration) {
-		this.configApiVisitPeriodMinDuration = configApiVisitPeriodMinDuration;
 	}
 	
 	public String getConfigApiLiveness(){

@@ -6,10 +6,11 @@ package com.simpletech.wifiprobe.model.entity;
  */
 public class DurationTrendValue extends TrendValue {
 
-    private int dur_avg;       //平均访问时长
-    private int dur_entry;     //平均驻店时长
+    private int dur_avg;       //平均驻店时长
     private int deep;          //深访量（人次）
     private int jump;          //跳出量（人次）
+    private float rdeep;       //深访率
+    private float rjump;       //跳出率
 
     public int getDur_avg() {
         return dur_avg;
@@ -17,14 +18,6 @@ public class DurationTrendValue extends TrendValue {
 
     public void setDur_avg(int dur_avg) {
         this.dur_avg = dur_avg;
-    }
-
-    public int getDur_entry() {
-        return dur_entry;
-    }
-
-    public void setDur_entry(int dur_entry) {
-        this.dur_entry = dur_entry;
     }
 
     public int getDeep() {
@@ -41,5 +34,21 @@ public class DurationTrendValue extends TrendValue {
 
     public void setJump(int jump) {
         this.jump = jump;
+    }
+
+    public float getRdeep() {
+        return rdeep;
+    }
+
+    public void setRdeep(float rdeep) {
+        this.rdeep = rdeep;
+    }
+
+    public float getRjump() {
+        return rjump;
+    }
+
+    public void setRjump(float rjump) {
+        this.rjump = rjump;
     }
 }

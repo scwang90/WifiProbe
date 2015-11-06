@@ -4,18 +4,16 @@ package com.simpletech.wifiprobe.model.entity;
  * 访问频次-分布
  * Created by Administrator on 2015/11/3.
  */
-public class FrequencyMapValue {
+public class FrequencyMapValue extends MapValue{
 
-    private String fre;
     private Integer num;
     private Float rate;
 
-    public String getFre() {
-        return fre;
+    public FrequencyMapValue() {
     }
 
-    public void setFre(String fre) {
-        this.fre = fre;
+    public FrequencyMapValue(int min, int max, String unit) {
+        super(min, max, unit);
     }
 
     public Integer getNum() {

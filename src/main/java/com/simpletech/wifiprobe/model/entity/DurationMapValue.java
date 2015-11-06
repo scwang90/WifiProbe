@@ -4,18 +4,17 @@ package com.simpletech.wifiprobe.model.entity;
  * 访问时长-分布
  * Created by Administrator on 2015/11/3.
  */
-public class DurationMapValue {
+public class DurationMapValue extends MapValue{
 
-    private String dur;
     private Integer num;
     private Float rate;
 
-    public String getDur() {
-        return dur;
+    public DurationMapValue() {
+        super();
     }
 
-    public void setDur(String dur) {
-        this.dur = dur;
+    public DurationMapValue(float min, float max, String unit) {
+        super(min, max, unit);
     }
 
     public Integer getNum() {

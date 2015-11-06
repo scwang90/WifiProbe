@@ -49,7 +49,7 @@ public interface StatisticsDao {
      * @param end    结束时间
      * @return 数量
      */
-    int visitFrequencyMap(String idshop, int min, int max, Date start, Date end) throws Exception;
+    int visitFrequencyMap(String idshop, int entry, int min, int max, Date start, Date end) throws Exception;
 
     /**
      * 店铺-驻店时长-分布
@@ -68,12 +68,12 @@ public interface StatisticsDao {
      * 获取[统计店铺的到访周期]所需的元数据
      *
      * @param idshop      网站ID
-     * @param minduration 最小停留时间（过滤用）
+     * @param entry       入店标准时间（过滤用）
      * @param start       开始时间
      * @param end         结束时间
      * @return 元数据(先按 mac 排序，再按 create_time 排序)
      */
-    List<Integer> visitPeriodMap(String idshop, int minduration, Date start, Date end) throws Exception;
+    List<Integer> visitPeriodMap(String idshop, int entry, Date start, Date end) throws Exception;
 
     /**
      * 店铺-驻店时长-时段
