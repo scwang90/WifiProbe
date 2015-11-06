@@ -21,7 +21,7 @@ public interface StatisticsDeviceModelMapper {
      * @param end    结束时间
      * @return 设备的访问记录
      */
-    @Select("SELECT end_brand name, COUNT(id) vt,COUNT(DISTINCT end_brand) uv,SUM(count_logs) pv  FROM t_visit WHERE idshop=#{idshop} AND (time_entry BETWEEN #{start} AND #{end}) GROUP BY name ORDER BY ${type} DESC")
+    @Select("SELECT end_brand name, COUNT(id) vt,COUNT(DISTINCT mac_device) uv,SUM(count_logs) pv  FROM t_visit WHERE idshop=#{idshop} AND (time_entry BETWEEN #{start} AND #{end}) GROUP BY name ORDER BY ${type} DESC")
     List<BrandValue> brand(@Param("idshop") String idshop,  @Param("type") String type,@Param("start") Date start, @Param("end") Date end) throws Exception;
 
     /**
@@ -31,7 +31,7 @@ public interface StatisticsDeviceModelMapper {
      * @param end    结束时间
      * @return 数据总量
      */
-    @Select("SELECT COUNT(id) vt,COUNT(DISTINCT end_brand) uv,SUM(count_logs) pv  FROM t_visit WHERE idshop=#{idshop} AND (create_time BETWEEN #{start} AND #{end}) ")
+    @Select("SELECT COUNT(id) vt,COUNT(DISTINCT mac_device) uv,SUM(count_logs) pv  FROM t_visit WHERE idshop=#{idshop} AND (create_time BETWEEN #{start} AND #{end}) ")
     BrandValue countBrand(@Param("idshop") String idshop, @Param("start") Date start, @Param("end") Date end) throws Exception;
 
 }

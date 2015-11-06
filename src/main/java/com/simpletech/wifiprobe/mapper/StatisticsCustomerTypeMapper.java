@@ -23,7 +23,7 @@ public interface StatisticsCustomerTypeMapper {
      * @param end    结束时间
      * @return 新老用户
      */
-    @Select("SELECT create_time date,SUM(is_new_user) nv, COUNT(DISTINCT end_brand) uv,AVG(time_duration) dt,AVG(time_from_last) vp FROM t_visit WHERE idshop=${idshop} AND (create_time BETWEEN #{start} AND #{end}) GROUP BY is_new_user ORDER BY date")
+    @Select("SELECT create_time date,SUM(is_new_user) nv, COUNT(DISTINCT mac_device) uv,AVG(time_duration) dt,AVG(time_from_last) vp FROM t_visit WHERE idshop=${idshop} AND (create_time BETWEEN #{start} AND #{end}) GROUP BY is_new_user ORDER BY date")
     List<CustomerValue> customer(@Param("idshop") String idshop, @Param("start") Date start, @Param("end") Date end) throws Exception;
 
     /**
@@ -33,7 +33,7 @@ public interface StatisticsCustomerTypeMapper {
      * @param end    结束时间
      * @return 数据总量
      */
-    @Select("SELECT COUNT(id) vt,COUNT(DISTINCT end_brand) uv,SUM(is_new_user) nv,SUM(count_logs) pv  FROM t_visit WHERE idshop=#{idshop} AND (create_time BETWEEN #{start} AND #{end}) ")
+    @Select("SELECT COUNT(id) vt,COUNT(DISTINCT mac_device) uv,SUM(is_new_user) nv,SUM(count_logs) pv  FROM t_visit WHERE idshop=#{idshop} AND (create_time BETWEEN #{start} AND #{end}) ")
     CustomerValue countCustomer(@Param("idshop") String idshop, @Param("start") Date start, @Param("end") Date end) throws Exception;
 
     /**
@@ -46,7 +46,7 @@ public interface StatisticsCustomerTypeMapper {
      * @return
      * @throws Exception
      */
-    @Select("SELECT create_time date,COUNT(id) num,COUNT(DISTINCT end_brand) uv,AVG(time_duration) dt,AVG(time_from_last) vp FROM t_visit WHERE idshop=#{idshop} AND is_new_user <> 1 AND(time_from_last>=#{min} AND time_from_last<=#{max}) AND(create_time BETWEEN #{start} AND #{end})")
+    @Select("SELECT create_time date,COUNT(id) num,COUNT(DISTINCT mac_device) uv,AVG(time_duration) dt,AVG(time_from_last) vp FROM t_visit WHERE idshop=#{idshop} AND is_new_user <> 1 AND(time_from_last>=#{min} AND time_from_last<=#{max}) AND(create_time BETWEEN #{start} AND #{end})")
     List<LivenessValue> customerLiveness(@Param("idshop") String idshop, @Param("min") int min, @Param("max") int max, @Param("start") Date start, @Param("end") Date end) throws Exception;
 
     /**
@@ -57,13 +57,13 @@ public interface StatisticsCustomerTypeMapper {
      * @param end    结束时间
      * @return 数量
      */
-    @Select("SELECT DATE_FORMAT(create_time,'%y%m%d%H') date,SUM(is_new_user) nv,COUNT(DISTINCT end_brand) uv FROM t_visit WHERE idshop=#{idshop} AND(create_time BETWEEN #{start} AND #{end}) GROUP BY date")
+    @Select("SELECT DATE_FORMAT(create_time,'%y%m%d%H') date,SUM(is_new_user) nv,COUNT(DISTINCT mac_device) uv FROM t_visit WHERE idshop=#{idshop} AND(create_time BETWEEN #{start} AND #{end}) GROUP BY date")
     List<CustomerTrendValue> customerTrendHour(@Param("idshop") String idshop, @Param("start") Date start, @Param("end") Date end) throws Exception;
-    @Select("SELECT DATE_FORMAT(create_time,'%y%m%d') date,SUM(is_new_user) nv,COUNT(DISTINCT end_brand) uv FROM t_visit WHERE idshop=#{idshop} AND(create_time BETWEEN #{start} AND #{end}) GROUP BY date")
+    @Select("SELECT DATE_FORMAT(create_time,'%y%m%d') date,SUM(is_new_user) nv,COUNT(DISTINCT mac_device) uv FROM t_visit WHERE idshop=#{idshop} AND(create_time BETWEEN #{start} AND #{end}) GROUP BY date")
     List<CustomerTrendValue> customerTrendDay(@Param("idshop") String idshop,@Param("start") Date start, @Param("end") Date end) throws Exception;
-    @Select("SELECT DATE_FORMAT(create_time,'%y-%u') date,SUM(is_new_user) nv,COUNT(DISTINCT end_brand) uv FROM t_visit WHERE idshop=#{idshop} AND(create_time BETWEEN #{start} AND #{end}) GROUP BY date")
+    @Select("SELECT DATE_FORMAT(create_time,'%y-%u') date,SUM(is_new_user) nv,COUNT(DISTINCT mac_device) uv FROM t_visit WHERE idshop=#{idshop} AND(create_time BETWEEN #{start} AND #{end}) GROUP BY date")
     List<CustomerTrendValue> customerTrendWeek(@Param("idshop") String idshop,@Param("start") Date start, @Param("end") Date end) throws Exception;
-    @Select("SELECT DATE_FORMAT(create_time,'%y%m') date,SUM(is_new_user) nv,COUNT(DISTINCT end_brand) uv FROM t_visit WHERE idshop=#{idshop} AND(create_time BETWEEN #{start} AND #{end}) GROUP BY date")
+    @Select("SELECT DATE_FORMAT(create_time,'%y%m') date,SUM(is_new_user) nv,COUNT(DISTINCT mac_device) uv FROM t_visit WHERE idshop=#{idshop} AND(create_time BETWEEN #{start} AND #{end}) GROUP BY date")
     List<CustomerTrendValue> customerTrendMonth(@Param("idshop") String idshop, @Param("start") Date start, @Param("end") Date end) throws Exception;
 
 }
