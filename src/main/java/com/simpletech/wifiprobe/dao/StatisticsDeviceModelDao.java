@@ -24,4 +24,13 @@ public interface StatisticsDeviceModelDao {
 	 */
 	List<BrandValue> brand(String idshop,RankingType rankingtype, Date start, Date end, int limit, int skip) throws Exception;
 
+	/**
+	 * 统计所有设备信息
+	 * @param idshop
+	 * @param start
+	 * @param end
+	 * @return
+	 * @throws Exception
+	 */
+	BrandValue countBrand(String idshop, Date start, Date end)throws Exception;
 }

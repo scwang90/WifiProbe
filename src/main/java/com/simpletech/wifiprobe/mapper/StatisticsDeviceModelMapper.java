@@ -32,6 +32,6 @@ public interface StatisticsDeviceModelMapper {
      * @return 数据总量
      */
     @Select("SELECT COUNT(id) vt,COUNT(DISTINCT end_brand) uv,SUM(count_logs) pv  FROM t_visit WHERE idshop=#{idshop} AND (create_time BETWEEN #{start} AND #{end}) ")
-    BrandValue coutBrand(@Param("idshop") String idshop, @Param("start") Date start, @Param("end") Date end) throws Exception;
+    BrandValue countBrand(@Param("idshop") String idshop, @Param("start") Date start, @Param("end") Date end) throws Exception;
 
 }

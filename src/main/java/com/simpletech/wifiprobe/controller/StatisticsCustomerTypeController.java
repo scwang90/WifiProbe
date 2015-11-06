@@ -45,7 +45,7 @@ public class StatisticsCustomerTypeController {
      * @param end    结束时间 ("yyyyMMddHHmmss")
      * @return 新老用户
      */
-    @RequestMapping("customer/shop/{shopId:\\d+}")
+    @RequestMapping("shop/{shopId:\\d+}/customer")
     public Object customer(@PathVariable String shopId, Integer offset, Period span, Date start, Date end) throws Exception {
         end = timeEnd(end, span, offset);
         start = timeStart(start, span, offset);
@@ -62,7 +62,7 @@ public class StatisticsCustomerTypeController {
      * @return
      * @throws Exception
      */
-    @RequestMapping("customer/liveness/{shopId:\\d+}")
+    @RequestMapping("shop/{shopId:\\d+}/customer/liveness")
     public Object customerLiveness(@PathVariable String shopId,Integer offset, Period span, Date start, Date end) throws Exception {
         end = timeEnd(end, span, offset);
         start = timeStart(start, span, offset);
@@ -82,7 +82,7 @@ public class StatisticsCustomerTypeController {
      * @param end    结束时间 ("yyyyMMddHHmmss")
      * @return 统计数据
      */
-    @RequestMapping("customer/trend/{shopId:\\d+}/{period:hour|day|week|month}")
+    @RequestMapping("shop/{shopId}/customer/trend/{period:hour|day|week|month}")
     public Object customerTrend(@PathVariable String shopId, @PathVariable Period period, Integer offset, Period span, Date start, Date end) throws Exception {
         end = timeEnd(end, span, offset);
         start = timeStart(start, span, offset);
@@ -90,6 +90,7 @@ public class StatisticsCustomerTypeController {
         List<CustomerTrendValue> list = service.customerTrend(shopId, period, start, end);
         list = fulldata(list, period.getFormat(), period.getField(), start, end, CustomerTrendValue.class);
         return list;
+//        return service.customerTrend(shopId, period, start, end);
     }
 
     /**
@@ -101,12 +102,12 @@ public class StatisticsCustomerTypeController {
     private void doCheckPeriod(Period period, Date start, Date end) throws ServiceException {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(start);
-        int count = 0;
+        int count = 0,max = 200;
         while (calendar.getTime().before(end)) {
-            count++;
-        }
-        if (count > 200) {
-            throw new ServiceException("数据量偏大，请调整时间跨度再试！");
+            if (count++ > max) {
+                throw new ServiceException("数据量偏大，请调整时间跨度再试！");
+            }
+            calendar.add(period.getField(), 1);
         }
     }
 

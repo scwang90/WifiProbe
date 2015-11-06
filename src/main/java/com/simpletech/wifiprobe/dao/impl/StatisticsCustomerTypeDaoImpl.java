@@ -3,7 +3,6 @@ package com.simpletech.wifiprobe.dao.impl;
 import com.simpletech.wifiprobe.dao.StatisticsCustomerTypeDao;
 import com.simpletech.wifiprobe.mapper.ShopMapper;
 import com.simpletech.wifiprobe.mapper.StatisticsCustomerTypeMapper;
-import com.simpletech.wifiprobe.model.Shop;
 import com.simpletech.wifiprobe.model.constant.Period;
 import com.simpletech.wifiprobe.model.entity.CustomerTrendValue;
 import com.simpletech.wifiprobe.model.entity.CustomerValue;
@@ -26,8 +25,6 @@ public class StatisticsCustomerTypeDaoImpl implements StatisticsCustomerTypeDao 
 
     @Autowired
     StatisticsCustomerTypeMapper mapper;
-    @Autowired
-    ShopMapper shopMapper;
     /**
      * 新老用户
      * @param idshop 网站ID
@@ -50,44 +47,9 @@ public class StatisticsCustomerTypeDaoImpl implements StatisticsCustomerTypeDao 
     }
 
     @Override
-    public List<LivenessValue> customerLiveness(String idshop, Date start, Date end) throws Exception {
-        List<LivenessValue> values = new ArrayList<>();
-        Shop shop = shopMapper.findById(idshop);
-        CustomerValue countCustomer=mapper.countCustomer(idshop, start, end);
+    public List<LivenessValue> customerLiveness(String idshop,int min, int max, Date start, Date end) throws Exception {
 
-        if (shop != null) {
-            String count = "" + shop.getConfigApiLiveness();
-            count = count.matches("(\\d+,)+\\d+") ? count : "1,7,15,30";
-            count = count + "," + Integer.MAX_VALUE;
-            String[] counts = count.split(",");
-            int lastValue = 1;
-            for (String _count : counts) {
-                List<LivenessValue> list=mapper.customerLiveness(idshop, lastValue, Integer.parseInt(_count), start, end);
-                    for (LivenessValue value : list) {
-                        value.setLive(lastValue + "~" + _count);
-                        value.setRate(1f * value.getNum() / (countCustomer.getUv() - countCustomer.getNv()));
-                        values.add(value);
-                        lastValue = Integer.parseInt(_count) + 1;
-                    }
-            }
-        }
-//        //排重
-//        for (int i = 0; i < values.size(); i++) {
-//            //逐个比对
-//            for (int j = i+1; j < values.size(); j++) {
-//                //判断是否相等
-//                //相等移除对象
-//                if(values.get(i).getLive().equals(values.get(j).getLive())){
-//                    values.get(i).setNum(values.get(i).getNum() + values.get(j).getNum());
-//                    values.get(i).setDt(values.get(i).getDt() + values.get(j).getDt());
-//                    values.get(i).setVp(values.get(i).getVp() + values.get(j).getVp());
-//                    values.get(i).setRate(values.get(i).getRate() + values.get(j).getRate());
-//                    values.remove(j);
-//                    j--;
-//                }
-//            }
-//        }
-        return values;
+        return mapper.customerLiveness(idshop,min,max,start,end);
     }
     /**
      * 客户趋势统计
@@ -123,5 +85,8 @@ public class StatisticsCustomerTypeDaoImpl implements StatisticsCustomerTypeDao 
         return list;
     }
 
+    public CustomerValue countCustomer(String idshop, Date start, Date end)throws Exception{
+        return mapper.countCustomer(idshop,start,end);
+    }
 }
 

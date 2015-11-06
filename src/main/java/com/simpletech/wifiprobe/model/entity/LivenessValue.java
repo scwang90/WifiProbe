@@ -8,7 +8,6 @@ package com.simpletech.wifiprobe.model.entity;
 public class LivenessValue{
     private String live;    //活跃度
     private Integer num;    //人数
-//    private int uv;         //老客户数量
     private Float rate;     //占比
     private float dt;         //驻店时长 duration time
     private float vp;         //来访周期 visit period
@@ -28,14 +27,6 @@ public class LivenessValue{
     public void setNum(Integer num) {
         this.num = num;
     }
-
-//    public int getUv() {
-//        return uv;
-//    }
-//
-//    public void setUv(int uv) {
-//        this.uv = uv;
-//    }
 
     public Float getRate() {
         return rate;

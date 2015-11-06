@@ -11,9 +11,6 @@ public class CustomerTrendValue extends TrendValue{
     private float rnv;          //新顾客占比
     private float rov;          //老顾客占比
 
-
-    public CustomerTrendValue(){}
-
     public int getUv() {
         return uv;
     }

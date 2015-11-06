@@ -1,6 +1,5 @@
 package com.simpletech.wifiprobe.mapper;
 
-import com.simpletech.wifiprobe.model.entity.BrandValue;
 import com.simpletech.wifiprobe.model.entity.CustomerTrendValue;
 import com.simpletech.wifiprobe.model.entity.CustomerValue;
 import com.simpletech.wifiprobe.model.entity.LivenessValue;
