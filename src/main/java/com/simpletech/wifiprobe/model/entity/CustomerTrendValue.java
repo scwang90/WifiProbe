@@ -5,19 +5,19 @@ package com.simpletech.wifiprobe.model.entity;
  * Created by ChenQi on 2015/11/3 13:20.
  */
 public class CustomerTrendValue extends TrendValue{
-    private int uv;             //独立顾客数
+//    private int uv;             //独立顾客数
     private int nv;             //新顾客
     private int ov;             //老顾客
     private float rnv;          //新顾客占比
     private float rov;          //老顾客占比
 
-    public int getUv() {
-        return uv;
-    }
-
-    public void setUv(int uv) {
-        this.uv = uv;
-    }
+//    public int getUv() {
+//        return uv;
+//    }
+//
+//    public void setUv(int uv) {
+//        this.uv = uv;
+//    }
 
     public int getNv() {
         return nv;

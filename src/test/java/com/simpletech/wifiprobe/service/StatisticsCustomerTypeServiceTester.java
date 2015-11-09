@@ -39,7 +39,7 @@ public class StatisticsCustomerTypeServiceTester {
 	}
 	@Test
 	public void customerTrend()throws Exception{
-		Object result = service.customerTrend("1", Period.month, monthf.parse("2015-11-06"), monthf.parse("2015-11-30"));
+		Object result = service.customerTrend("1", Period.day, monthf.parse("2015-11-06"), monthf.parse("2015-11-30"));
 		System.out.println(JacksonUtil.toJson(result).replace("{","\n{"));
 	}
 	@Test

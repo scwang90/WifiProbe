@@ -43,7 +43,7 @@ public class StatisticsCustomerTypeMapperTester {
 	}
 	@Test
 	public void customerTrendHour() throws Exception{
-		Object result = mapper.customerTrendHour("1", monthf.parse("2015-11-01"), monthf.parse("2015-11-30"));
+		Object result = mapper.customerTrendHour("1",1, monthf.parse("2015-11-01"), monthf.parse("2015-11-30"));
 		System.out.println(JacksonUtil.toJson(result).replace("{","\n{"));
 	}
 	@Test
