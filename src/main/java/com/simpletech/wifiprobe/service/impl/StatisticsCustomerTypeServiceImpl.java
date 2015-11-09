@@ -80,10 +80,6 @@ public class StatisticsCustomerTypeServiceImpl implements StatisticsCustomerType
                     values.add(value);
 
                 }
-//                for (LivenessValue value1 : list) {
-//                    value.setRate(1f * value1.getNum() / total);
-//
-//                }
                 lastValue = Integer.parseInt(_count);
             }
         }
