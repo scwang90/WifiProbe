@@ -46,7 +46,11 @@ public class StatisticsCustomerTypeMapperTester {
 		Object result = mapper.customerTrendHour("1", monthf.parse("2015-11-01"), monthf.parse("2015-11-30"));
 		System.out.println(JacksonUtil.toJson(result).replace("{","\n{"));
 	}
-
+	@Test
+	public void livenessTrendHour() throws Exception{
+		Object result = mapper.livenessTrendHour("1",1,1,1200000, monthf.parse("2015-11-01"), monthf.parse("2015-11-30"));
+		System.out.println(JacksonUtil.toJson(result).replace("{","\n{"));
+	}
 	@Test
 	public void customerLiveness() throws Exception{
 		Object result = mapper.customerLiveness("1",1, 1, 12, monthf.parse("2015-11-06"), monthf.parse("2015-11-30"));

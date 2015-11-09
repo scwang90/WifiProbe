@@ -43,9 +43,8 @@ public interface StatisticsCustomerTypeDao {
 	 * @throws Exception
 	 */
 	List<CustomerTrendValue> customerTrend(String idshop, Period period, Date start, Date end) throws Exception;
-//	List<LivenessValue> customerLivenessDay(String idshop, int min, int max, Date start, Date end)throws Exception;
-//	List<LivenessValue> customerLivenessWeek(String idshop, int min, int max, Date start, Date end) throws Exception;
-//	List<LivenessValue> customerLivenessMonth(String idshop, int min, int max, Date start, Date end) throws Exception;
+
+	List<LivenessTrendValue> livenessTrend(String idshop, Period period, int entry,int min, int max,Date start, Date end) throws Exception;
 
 	/**
 	 * 汇总顾客信息

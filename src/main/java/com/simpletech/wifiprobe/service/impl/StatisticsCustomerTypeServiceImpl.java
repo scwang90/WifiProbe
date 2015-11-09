@@ -86,6 +86,49 @@ public class StatisticsCustomerTypeServiceImpl implements StatisticsCustomerType
 
         return values;
     }
+
+    public List<LivenessTrendValue> livenessTrend(String idshop, Period period, Date start, Date end) throws Exception {
+        List<LivenessTrendValue> values = new ArrayList<>();
+        Shop shop = shopDao.findById(idshop);
+        CustomerValue countCustomer=dao.countCustomer(idshop, start, end);
+
+        if (shop != null) {
+            String count = "" + shop.getConfigApiLiveness();
+            count = count.matches("(\\d+,)+\\d+") ? count : "1,7,15,30";
+            count = count + "," + Integer.MAX_VALUE;
+            String[] counts = count.split(",");
+            int lastValue = 1,total=0;
+            for (String _count : counts) {
+//                LivenessValue value=new LivenessValue(lastValue,Float.parseFloat(_count),"天");
+
+                List<LivenessTrendValue> list=dao.livenessTrend(idshop, period, shop.getConfigApiVisitDurationEnter().intValue(), lastValue * 24 * 60 * 60, Integer.parseInt(_count) * 24 * 60 * 60, start, end);
+
+                for (LivenessTrendValue value1 : list) {
+                    if(lastValue!=Integer.parseInt(_count)){
+                        value1.setLive(lastValue+"-"+Integer.parseInt(_count));
+                    }else{
+                        value1.setLive(lastValue+"");
+                    }
+                    if(Integer.parseInt(_count)==Integer.MAX_VALUE){
+                        value1.setLive(">"+lastValue);
+                    }
+
+                    total+=value1.getNum();
+                    value1.setNum(value1.getNum());
+                    if(total==0){
+                        value1.setRate(1f * 0);
+                    }else{
+                        value1.setRate(1f * value1.getNum() / total);
+                    }
+
+                    values.add(value1);
+
+                }
+                lastValue = Integer.parseInt(_count);
+            }
+        }
+        return values;
+    }
     /**
      * 客户趋势统计
      * @param idshop 网站ID

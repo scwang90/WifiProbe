@@ -1,9 +1,6 @@
 package com.simpletech.wifiprobe.mapper;
 
-import com.simpletech.wifiprobe.model.entity.CustomerTrendValue;
-import com.simpletech.wifiprobe.model.entity.CustomerValue;
-import com.simpletech.wifiprobe.model.entity.IsNewCustomerValue;
-import com.simpletech.wifiprobe.model.entity.LivenessValue;
+import com.simpletech.wifiprobe.model.entity.*;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
@@ -84,6 +81,67 @@ public interface StatisticsCustomerTypeMapper {
                     "            AND (create_time BETWEEN #{start} AND  #{end})\n"+
                     "      ) AS t")
     List<LivenessValue> customerLiveness(@Param("idshop") String idshop,@Param("entry") int entry, @Param("min") int min, @Param("max") int max, @Param("start") Date start, @Param("end") Date end) throws Exception;
+
+    @Select("SELECT\n"+
+            "  date,\n"+
+            "  num\n"+
+            "FROM (SELECT\n"+
+            "    DATE_FORMAT(create_time, '%y%m%d%H')           date,\n" +
+            "        COUNT(id)                                  num\n"+
+            "      FROM t_visit\n"+
+            "      WHERE idshop = #{idshop}\n"+
+            "            AND time_duration > #{entry}\n"+
+            "            AND is_new_user<>1\n"+
+            "            AND(time_from_last>=#{min} AND time_from_last<=#{max})\n"+
+            "            AND (create_time BETWEEN #{start} AND  #{end})\n"+
+            "      ) AS t")
+    List<LivenessTrendValue> livenessTrendHour(@Param("idshop") String idshop,@Param("entry") int entry, @Param("min") int min, @Param("max") int max, @Param("start") Date start, @Param("end") Date end) throws Exception;
+
+    @Select("SELECT\n"+
+            "  date,\n"+
+            "  num\n"+
+            "FROM (SELECT\n"+
+            "    DATE_FORMAT(create_time, '%y%m%d')           date,\n" +
+            "        COUNT(id)                                  num\n"+
+            "      FROM t_visit\n"+
+            "      WHERE idshop = #{idshop}\n"+
+            "            AND time_duration > #{entry}\n"+
+            "            AND is_new_user<>1\n"+
+            "            AND(time_from_last>=#{min} AND time_from_last<=#{max})\n"+
+            "            AND (create_time BETWEEN #{start} AND  #{end})\n"+
+            "      ) AS t")
+    List<LivenessTrendValue> livenessTrendDay(@Param("idshop") String idshop,@Param("entry") int entry, @Param("min") int min, @Param("max") int max, @Param("start") Date start, @Param("end") Date end) throws Exception;
+
+    @Select("SELECT\n"+
+            "  date,\n"+
+            "  num\n"+
+
+            "FROM (SELECT\n"+
+            "    DATE_FORMAT(create_time, '%y-%u')           date,\n" +
+            "        COUNT(id)                                  num\n"+
+            "      FROM t_visit\n"+
+            "      WHERE idshop = #{idshop}\n"+
+            "            AND time_duration > #{entry}\n"+
+            "            AND is_new_user<>1\n"+
+            "            AND(time_from_last>=#{min} AND time_from_last<=#{max})\n"+
+            "            AND (create_time BETWEEN #{start} AND  #{end})\n"+
+            "      ) AS t")
+    List<LivenessTrendValue> livenessTrendWeek(@Param("idshop") String idshop,@Param("entry") int entry, @Param("min") int min, @Param("max") int max, @Param("start") Date start, @Param("end") Date end) throws Exception;
+
+    @Select("SELECT\n"+
+            "  date,\n"+
+            "  num\n"+
+            "FROM (SELECT\n"+
+            "    DATE_FORMAT(create_time, '%y%m')           date,\n" +
+            "        COUNT(id)                                  num\n"+
+            "      FROM t_visit\n"+
+            "      WHERE idshop = #{idshop}\n"+
+            "            AND time_duration > #{entry}\n"+
+            "            AND is_new_user<>1\n"+
+            "            AND(time_from_last>=#{min} AND time_from_last<=#{max})\n"+
+            "            AND (create_time BETWEEN #{start} AND  #{end})\n"+
+            "      ) AS t")
+    List<LivenessTrendValue> livenessTrendMonth(@Param("idshop") String idshop,@Param("entry") int entry, @Param("min") int min, @Param("max") int max, @Param("start") Date start, @Param("end") Date end) throws Exception;
 
     /**
      * 统计顾客趋势

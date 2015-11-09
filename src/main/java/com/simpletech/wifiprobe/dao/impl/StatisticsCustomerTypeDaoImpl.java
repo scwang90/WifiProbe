@@ -3,11 +3,9 @@ package com.simpletech.wifiprobe.dao.impl;
 import com.simpletech.wifiprobe.dao.StatisticsCustomerTypeDao;
 import com.simpletech.wifiprobe.mapper.ShopMapper;
 import com.simpletech.wifiprobe.mapper.StatisticsCustomerTypeMapper;
+import com.simpletech.wifiprobe.model.Shop;
 import com.simpletech.wifiprobe.model.constant.Period;
-import com.simpletech.wifiprobe.model.entity.CustomerTrendValue;
-import com.simpletech.wifiprobe.model.entity.CustomerValue;
-import com.simpletech.wifiprobe.model.entity.IsNewCustomerValue;
-import com.simpletech.wifiprobe.model.entity.LivenessValue;
+import com.simpletech.wifiprobe.model.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -42,7 +40,7 @@ public class StatisticsCustomerTypeDaoImpl implements StatisticsCustomerTypeDao 
     @Override
     public List<LivenessValue> customerLiveness(String idshop,int entry,int min, int max, Date start, Date end) throws Exception {
 
-        return mapper.customerLiveness(idshop,entry,min,max,start,end);
+        return mapper.customerLiveness(idshop, entry, min, max, start, end);
     }
     /**
      * 客户趋势统计
@@ -75,6 +73,31 @@ public class StatisticsCustomerTypeDaoImpl implements StatisticsCustomerTypeDao 
             value.setRnv(1f * value.getNv() / value.getUv());
             value.setRov(1f * value.getOv() / value.getUv());
         }
+        return list;
+    }
+
+    public List<LivenessTrendValue> livenessTrend(String idshop,Period period,int entry,int min, int max, Date start, Date end) throws Exception {
+        List<LivenessTrendValue> list= new ArrayList<>();
+//        CustomerValue count=mapper.countCustomer(idshop,start,end);
+         switch (period) {
+            case hour:
+                list = mapper.livenessTrendHour(idshop,entry,min,max, start, end);
+                break;
+            case day:
+                list = mapper.livenessTrendDay(idshop, entry,min,max, start, end);
+                break;
+            case week:
+                list = mapper.livenessTrendWeek(idshop, entry,min,max, start, end);
+                break;
+            case month:
+                list = mapper.livenessTrendMonth(idshop, entry,min,max, start, end);
+                break;
+        }
+//        for(LivenessTrendValue value:list){
+////            value.setOv(value.getUv() - value.getNv());
+////            value.setRnv(1f * value.getNv() / value.getUv());
+////            value.setRov(1f * value.getOv() / value.getUv());
+//        }
         return list;
     }
 

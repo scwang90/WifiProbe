@@ -1,10 +1,7 @@
 package com.simpletech.wifiprobe.service;
 
 import com.simpletech.wifiprobe.model.constant.Period;
-import com.simpletech.wifiprobe.model.entity.CustomerTrendValue;
-import com.simpletech.wifiprobe.model.entity.CustomerValue;
-import com.simpletech.wifiprobe.model.entity.IsNewCustomerValue;
-import com.simpletech.wifiprobe.model.entity.LivenessValue;
+import com.simpletech.wifiprobe.model.entity.*;
 
 import java.util.Date;
 import java.util.List;
@@ -36,7 +33,18 @@ public interface StatisticsCustomerTypeService {
     List<LivenessValue> customerLiveness(String idshop, Date start, Date end) throws Exception;
 
     /**
-     * 用户活跃度
+     * 用户活跃度趋势
+     * @param idshop
+     * @param period
+     * @param start
+     * @param end
+     * @return
+     * @throws Exception
+     */
+    List<LivenessTrendValue> livenessTrend(String idshop, Period period,Date start, Date end) throws Exception;
+
+    /**
+     * 用户趋势
      * @param idshop 网站ID
      * @param period 时段周期 [时|日|周|月]
      * @param start  开始时间
