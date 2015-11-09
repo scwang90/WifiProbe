@@ -1,10 +1,7 @@
 package com.simpletech.wifiprobe.dao;
 
 import com.simpletech.wifiprobe.model.constant.Period;
-import com.simpletech.wifiprobe.model.entity.BrandValue;
-import com.simpletech.wifiprobe.model.entity.CustomerTrendValue;
-import com.simpletech.wifiprobe.model.entity.CustomerValue;
-import com.simpletech.wifiprobe.model.entity.LivenessValue;
+import com.simpletech.wifiprobe.model.entity.*;
 
 import java.util.Date;
 import java.util.List;
@@ -24,7 +21,7 @@ public interface StatisticsCustomerTypeDao {
 	 * @param end    结束时间
 	 * @return 新老用户
 	 */
-	List<CustomerValue> customer(String idshop, Date start, Date end) throws Exception;
+	List<IsNewCustomerValue> customer(String idshop,int entry,Date start, Date end) throws Exception;
 
 
 	/**
@@ -35,7 +32,7 @@ public interface StatisticsCustomerTypeDao {
 	 * @return
 	 * @throws Exception
 	 */
-	List<LivenessValue> customerLiveness(String idshop, int min, int max, Date start, Date end) throws Exception;
+	List<LivenessValue> customerLiveness(String idshop,int entry, int min, int max, Date start, Date end) throws Exception;
 
 	/**
 	 * 顾客趋势

@@ -4,9 +4,7 @@ import com.simpletech.wifiprobe.dao.StatisticsCustomerTypeDao;
 import com.simpletech.wifiprobe.dao.ShopDao;
 import com.simpletech.wifiprobe.model.Shop;
 import com.simpletech.wifiprobe.model.constant.Period;
-import com.simpletech.wifiprobe.model.entity.CustomerTrendValue;
-import com.simpletech.wifiprobe.model.entity.CustomerValue;
-import com.simpletech.wifiprobe.model.entity.LivenessValue;
+import com.simpletech.wifiprobe.model.entity.*;
 import com.simpletech.wifiprobe.service.StatisticsCustomerTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,8 +26,19 @@ public class StatisticsCustomerTypeServiceImpl implements StatisticsCustomerType
     ShopDao shopDao;
 
     @Override
-    public List<CustomerValue> customer(String idshop, Date start, Date end) throws Exception {
-       return dao.customer(idshop,start,end);
+    public List<IsNewCustomerValue> customer(String idshop, Date start, Date end) throws Exception {
+        Shop shop=shopDao.findById(idshop);
+        List<IsNewCustomerValue> values= dao.customer(idshop, shop.getConfigApiVisitDurationEnter().intValue(), start, end);
+        int total=0;
+        for(IsNewCustomerValue list:values){
+            total+=list.getNum();
+        }
+        for(IsNewCustomerValue list1:values){
+            list1.setDt(list1.getDt() / 24 / 60 / 60);//按天算
+            list1.setVp(list1.getVp() / 24 / 60 / 60);//按天算
+            list1.setRate(1f * list1.getNum() / total);
+        }
+        return values;
     }
 
     /**
@@ -51,56 +60,34 @@ public class StatisticsCustomerTypeServiceImpl implements StatisticsCustomerType
             count = count.matches("(\\d+,)+\\d+") ? count : "1,7,15,30";
             count = count + "," + Integer.MAX_VALUE;
             String[] counts = count.split(",");
-            int lastValue = 0;
+            int lastValue = 1,total=0;
             for (String _count : counts) {
-//                LivenessValue value=new LivenessValue();
+                LivenessValue value=new LivenessValue(lastValue,Float.parseFloat(_count),"天");
 
+                List<LivenessValue> list=dao.customerLiveness(idshop,shop.getConfigApiVisitDurationEnter().intValue(), lastValue*24*60*60, Integer.parseInt(_count)*24*60*60, start, end);
 
-                List<LivenessValue> list=dao.customerLiveness(idshop, lastValue*24*60*60, Integer.parseInt(_count)*24*60*60, start, end);
-//                value.setNum(0);
-//                if (value.getLive().indexOf("" + Integer.MAX_VALUE) > 0) {
-//                    if (value.getNum() > 0) {
-//                        value.setDur(value.getDur().replace("" + Integer.MAX_VALUE, ""));
-//                        values.add(value);
-//                    }
-//                } else {
-//                    values.add(value);
-//                }
-                for (LivenessValue value : list) {
-//                    value1.setNum();
-                    value.setLive(lastValue + "~" + _count);
-                    if (value.getLive().indexOf("" + Integer.MAX_VALUE) > 0) {
-                        if (value.getNum() >=0) {
-                            value.setLive(value.getLive().replace("" + Integer.MAX_VALUE, ""));
-//                            values.add(value);
-                        }
+                for (LivenessValue value1 : list) {
+                    total+=value1.getNum();
+                    value.setNum(value1.getNum());
+                    if(total==0){
+                        value.setRate(1f * 0);
+                    }else{
+                        value.setRate(1f * value1.getNum() / total);
                     }
-//                    else {
-//                        values.add(value);
-//                    }
-                    value.setRate(1f * value.getNum() / (countCustomer.getUv() - countCustomer.getNv()));
+
+                    value.setDt(value1.getDt()/24/60/60);
+                    value.setVp(value1.getVp()/24/60/60);
                     values.add(value);
 
                 }
-                lastValue = Integer.parseInt(_count) + 1;
+//                for (LivenessValue value1 : list) {
+//                    value.setRate(1f * value1.getNum() / total);
+//
+//                }
+                lastValue = Integer.parseInt(_count);
             }
         }
-//        //排重
-//        for (int i = 0; i < values.size(); i++) {
-//            //逐个比对
-//            for (int j = i+1; j < values.size(); j++) {
-//                //判断是否相等
-//                //相等移除对象
-//                if(values.get(i).getLive().equals(values.get(j).getLive())){
-//                    values.get(i).setNum(values.get(i).getNum() + values.get(j).getNum());
-//                    values.get(i).setDt(values.get(i).getDt() + values.get(j).getDt());
-//                    values.get(i).setVp(values.get(i).getVp() + values.get(j).getVp());
-//                    values.get(i).setRate(values.get(i).getRate() + values.get(j).getRate());
-//                    values.remove(j);
-//                    j--;
-//                }
-//            }
-//        }
+
         return values;
     }
     /**

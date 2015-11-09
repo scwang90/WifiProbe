@@ -30,7 +30,11 @@ public class StatisticsDeviceModelServiceImpl implements StatisticsDeviceModelSe
             String str= MacBrand.parser(value.getName()).getCompany();
             String[] company=str.split("\\s");
             String name=company[0];
-            value.setName(name);
+            if(name!=""){
+                value.setName(name);
+            }else {
+                value.setName("["+value.getName()+"]");
+            }
             value.setRuv(1f * value.getUv() / count.getUv());
             value.setRvt(1f * value.getVt() / count.getVt());
             value.setRpv(1f * value.getPv() / count.getPv());

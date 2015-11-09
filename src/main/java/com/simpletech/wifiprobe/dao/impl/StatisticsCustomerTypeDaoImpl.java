@@ -6,6 +6,7 @@ import com.simpletech.wifiprobe.mapper.StatisticsCustomerTypeMapper;
 import com.simpletech.wifiprobe.model.constant.Period;
 import com.simpletech.wifiprobe.model.entity.CustomerTrendValue;
 import com.simpletech.wifiprobe.model.entity.CustomerValue;
+import com.simpletech.wifiprobe.model.entity.IsNewCustomerValue;
 import com.simpletech.wifiprobe.model.entity.LivenessValue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -34,22 +35,14 @@ public class StatisticsCustomerTypeDaoImpl implements StatisticsCustomerTypeDao 
      * @throws Exception
      */
     @Override
-    public List<CustomerValue> customer(String idshop, Date start, Date end) throws Exception {
-        List<CustomerValue> list = mapper.customer(idshop, start, end);
-        CustomerValue count=mapper.countCustomer(idshop, start, end);
-        for (CustomerValue value : list) {
-
-            value.setOv(value.getUv() - value.getNv());
-            value.setNr(1f * value.getNv() / count.getUv());
-            value.setOr(1f * value.getOv() / count.getUv());
-        }
-        return list;
+    public List<IsNewCustomerValue> customer(String idshop,int entry, Date start, Date end) throws Exception {
+        return mapper.customer(idshop, entry,start, end);
     }
 
     @Override
-    public List<LivenessValue> customerLiveness(String idshop,int min, int max, Date start, Date end) throws Exception {
+    public List<LivenessValue> customerLiveness(String idshop,int entry,int min, int max, Date start, Date end) throws Exception {
 
-        return mapper.customerLiveness(idshop,min,max,start,end);
+        return mapper.customerLiveness(idshop,entry,min,max,start,end);
     }
     /**
      * 客户趋势统计
@@ -79,8 +72,8 @@ public class StatisticsCustomerTypeDaoImpl implements StatisticsCustomerTypeDao 
         }
         for(CustomerTrendValue value:list){
             value.setOv(value.getUv() - value.getNv());
-            value.setRnv(1f * value.getNv() / count.getUv());
-            value.setRov(1f * value.getOv() / count.getUv());
+            value.setRnv(1f * value.getNv() / value.getUv());
+            value.setRov(1f * value.getOv() / value.getUv());
         }
         return list;
     }

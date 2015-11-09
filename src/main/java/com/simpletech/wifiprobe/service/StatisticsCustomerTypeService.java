@@ -3,6 +3,7 @@ package com.simpletech.wifiprobe.service;
 import com.simpletech.wifiprobe.model.constant.Period;
 import com.simpletech.wifiprobe.model.entity.CustomerTrendValue;
 import com.simpletech.wifiprobe.model.entity.CustomerValue;
+import com.simpletech.wifiprobe.model.entity.IsNewCustomerValue;
 import com.simpletech.wifiprobe.model.entity.LivenessValue;
 
 import java.util.Date;
@@ -22,7 +23,7 @@ public interface StatisticsCustomerTypeService {
      * @param end    结束时间
      * @return 新老用户
      */
-    List<CustomerValue> customer(String idshop, Date start, Date end) throws Exception;
+    List<IsNewCustomerValue> customer(String idshop, Date start, Date end) throws Exception;
 
     /**
      * 老用户活跃度
