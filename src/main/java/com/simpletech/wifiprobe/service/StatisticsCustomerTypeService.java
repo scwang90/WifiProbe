@@ -8,13 +8,13 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * 统计API Service
+ * 顾客类型 Service
  * Created by 树朾 on 2015/9/25.
  */
 public interface StatisticsCustomerTypeService {
 
     /**
-     * 新老用户
+     * 新老用户统计
      *
      * @param idshop 网站ID
      * @param start  开始时间
@@ -24,7 +24,7 @@ public interface StatisticsCustomerTypeService {
     List<IsNewCustomerValue> customer(String idshop, Date start, Date end) throws Exception;
 
     /**
-     * 老用户活跃度
+     * 老用户活跃度-分布
      * @param idshop 网站ID
      * @param start  开始时间
      * @param end    结束时间
@@ -34,7 +34,7 @@ public interface StatisticsCustomerTypeService {
     List<LivenessValue> customerLiveness(String idshop, Date start, Date end) throws Exception;
 
     /**
-     * 用户活跃度趋势
+     * 用户活跃度-趋势
      * @param idshop
      * @param period
      * @param start
@@ -45,7 +45,7 @@ public interface StatisticsCustomerTypeService {
     List<LivenessTrendValue> livenessTrend(String idshop,Level level, Period period,Date start, Date end) throws Exception;
 
     /**
-     * 用户趋势
+     * 到访顾客-趋势
      * @param idshop 网站ID
      * @param period 时段周期 [时|日|周|月]
      * @param start  开始时间

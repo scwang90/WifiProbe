@@ -37,7 +37,7 @@ public class StatisticsCustomerTypeController {
     }
 
     /**
-     * 新老用户
+     * 新老用户统计
      *
      * @param shopId 网站ID
      * @param offset 偏移 0=当天 -1=昨天 1=明天 -2 2 -3...
@@ -54,7 +54,7 @@ public class StatisticsCustomerTypeController {
     }
 
     /**
-     * 老顾客的活跃度
+     * 老顾客的活跃度-分布
      * @param shopId
      * @param offset
      * @param span
@@ -63,7 +63,7 @@ public class StatisticsCustomerTypeController {
      * @return
      * @throws Exception
      */
-    @RequestMapping("shop/{shopId:\\d+}/customer/liveness")
+    @RequestMapping("shop/{shopId:\\d+}/customer/liveness/map")
     public Object customerLiveness(@PathVariable String shopId,Integer offset, Period span, Date start, Date end) throws Exception {
         end = timeEnd(end, span, offset);
         start = timeStart(start, span, offset);
@@ -75,11 +75,12 @@ public class StatisticsCustomerTypeController {
 
     /**
      * 顾客的活跃度-趋势
-     * @param shopId
-     * @param offset
-     * @param span
-     * @param start
-     * @param end
+     * @param shopId 店铺ID
+     * @param level  活跃度级别 high|middle|low|sleep
+     * @param offset 偏移 0=当天 -1=昨天 1=明天 -2 2 -3...
+     * @param span   跨度 [day|week|month|year]
+     * @param start  开始时间 ("yyyyMMddHHmmss")
+     * @param end    结束时间 ("yyyyMMddHHmmss")
      * @return
      * @throws Exception
      */
@@ -93,9 +94,10 @@ public class StatisticsCustomerTypeController {
         return list;
     }
     /**
-     * 统计店铺到访顾客的趋势
+     * 店铺到访顾客-趋势
      *
-     * @param shopId 网站ID
+     * @param shopId 店铺ID
+     * @param period 时段周期 [时|日|周|月]
      * @param offset 偏移 0=当天 -1=昨天 1=明天 -2 2 -3...
      * @param span   跨度 [day|week|month|year]
      * @param start  开始时间 ("yyyyMMddHHmmss")

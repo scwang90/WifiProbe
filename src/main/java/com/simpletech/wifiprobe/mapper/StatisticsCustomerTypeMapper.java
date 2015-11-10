@@ -91,6 +91,17 @@ public interface StatisticsCustomerTypeMapper {
             "      ) AS t")
     List<LivenessValue> customerLiveness(@Param("idshop") String idshop, @Param("entry") int entry, @Param("min") int min, @Param("max") int max, @Param("start") Date start, @Param("end") Date end) throws Exception;
 
+        /**
+         * 统计顾客活跃度趋势
+         * @param idshop
+         * @param entry
+         * @param min
+         * @param max
+         * @param start
+         * @param end
+         * @return
+         * @throws Exception
+         */
     @Select("SELECT\n" +
             "  date,\n" +
             "  num\n" +

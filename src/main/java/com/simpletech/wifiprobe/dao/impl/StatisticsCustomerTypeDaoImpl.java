@@ -27,7 +27,7 @@ public class StatisticsCustomerTypeDaoImpl implements StatisticsCustomerTypeDao 
     @Autowired
     ShopMapper shopMapper;
     /**
-     * 新老用户
+     * 新老用户统计
      * @param idshop 网站ID
      * @param start  开始时间
      * @param end    结束时间
@@ -45,7 +45,7 @@ public class StatisticsCustomerTypeDaoImpl implements StatisticsCustomerTypeDao 
         return mapper.customerLiveness(idshop, entry, min, max, start, end);
     }
     /**
-     * 客户趋势统计
+     * 客户-趋势
      * @param idshop
      * @param start
      * @param end
@@ -80,6 +80,18 @@ public class StatisticsCustomerTypeDaoImpl implements StatisticsCustomerTypeDao 
         return list;
     }
 
+    /**
+     * 活跃度-趋势
+     * @param idshop 店铺ID
+     * @param period
+     * @param entry
+     * @param min
+     * @param max
+     * @param start
+     * @param end
+     * @return
+     * @throws Exception
+     */
     public List<LivenessTrendValue> livenessTrend(String idshop,Period period,int entry,int min, int max, Date start, Date end) throws Exception {
         List<LivenessTrendValue> list= new ArrayList<>();
 //        CustomerValue count=mapper.countCustomer(idshop,start,end);
@@ -105,6 +117,15 @@ public class StatisticsCustomerTypeDaoImpl implements StatisticsCustomerTypeDao 
         return list;
     }
 
+    /**
+     * 老顾客信息统计
+     * @param idshop
+     * @param entry
+     * @param start
+     * @param end
+     * @return
+     * @throws Exception
+     */
     public LivenessTrendValue countCustomer(String idshop, int entry,Date start, Date end)throws Exception{
         return mapper.countCustomer(idshop,entry,start,end);
     }

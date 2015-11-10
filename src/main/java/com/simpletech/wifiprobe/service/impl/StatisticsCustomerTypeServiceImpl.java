@@ -15,7 +15,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * 统计API Service 实现
+ * 顾客类型 Service 实现
  * Created by 树朾 on 2015/9/25.
  */
 @Service
@@ -26,6 +26,14 @@ public class StatisticsCustomerTypeServiceImpl implements StatisticsCustomerType
     @Autowired
     ShopDao shopDao;
 
+    /**
+     * 新老用户统计
+     * @param idshop 网站ID
+     * @param start  开始时间
+     * @param end    结束时间
+     * @return
+     * @throws Exception
+     */
     @Override
     public List<IsNewCustomerValue> customer(String idshop, Date start, Date end) throws Exception {
         Shop shop=shopDao.findById(idshop);
@@ -44,7 +52,7 @@ public class StatisticsCustomerTypeServiceImpl implements StatisticsCustomerType
     }
 
     /**
-     * 客户活跃度统计
+     * 客户活跃度-分布
      * @param idshop 网站ID
      * @param start  开始时间
      * @param end    结束时间
@@ -71,6 +79,14 @@ public class StatisticsCustomerTypeServiceImpl implements StatisticsCustomerType
 
                 for (LivenessValue value1 : list) {
 //                    total+=value1.getNum();
+                    if(lastValue==0){
+                        value.setLive("<="+Integer.parseInt(_count));
+                    }
+                    if(Integer.parseInt(_count)==Integer.MAX_VALUE){
+                        value.setLive(">="+lastValue);
+                    }else if((lastValue!=Integer.parseInt(_count))&&lastValue!=0) {
+                        value.setLive(lastValue + "-" + _count);
+                    }
                     value.setNum(value1.getNum());
                     if(countCustomer.getNum()==0){
                         value.setRate(1f * 0);
@@ -90,6 +106,16 @@ public class StatisticsCustomerTypeServiceImpl implements StatisticsCustomerType
         return values;
     }
 
+    /**
+     * 活跃度-趋势
+     * @param idshop
+     * @param level 活跃度范围 high|middle|low|sleep|deepSleep
+     * @param period
+     * @param start
+     * @param end
+     * @return
+     * @throws Exception
+     */
     public List<LivenessTrendValue> livenessTrend(String idshop,Level level, Period period,Date start, Date end) throws Exception {
         List<LivenessTrendValue> values = new ArrayList<>();
         Shop shop = shopDao.findById(idshop);
@@ -179,7 +205,7 @@ public class StatisticsCustomerTypeServiceImpl implements StatisticsCustomerType
         return values;
     }
     /**
-     * 客户趋势统计
+     * 到访顾客-趋势
      * @param idshop 网站ID
      * @param period 时段周期 [时|日|周|月]
      * @param start  开始时间
