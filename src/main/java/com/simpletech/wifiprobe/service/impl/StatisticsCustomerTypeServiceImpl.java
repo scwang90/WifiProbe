@@ -106,7 +106,6 @@ public class StatisticsCustomerTypeServiceImpl implements StatisticsCustomerType
                 case high:
                     List<LivenessTrendValue> list=dao.livenessTrend(idshop, period, shop.getConfigApiVisitDurationEnter().intValue(), lastValue * 24 * 60 * 60, Integer.parseInt(counts[0]) * 24 * 60 * 60, start, end);
                     for(LivenessTrendValue value : list){
-//                        total+=value.getNum();
                         value.setRemark("high");
                         if(countCustomer.getNum()!=0){
                             System.out.println(countCustomer.getNum());
