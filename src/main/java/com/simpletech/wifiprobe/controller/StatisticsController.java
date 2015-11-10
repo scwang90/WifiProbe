@@ -1,7 +1,9 @@
 package com.simpletech.wifiprobe.controller;
 
 import com.simpletech.wifiprobe.model.constant.Period;
+import com.simpletech.wifiprobe.model.constant.RankingType;
 import com.simpletech.wifiprobe.model.entity.DurationTrendValue;
+import com.simpletech.wifiprobe.model.entity.EntryTrendValue;
 import com.simpletech.wifiprobe.model.entity.TrendValue;
 import com.simpletech.wifiprobe.service.StatisticsService;
 import com.simpletech.wifiprobe.util.AfReflecter;
@@ -159,7 +161,30 @@ public class StatisticsController {
     public Object visitEntryTrend(@PathVariable String shopId, @PathVariable Period period, Integer offset, Period span, Date start, Date end) throws Exception {
         end = timeEnd(end, span, offset);
         start = timeStart(start, span, offset);
-        return service.visitEntryTrend(shopId, period, start, end);
+        this.doCheckPeriod(period, start, end);
+        List<EntryTrendValue> list = service.visitEntryTrend(shopId, period, start, end);
+        list = fulldata(list, period.getFormat(), period.getField(), start, end, EntryTrendValue.class);
+        return list;
+    }
+
+    /**
+     * 店铺-设备品牌-排行
+     *
+     * @param shopId 网站ID
+     * @param ranktype 排序类型 按 vt|uv|ip|pv
+     * @param offset   偏移 0=当天 -1=昨天 1=明天 -2 2 -3...
+     * @param span     跨度 [day|week|month|year]
+     * @param start    开始时间 ("yyyyMMddHHmmss")
+     * @param end      结束时间 ("yyyyMMddHHmmss")
+     * @param limit    分页限制
+     * @param skip     分页起始
+     * @return 排行数据
+     */
+    @RequestMapping("shop/{shopId}/device/brand/ranking/{ranktype:vt|uv|pv}/{limit:\\d+}/{skip:\\d+}")
+    public Object deviceBrandRanking(@PathVariable String shopId, @PathVariable RankingType ranktype, @PathVariable int limit, @PathVariable int skip, Integer offset, Period span, Date start, Date end) throws Exception {
+        end = timeEnd(end, span, offset);
+        start = timeStart(start, span, offset);
+        return service.deviceBrandRanking(shopId, ranktype, start, end, limit, skip);
     }
 
     /**
@@ -271,18 +296,4 @@ public class StatisticsController {
         return map;
     }
 
-    /**
-     * 把 int shopId 转成 string idshop
-     *
-     * @param shopId  网站ID
-     * @param subshop 子项目
-     * @return idshop
-     */
-    private String getIdSite(int shopId, String subshop) {
-        if (AfStringUtil.isNotEmpty(subshop)) {
-            String format = "%d AND idsubshop='%s'";
-            return String.format(format, shopId, subshop);
-        }
-        return String.valueOf(shopId);
-    }
 }

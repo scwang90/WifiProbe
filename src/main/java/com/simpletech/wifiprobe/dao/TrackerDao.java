@@ -32,6 +32,13 @@ public interface TrackerDao {
     Visit findLastVistByMacAndShop(String idshop, String mac) throws Exception;
 
     /**
+     * 根据店铺ID和mac获取上一次 VisitWifi
+     * @param idshop 店铺ID
+     * @param mac mac地址
+     */
+    VisitWifi findLastVisitWifiByMacAndShop(String idshop, String mac) throws Exception;
+
+    /**
      * 插入一条新Visit数据
      * @param visit 添加的数据
      * @return 改变行数

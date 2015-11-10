@@ -1,6 +1,8 @@
 package com.simpletech.wifiprobe.service.impl;
 
 import com.simpletech.wifiprobe.dao.TrackerDao;
+import com.simpletech.wifiprobe.mac.MacBrand;
+import com.simpletech.wifiprobe.mac.MacBrandMemory;
 import com.simpletech.wifiprobe.model.MacLog;
 import com.simpletech.wifiprobe.model.Shop;
 import com.simpletech.wifiprobe.model.Visit;
@@ -33,12 +35,11 @@ public class TrackerServiceImpl implements TrackerService {
         Date now = new Date();
         Shop shop = dao.findShopByFiwiId(log.getIdwifi());
         if (shop != null) {
-            MacLog last = dao.findLastLogByMacAndShop(shop.getId(), log.getMacDevice());
             String idvisit = "";
             String idvisitwifi = "";
-            if (log.getSignalStrength() >= (90 - 30) * shop.getConfigVisitSignal() / 100 - 90) {//信号过滤
-                if (last == null || AfStringUtil.isEmpty(last.getIdvisit()) || last.getCreateTime().getTime() < now.getTime() - shop.getConfigVisitExpired() * 60 * 1000) {
-                    Visit lastVist = dao.findLastVistByMacAndShop(shop.getId(), log.getMacDevice());
+            if (log.getSignalStrength() >= (100 - 30) * shop.getConfigVisitSignal() / 100 - 100) {//信号过滤
+                Visit lastVist = dao.findLastVistByMacAndShop(shop.getId(), log.getMacDevice());
+                if (lastVist == null || lastVist.getTimeLeave().getTime() < now.getTime() - shop.getConfigVisitExpired() * 60 * 1000) {
                     Visit visit = new Visit();
                     visit.setMacDevice(log.getMacDevice());
                     visit.setIdwifi(log.getIdwifi());
@@ -51,22 +52,20 @@ public class TrackerServiceImpl implements TrackerService {
                     visit.setTimeFromLast((int) ((now.getTime() - ((lastVist != null)?lastVist.getCreateTime().getTime():now.getTime()))/1000));//除以1000换算成秒
                     visit.setTimeDuration(0);
                     visit.setCountLogs(1);
-                    visit.setEndBrand(log.getMacDevice().replace(":", "").substring(0, 6).toUpperCase());
+                    visit.setEndBrand(MacBrandMemory.parserBrandMac(log.getMacDevice()));
                     visit.setIsNewUser((lastVist == null || lastVist.getCreateTime().getTime() < now.getTime() - shop.getConfigUserExpired() * 24 * 60 * 60 * 1000));
                     dao.insertVisit(visit);
                     idvisit = visit.getId();
                 } else {
-                    idvisit = last.getIdvisit();
-//                Visit visit = dao.findVisitById(last.getIdvisit());
-//                visit.setEndTime(now);
-//                visit.setStayTime((int) (now.getTime() - visit.getCreateTime().getTime()));
-//                visit.setCountLogs(visit.getCountLogs() + 1);
-//                dao.updateVisit(visit);
-                    dao.updateVisitByMacLog(last);
+                    idvisit = lastVist.getId();
+                    MacLog macLog = new MacLog();
+                    macLog.setIdvisit(idvisit);
+                    dao.updateVisitByMacLog(macLog);
                 }
             }
-            if (log.getSignalStrength() >= (90 - 30) * shop.getConfigVisitSignalWifi() / 100 - 90) {//信号过滤
-                if (last == null || AfStringUtil.isEmpty(last.getIdvisitwifi()) || last.getCreateTime().getTime() < now.getTime() - shop.getConfigVisitExpiredWifi() * 60 * 1000) {
+            if (log.getSignalStrength() >= (100 - 30) * shop.getConfigVisitSignalWifi() / 100 - 100) {//信号过滤
+                VisitWifi lastVist = dao.findLastVisitWifiByMacAndShop(shop.getId(), log.getMacDevice());
+                if (lastVist == null || lastVist.getTimeLeave().getTime() < now.getTime() - shop.getConfigVisitExpiredWifi() * 60 * 1000) {
                     VisitWifi visit = new VisitWifi();
                     visit.setMacDevice(log.getMacDevice());
                     visit.setIdwifi(log.getIdwifi());
@@ -81,8 +80,10 @@ public class TrackerServiceImpl implements TrackerService {
                     dao.insertVisitWifi(visit);
                     idvisitwifi = visit.getId();
                 } else {
-                    idvisitwifi = last.getIdvisitwifi();
-                    dao.updateVisitWifiByMacLog(last);
+                    idvisitwifi = lastVist.getId();
+                    MacLog macLog = new MacLog();
+                    macLog.setIdvisitwifi(idvisitwifi);
+                    dao.updateVisitWifiByMacLog(macLog);
                 }
             }
 
@@ -90,6 +91,8 @@ public class TrackerServiceImpl implements TrackerService {
             log.setIdvisitwifi(idvisitwifi);
             log.setIdshop(shop.getId());
             dao.insertMacLog(log);
+        } else {
+            System.out.println("无效WifiId：" + log.getIdwifi());
         }
     }
 

@@ -41,28 +41,20 @@ public interface TrackerMapper {
     Visit findLastVistByMacAndShop(@Param("idshop") String idshop, @Param("mac") String mac) throws Exception;
 
     /**
+     * 根据店铺ID和mac获取上一次 VisitWifi
+     * @param idshop 店铺ID
+     * @param mac mac地址
+     */
+    @Select("SELECT id , idshop , idwifi , mac_device macDevice , time_entry timeEntry , time_leave timeLeave , time_duration timeDuration , count_logs countLogs , create_time createTime , update_time updateTime FROM t_visit_wifi WHERE idshop=#{idshop} AND mac_device=#{mac} ORDER BY create_time DESC LIMIT 0,1 ")
+    VisitWifi findLastVisitWifiByMacAndShop(String idshop, String mac) throws Exception;
+
+    /**
      * 插入一条新visit数据
      * @param visit 添加的数据
      * @return 改变的行数
      */
     @Insert("INSERT INTO t_visit ( id , idshop , idwifi , mac_device , end_brand , time_entry , time_leave , time_duration , time_from_last , is_new_user , count_logs , create_time , update_time ) VALUES ( #{id} , #{idshop} , #{idwifi} , #{macDevice} , #{endBrand} , NOW() , NOW() , 0 , #{timeFromLast}, #{isNewUser} , 1 , NOW() , NOW() )")
     int insertVisit(Visit visit) throws Exception;
-
-//    /**
-//     * 根据ID获取
-//     * @param idvisit 主键ID
-//     * @return null 或者 主键等于id的数据
-//     */
-//    @Select("SELECT id , idshop , idwifi , mac_device macDevice , time_entry timeEntry , time_leave timeLeave , time_duration timeDuration , is_new_user isNewUser , count_logs countLogs , create_time createTime , update_time updateTime FROM t_visit WHERE id=#{id}")
-//    Visit findVisitById(@Param("id") String idvisit) throws Exception;
-//
-//    /**
-//     * 更新一条visit数据
-//     * @param visit 需要更新数据
-//     * @return 改变行数
-//     */
-//    @Update("UPDATE t_visit SET idshop=#{idshop} , idwifi=#{idwifi} , mac_device=#{macDevice} , time_entry=#{timeEntry} , time_leave=#{timeLeave} , time_duration=#{timeDuration} , is_new_user=#{isNewUser} , count_logs=#{countLogs} , update_time=NOW() WHERE id=#{id} ")
-//    int updateVisit(Visit visit) throws Exception;
 
     /**
      * 新的Log触发Visit更新

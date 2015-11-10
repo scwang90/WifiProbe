@@ -46,6 +46,7 @@ public class MacBrand {
                         brand.setModel(matcher.group(2));
                         brand.setCity(matcher.group(3));
                         brand.setCountry(matcher.group(4));
+                        break;
                     }
                 }
             }

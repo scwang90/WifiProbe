@@ -3,9 +3,11 @@ package com.simpletech.wifiprobe.service.impl;
 import com.simpletech.wifiprobe.dao.ShopDao;
 import com.simpletech.wifiprobe.dao.StatisticsDao;
 import com.simpletech.wifiprobe.mac.MacBrand;
+import com.simpletech.wifiprobe.mac.MacBrandMemory;
 import com.simpletech.wifiprobe.model.Shop;
 import com.simpletech.wifiprobe.model.Visit;
 import com.simpletech.wifiprobe.model.constant.Period;
+import com.simpletech.wifiprobe.model.constant.RankingType;
 import com.simpletech.wifiprobe.model.entity.*;
 import com.simpletech.wifiprobe.service.StatisticsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,8 +50,8 @@ public class StatisticsServiceImpl implements StatisticsService {
             String[] counts = count.split(",");
             int lastValue = 1, total = 0;
             for (String _count : counts) {
-                FrequencyMapValue value = new FrequencyMapValue(lastValue, Integer.valueOf(_count),"次");
-                value.setNum(dao.visitFrequencyMap(idshop,(int)(shop.getConfigApiVisitDurationEnter()*60), lastValue, Integer.parseInt(_count), start, end));
+                FrequencyMapValue value = new FrequencyMapValue(lastValue, Integer.valueOf(_count), "次");
+                value.setNum(dao.visitFrequencyMap(idshop, (int) (shop.getConfigApiVisitDurationEnter() * 60), lastValue, Integer.parseInt(_count), start, end));
 
                 if (_count.equals(Integer.MAX_VALUE)) {
                     if (value.getNum() > 0) {
@@ -125,8 +127,8 @@ public class StatisticsServiceImpl implements StatisticsService {
             int total = 0;
             float lastValue = 0;
             for (String durate : durations) {
-                DurationMapValue value = new DurationMapValue(lastValue,Float.parseFloat(durate),"分钟");
-                value.setNum(dao.visitDurationMap(idshop, (int)(lastValue * 60), (int)(Float.parseFloat(durate) * 60), start, end));
+                DurationMapValue value = new DurationMapValue(lastValue, Float.parseFloat(durate), "分钟");
+                value.setNum(dao.visitDurationMap(idshop, (int) (lastValue * 60), (int) (Float.parseFloat(durate) * 60), start, end));
 
                 if (durate.equals(Integer.MAX_VALUE)) {
                     if (value.getNum() > 0) {
@@ -161,7 +163,7 @@ public class StatisticsServiceImpl implements StatisticsService {
             list.add((Integer.MAX_VALUE / 24 / 60 / 60) * 24 * 60 * 60);
             while (list.size() > 0) {
                 Integer avgperiod = list.get(0);
-                if (avgperiod <= (int)(indexValue * 24 * 60 * 60)) {
+                if (avgperiod <= (int) (indexValue * 24 * 60 * 60)) {
                     if (avgperiod < Integer.MAX_VALUE) {
                         value.setNum(value.getNum() + 1);
                     }
@@ -253,5 +255,18 @@ public class StatisticsServiceImpl implements StatisticsService {
             }
         }
         return list;
+    }
+
+    @Override
+    public List<DeviceBrandValue> deviceBrandRanking(String idshop, RankingType ranktype, Date start, Date end, int limit, int skip) throws Exception {
+        Shop shop = shopDao.findById(idshop);
+        if (shop != null) {
+            List<DeviceBrandValue> list = dao.deviceBrand(idshop, (int) (shop.getConfigApiVisitDurationEnter() * 60), ranktype.name(), start, end, limit, skip);
+            for (DeviceBrandValue value : list) {
+                value.setName(MacBrandMemory.parser(value.getName()));
+            }
+            return list;
+        }
+        return new ArrayList<>();
     }
 }

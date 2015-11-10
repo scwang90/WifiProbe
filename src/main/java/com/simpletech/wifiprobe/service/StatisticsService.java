@@ -2,6 +2,7 @@ package com.simpletech.wifiprobe.service;
 
 import com.simpletech.wifiprobe.model.Visit;
 import com.simpletech.wifiprobe.model.constant.Period;
+import com.simpletech.wifiprobe.model.constant.RankingType;
 import com.simpletech.wifiprobe.model.entity.*;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -87,4 +88,18 @@ public interface StatisticsService {
      * @return 统计数据
      */
     List<EntryTrendValue> visitEntryTrend(String idshop, Period period, Date start, Date end) throws Exception;
+
+
+    /**
+     * 店铺-设备品牌-排行
+     *
+     * @param idshop 网站ID
+     * @param ranktype 排序类型 按 vt|uv|pv
+     * @param start    开始时间
+     * @param end      结束时间
+     * @param limit    分页限制
+     * @param skip     分页起始
+     * @return 排行数据
+     */
+    List<DeviceBrandValue> deviceBrandRanking(String idshop, RankingType ranktype, Date start, Date end, int limit, int skip) throws Exception;
 }

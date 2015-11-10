@@ -33,7 +33,7 @@ public class TrackerController {
     /**
      * 接收探针日志数据
      *
-     * @param body JSON 数据 {data:[{time:"2015-08-13 14:53:23",rssi:-78,mac:"14:f6:5a:90:a6:63",id:"B068B6FFB1C4"},...]}
+     * @param body JSON 数据 {data:[{time:"",rssi:-78,mac:"14:f6:5a:90:a6:63",id:"B068B6FFB1C4"},...]}
      */
     @RequestMapping("mac/log")
     public Object maclog(@RequestBody HashMap body) throws Exception {
@@ -50,7 +50,11 @@ public class TrackerController {
                 }
                 log.setMacDevice(item.get("mac").toString().trim());
                 log.setSignalStrength(Integer.parseInt(item.get("rssi").toString().trim()));
-                log.setLocalTime(format.parse(item.get("time").toString().trim()));
+                try {
+                    log.setLocalTime(format.parse(item.get("time").toString().trim()));
+                } catch (Exception e) {
+                    log.setLocalTime(new Date());
+                }
                 log.setUpdateTime(new Date());
                 log.setCreateTime(new Date());
                 log.fillNullID();
