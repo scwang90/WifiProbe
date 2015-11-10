@@ -50,4 +50,12 @@ public class CustomerTrendValue extends TrendValue{
     public void setRov(float rov) {
         this.rov = rov;
     }
+
+    @Override
+    public void setEmpty() {
+//        this.setOv(0);
+//        this.setOv(0);
+//        this.setOv(0);
+//        this.setOv(0);
+    }
 }

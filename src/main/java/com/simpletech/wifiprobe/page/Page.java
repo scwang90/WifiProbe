@@ -14,16 +14,17 @@ import java.util.List;
 public class Page {
     /**
      * 对数据集中的数据分页显示（假分页）
+     *
      * @param list
      * @param limit
      * @param skip
      * @return
      */
-    public List<BrandValue> paging(List<BrandValue> list,int limit,int skip)throws Exception{
-        List<BrandValue> pageList=new ArrayList<>();
+    public List<BrandValue> paging(List<BrandValue> list, int limit, int skip) throws Exception {
+        List<BrandValue> pageList = new ArrayList<>();
         int totalCount = list.size();//数据总数
 
-        int pageCount = 0;//总的页数
+        int pageCount;//总的页数
         int endNum = limit;//每页显示的条数
 
         int startNum = skip;//当前页码
@@ -32,14 +33,13 @@ public class Page {
         if (totalCount % endNum > 0) //数据总数和每页显示的总数不能整除的情况
         {
             pageCount = totalCount / endNum + 1;
-        }
-        else   //数据总数和每页显示的总数能整除的情况
+        } else   //数据总数和每页显示的总数能整除的情况
         {
             pageCount = totalCount / endNum;
         }
-        if(totalCount > 0) {
+        if (totalCount > 0) {
             if (startNum <= pageCount) {
-                if (startNum == 1)     //当前页数为第一页
+                if (startNum == 0)     //当前页数为第一页
                 {
                     if (totalCount <= endNum)  //数据总数小于每页显示的数据条数
                     {
@@ -50,21 +50,21 @@ public class Page {
                     }
                 } else {
                     //截取起始下标
-                    int fromIndex = (startNum - 1) * endNum;
+                    int fromIndex = (startNum) * endNum;
                     //截取截止下标
-                    int toIndex = startNum * endNum;
+                    int toIndex = (startNum + 1) * endNum;
                     /*计算截取截止下标*/
                     if ((totalCount - toIndex) % endNum >= 0) {
-                        toIndex = startNum * endNum;
+                        toIndex = (startNum + 1) * endNum;
                     } else {
-                        toIndex = (startNum - 1) * endNum + (totalCount % endNum);
+                        toIndex = (startNum + 1) * endNum + (totalCount % endNum);
                     }
                     if (totalCount >= toIndex) {
                         pageList = list.subList(fromIndex, toIndex);
                     }
                 }
             } else {
-                throw new ServiceException("分页超出限制，请调整显示条数或页数，起始页为1 ！");
+                throw new ServiceException("分页超出限制，请调整显示条数或页数！");
             }
         }
         return pageList;

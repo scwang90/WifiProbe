@@ -1,8 +1,7 @@
 package com.simpletech.wifiprobe.model.entity;
 
-
 /**
- * WifiProbe
+ * 顾客活跃度趋势类
  * Created by ChenQi on 2015/11/4 10:36.
  */
 public class LivenessTrendValue extends TrendValue{
@@ -18,6 +17,7 @@ public class LivenessTrendValue extends TrendValue{
     }
 
     public void setNum(Integer num) {
+
         this.num = num;
     }
 
@@ -35,5 +35,11 @@ public class LivenessTrendValue extends TrendValue{
 
     public void setRate(float rate) {
         this.rate = rate;
+    }
+
+    @Override
+    public void setEmpty() {
+        this.setRemark("");
+        this.setNum(0);
     }
 }

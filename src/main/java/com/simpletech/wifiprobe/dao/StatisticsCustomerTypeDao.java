@@ -14,7 +14,7 @@ import java.util.List;
 public interface StatisticsCustomerTypeDao {
 
 	/**
-	 * 新老用户
+	 * 新老用户统计
 	 *
 	 * @param idshop 网站ID
 	 * @param start  开始时间
@@ -25,7 +25,7 @@ public interface StatisticsCustomerTypeDao {
 
 
 	/**
-	 * 老顾客活跃度
+	 * 老顾客活跃度-分布
 	 * @param idshop
 	 * @param start
 	 * @param end
@@ -35,7 +35,7 @@ public interface StatisticsCustomerTypeDao {
 	List<LivenessValue> customerLiveness(String idshop,int entry, int min, int max, Date start, Date end) throws Exception;
 
 	/**
-	 * 顾客趋势
+	 * 顾客-趋势
 	 * @param idshop
 	 * @param start
 	 * @param end
@@ -44,10 +44,22 @@ public interface StatisticsCustomerTypeDao {
 	 */
 	List<CustomerTrendValue> customerTrend(String idshop, Period period, Date start, Date end) throws Exception;
 
+	/**
+	 * 顾客活跃度-趋势
+	 * @param idshop
+	 * @param period
+	 * @param entry
+	 * @param min
+	 * @param max
+	 * @param start
+	 * @param end
+	 * @return
+	 * @throws Exception
+	 */
 	List<LivenessTrendValue> livenessTrend(String idshop, Period period, int entry,int min, int max,Date start, Date end) throws Exception;
 
 	/**
-	 * 汇总顾客信息
+	 * 老顾客信息统计
 	 * @param idshop
 	 * @param start
 	 * @param end
