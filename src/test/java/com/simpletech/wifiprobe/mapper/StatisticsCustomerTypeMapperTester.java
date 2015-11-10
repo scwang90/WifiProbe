@@ -38,7 +38,7 @@ public class StatisticsCustomerTypeMapperTester {
 	}
 	@Test
 	public void countCustomer() throws Exception{
-		Object result = mapper.countCustomer("1", monthf.parse("2015-11-6"), monthf.parse("2015-11-30"));
+		Object result = mapper.countCustomer("1",1, monthf.parse("2015-11-6"), monthf.parse("2015-11-30"));
 		System.out.println(JacksonUtil.toJson(result).replace("{","\n{"));
 	}
 	@Test

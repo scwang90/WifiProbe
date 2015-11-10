@@ -54,5 +54,5 @@ public interface StatisticsCustomerTypeDao {
 	 * @return
 	 * @throws Exception
 	 */
-	CustomerValue countCustomer(String idshop, Date start, Date end) throws Exception;
+	LivenessTrendValue countCustomer(String idshop, int entry, Date start, Date end) throws Exception;
 }

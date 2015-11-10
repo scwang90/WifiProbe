@@ -1,6 +1,7 @@
 package com.simpletech.wifiprobe.service;
 
 import com.simpletech.wifiprobe.aspect.LoggingAspect;
+import com.simpletech.wifiprobe.model.constant.Level;
 import com.simpletech.wifiprobe.model.constant.Period;
 import com.simpletech.wifiprobe.util.JacksonUtil;
 import org.junit.Before;
@@ -44,7 +45,7 @@ public class StatisticsCustomerTypeServiceTester {
 	}
 	@Test
 	public void livenessTrendHour() throws Exception{
-		Object result = service.livenessTrend("1", Period.month, monthf.parse("2015-11-06"), monthf.parse("2015-11-30"));
+		Object result = service.livenessTrend("1", Level.high, Period.day, monthf.parse("2015-11-06"), monthf.parse("2015-11-30"));
 		System.out.println(JacksonUtil.toJson(result).replace("{","\n{"));
 	}
 	@Test

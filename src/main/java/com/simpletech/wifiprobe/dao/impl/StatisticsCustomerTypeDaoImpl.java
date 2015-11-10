@@ -105,8 +105,8 @@ public class StatisticsCustomerTypeDaoImpl implements StatisticsCustomerTypeDao 
         return list;
     }
 
-    public CustomerValue countCustomer(String idshop, Date start, Date end)throws Exception{
-        return mapper.countCustomer(idshop,start,end);
+    public LivenessTrendValue countCustomer(String idshop, int entry,Date start, Date end)throws Exception{
+        return mapper.countCustomer(idshop,entry,start,end);
     }
 }
 

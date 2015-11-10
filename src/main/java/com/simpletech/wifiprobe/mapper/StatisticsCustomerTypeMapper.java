@@ -49,8 +49,17 @@ public interface StatisticsCustomerTypeMapper {
      * @param end    结束时间
      * @return 数据总量
      */
-    @Select("SELECT COUNT(id) vt,COUNT(DISTINCT mac_device) uv,SUM(is_new_user) nv,SUM(count_logs) pv  FROM t_visit WHERE idshop=#{idshop} AND (create_time BETWEEN #{start} AND #{end}) ")
-    CustomerValue countCustomer(@Param("idshop") String idshop, @Param("start") Date start, @Param("end") Date end) throws Exception;
+//    @Select("SELECT COUNT(id) num,COUNT(DISTINCT mac_device) uv,SUM(is_new_user) nv,SUM(count_logs) pv  FROM t_visit WHERE idshop=#{idshop} AND (create_time BETWEEN #{start} AND #{end}) ")
+    @Select("SELECT\n" +
+            "  COUNT(id)                  num\n" +
+            "\n" +
+            "FROM t_visit\n" +
+            "WHERE\n" +
+            "  idshop = #{idshop}\n" +
+            "    AND time_duration>=#{entry}\n" +
+            "    AND is_new_user<>1\n" +
+            "  AND (create_time BETWEEN #{start} AND #{end})")
+    LivenessTrendValue countCustomer(@Param("idshop") String idshop, @Param("entry") int entry,@Param("start") Date start, @Param("end") Date end) throws Exception;
 
     /**
      * 统计老客户活跃度

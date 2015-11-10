@@ -1,5 +1,6 @@
 package com.simpletech.wifiprobe.service;
 
+import com.simpletech.wifiprobe.model.constant.Level;
 import com.simpletech.wifiprobe.model.constant.Period;
 import com.simpletech.wifiprobe.model.entity.*;
 
@@ -41,7 +42,7 @@ public interface StatisticsCustomerTypeService {
      * @return
      * @throws Exception
      */
-    List<LivenessTrendValue> livenessTrend(String idshop, Period period,Date start, Date end) throws Exception;
+    List<LivenessTrendValue> livenessTrend(String idshop,Level level, Period period,Date start, Date end) throws Exception;
 
     /**
      * 用户趋势

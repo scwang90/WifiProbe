@@ -1,5 +1,6 @@
 package com.simpletech.wifiprobe.controller;
 
+import com.simpletech.wifiprobe.model.constant.Level;
 import com.simpletech.wifiprobe.model.constant.Period;
 import com.simpletech.wifiprobe.model.entity.*;
 import com.simpletech.wifiprobe.service.StatisticsCustomerTypeService;
@@ -82,12 +83,12 @@ public class StatisticsCustomerTypeController {
      * @return
      * @throws Exception
      */
-    @RequestMapping("shop/{shopId:\\d+}/customer/liveness/trend/{period:hour|day|week|month}")
-    public Object customerLivenessTrend(@PathVariable String shopId, @PathVariable Period period,Integer offset, Period span, Date start, Date end) throws Exception {
+    @RequestMapping("shop/{shopId:\\d+}/customer/liveness/trend/{level:high|middle|low|sleep}/{period:hour|day|week|month}")
+    public Object customerLivenessTrend(@PathVariable String shopId,  @PathVariable Level level,@PathVariable Period period,Integer offset, Period span, Date start, Date end) throws Exception {
         end = timeEnd(end, span, offset);
         start = timeStart(start, span, offset);
         this.doCheckPeriod(period, start, end);
-        List<LivenessTrendValue> list = service.livenessTrend(shopId, period, start, end);
+        List<LivenessTrendValue> list = service.livenessTrend(shopId,level, period, start, end);
         list = fulldata(list, period.getFormat(), period.getField(), start, end, LivenessTrendValue.class);
         return list;
     }

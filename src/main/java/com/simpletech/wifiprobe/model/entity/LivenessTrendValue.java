@@ -6,20 +6,12 @@ package com.simpletech.wifiprobe.model.entity;
  * Created by ChenQi on 2015/11/4 10:36.
  */
 public class LivenessTrendValue extends TrendValue{
-    private String live;    //活跃度
-    private Integer num;    //人数(老用户中当前活跃度人数)
-    private Float rate;     //占比
 
+    private Integer num;  //数量
+    private String remark;//标记
+    private float rate;   //占比
 
     public LivenessTrendValue(){}
-
-//    public String getLive() {
-//        return live;
-//    }
-//
-//    public void setLive(String live) {
-//        this.live = live;
-//    }
 
     public Integer getNum() {
         return num;
@@ -29,19 +21,19 @@ public class LivenessTrendValue extends TrendValue{
         this.num = num;
     }
 
-    public Float getRate() {
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
+    public float getRate() {
         return rate;
     }
 
-    public void setRate(Float rate) {
+    public void setRate(float rate) {
         this.rate = rate;
-    }
-
-    public String getLive() {
-        return live;
-    }
-
-    public void setLive(String live) {
-        this.live = live;
     }
 }
