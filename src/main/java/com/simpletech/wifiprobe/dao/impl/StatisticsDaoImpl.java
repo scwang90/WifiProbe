@@ -97,7 +97,7 @@ public class StatisticsDaoImpl implements StatisticsDao {
 
     @Override
     public List<DeviceBrandValue> deviceBrand(String idshop, int entry, String type, Date start, Date end, int limit, int skip) throws Exception {
-        return mapper.deviceBrand(idshop, entry, type, start, end, limit, skip);
+        return mapper.doDeviceBrand(idshop, entry, type, start, end, limit, skip);
     }
 }
 

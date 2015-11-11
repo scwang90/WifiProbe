@@ -296,5 +296,9 @@ public interface StatisticsMapper {
      * @return 设备品牌排行
      */
     @Select("SELECT end_brand name, COUNT(id) vt,COUNT(DISTINCT mac_device) uv,SUM(count_logs) pv FROM t_visit WHERE idshop=#{idshop} AND (time_entry BETWEEN #{start} AND #{end}) GROUP BY name ORDER BY ${type} DESC LIMIT ${skip},${limit}")
-    List<DeviceBrandValue> deviceBrand(@Param("idshop") String idshop, @Param("entry") int entry, @Param("type") String type, @Param("start") Date start, @Param("end") Date end, @Param("limit") int limit, @Param("skip") int skip) throws Exception;
+    List<DeviceBrandValue> doDeviceBrand(@Param("idshop") String idshop, @Param("entry") int entry, @Param("type") String type, @Param("start") Date start, @Param("end") Date end, @Param("limit") int limit, @Param("skip") int skip) throws Exception;
+
+
+        @Select("SELECT end_brand name, COUNT(id) vt,COUNT(DISTINCT mac_device) uv,SUM(count_logs) pv FROM t_visit GROUP BY name ORDER BY ${type} DESC LIMIT ${skip},${limit}")
+        List<DeviceBrandValue> doDeviceBrand(@Param("type") String type, @Param("limit") int limit, @Param("skip") int skip) throws Exception;
 }

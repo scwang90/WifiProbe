@@ -46,7 +46,7 @@ public interface TrackerMapper {
      * @param mac mac地址
      */
     @Select("SELECT id , idshop , idwifi , mac_device macDevice , time_entry timeEntry , time_leave timeLeave , time_duration timeDuration , count_logs countLogs , create_time createTime , update_time updateTime FROM t_visit_wifi WHERE idshop=#{idshop} AND mac_device=#{mac} ORDER BY create_time DESC LIMIT 0,1 ")
-    VisitWifi findLastVisitWifiByMacAndShop(String idshop, String mac) throws Exception;
+    VisitWifi findLastVisitWifiByMacAndShop(@Param("idshop") String idshop, @Param("mac") String mac) throws Exception;
 
     /**
      * 插入一条新visit数据
@@ -61,7 +61,7 @@ public interface TrackerMapper {
      * @param log Log数据
      * @return 改变行数
      */
-    @Update("UPDATE t_visit SET time_leave=NOW() , time_duration=TIMESTAMPDIFF(SECOND,time_entry,NOW()) , count_logs=count_logs+1 , update_time=#{updateTime} WHERE id=#{idvisit} ")
+    @Update("UPDATE t_visit SET time_leave=NOW() , time_duration=TIMESTAMPDIFF(SECOND,time_entry,NOW()) , count_logs=count_logs+1 , update_time=NOW() WHERE id=#{idvisit} ")
     int updateVisitByMacLog(MacLog log) throws Exception;
 
     /**
@@ -77,7 +77,7 @@ public interface TrackerMapper {
      * @param log Log数据
      * @return 改变行数
      */
-    @Update("UPDATE t_visit_wifi SET time_leave=NOW() , time_duration=TIMESTAMPDIFF(SECOND,time_entry,NOW()) , count_logs=count_logs+1 , update_time=#{updateTime} WHERE id=#{idvisitwifi} ")
+    @Update("UPDATE t_visit_wifi SET time_leave=NOW() , time_duration=TIMESTAMPDIFF(SECOND,time_entry,NOW()) , count_logs=count_logs+1 , update_time=NOW() WHERE id=#{idvisitwifi} ")
     int updateVisitWifiByMacLog(MacLog log) throws Exception;
 
     /**
