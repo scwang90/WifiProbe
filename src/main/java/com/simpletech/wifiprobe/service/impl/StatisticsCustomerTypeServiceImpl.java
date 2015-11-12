@@ -62,6 +62,7 @@ public class StatisticsCustomerTypeServiceImpl implements StatisticsCustomerType
     @Override
     public List<LivenessValue> customerLiveness(String idshop, Date start, Date end) throws Exception {
         List<LivenessValue> values = new ArrayList<>();
+        List<LivenessValue> ss = new ArrayList<>();
         Shop shop = shopDao.findById(idshop);
         int entry=shop.getConfigApiVisitDurationEnter().intValue();
         LivenessTrendValue countCustomer=dao.countCustomer(idshop,entry ,start, end);
@@ -69,7 +70,7 @@ public class StatisticsCustomerTypeServiceImpl implements StatisticsCustomerType
         if (shop != null) {
             String count = "" + shop.getConfigApiLiveness();
             count = count.matches("(\\d+,)+\\d+") ? count : "1,7,15,30";
-            count = count + "," + Integer.MAX_VALUE;
+//            count = count + "," + Integer.MAX_VALUE;
             String[] counts = count.split(",");
             int lastValue = 0,total=0;
             for (String _count : counts) {
@@ -81,9 +82,7 @@ public class StatisticsCustomerTypeServiceImpl implements StatisticsCustomerType
                     if(lastValue==0){
                         value.setLive("高活跃度顾客");
                     }
-                    if(Integer.parseInt(_count)==Integer.MAX_VALUE){
-                        value.setLive("深度沉睡顾客");
-                    }else if((lastValue!=Integer.parseInt(_count))&&lastValue!=0) {
+                     if((lastValue!=Integer.parseInt(_count))&&lastValue!=0) {
                         if(total>0&&total<=1){
                             value.setLive("中活跃度顾客");
                         }
@@ -92,6 +91,9 @@ public class StatisticsCustomerTypeServiceImpl implements StatisticsCustomerType
                         }
                         if(total>2&&total<=3){
                             value.setLive("沉睡顾客");
+                        }
+                        if(total>3){
+                            value.setLive("深度沉睡顾客");
                         }
                     }
                     value.setNum(value1.getNum());
@@ -109,6 +111,7 @@ public class StatisticsCustomerTypeServiceImpl implements StatisticsCustomerType
                 lastValue = Integer.parseInt(_count);
                 total++;
             }
+
         }
 
         return values;
