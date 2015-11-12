@@ -78,7 +78,6 @@ public class StatisticsCustomerTypeServiceImpl implements StatisticsCustomerType
                 List<LivenessValue> list=dao.customerLiveness(idshop,shop.getConfigApiVisitDurationEnter().intValue(), lastValue*24*60*60, Integer.parseInt(_count)*24*60*60, start, end);
 
                 for (LivenessValue value1 : list) {
-//                    total+=value1.getNum();
                     if(lastValue==0){
                         value.setLive("高活跃度顾客");
                     }
