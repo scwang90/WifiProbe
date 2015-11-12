@@ -1,4 +1,32 @@
-1.周期分布数据异常
-2.Shop MOdel 去掉周期过滤时长 换成驻店时长
-3.API除了客流、路过客户、统计都加行进店过滤
-4.驻店时长 深访跳出 的百分比
+NATIONAL
+2
+5
+Giantec
+2
+Telsey
+2
+Taiyo
+2
+Polycom
+ALCATEL
+2
+Lynx
+2
+4
+Newport
+Brooks
+2
+L-3 Communications
+Teletronics
+2
+NexGen
+4
+2
+Beyond
+NANJING
+2
+APOLLO
+2
+
+TOYODA
+2

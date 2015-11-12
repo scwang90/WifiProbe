@@ -3,6 +3,7 @@ package com.simpletech.wifiprobe.service;
 import com.simpletech.wifiprobe.aspect.LoggingAspect;
 import com.simpletech.wifiprobe.mapper.StatisticsMapper;
 import com.simpletech.wifiprobe.model.constant.Period;
+import com.simpletech.wifiprobe.model.constant.RankingType;
 import com.simpletech.wifiprobe.util.JacksonUtil;
 import org.junit.Before;
 import org.junit.Test;
@@ -66,6 +67,12 @@ public class StatisticsServiceTester {
 	@Test
 	public void visitEntryTrend() throws Exception{
 		Object result = service.visitEntryTrend("1", Period.day, monthf.parse("2015-11-0"), monthf.parse("2015-11-30"));
+		System.out.println(JacksonUtil.toJson(result).replace("{","\n{"));
+	}
+
+	@Test
+	public void deviceBrandRanking() throws Exception{
+		Object result = service.deviceBrandRanking("1", RankingType.pv, monthf.parse("2015-11-0"), monthf.parse("2015-11-30"), 100, 0);
 		System.out.println(JacksonUtil.toJson(result).replace("{","\n{"));
 	}
 }

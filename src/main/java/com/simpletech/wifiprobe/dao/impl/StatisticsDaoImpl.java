@@ -3,6 +3,7 @@ package com.simpletech.wifiprobe.dao.impl;
 import com.simpletech.wifiprobe.dao.StatisticsDao;
 import com.simpletech.wifiprobe.mapper.StatisticsMapper;
 import com.simpletech.wifiprobe.model.Visit;
+import com.simpletech.wifiprobe.model.entity.DeviceBrandValue;
 import com.simpletech.wifiprobe.model.entity.DurationSpanValue;
 import com.simpletech.wifiprobe.model.entity.DurationTrendValue;
 import com.simpletech.wifiprobe.model.entity.EntryTrendValue;
@@ -94,5 +95,9 @@ public class StatisticsDaoImpl implements StatisticsDao {
         return mapper.visitEntryTrendMonth(idshop, entry, start, end);
     }
 
+    @Override
+    public List<DeviceBrandValue> deviceBrand(String idshop, int entry, String type, Date start, Date end, int limit, int skip) throws Exception {
+        return mapper.doDeviceBrand(idshop, entry, type, start, end, limit, skip);
+    }
 }
 

@@ -36,6 +36,11 @@ public class TrackerDaoImpl implements TrackerDao {
     }
 
     @Override
+    public VisitWifi findLastVisitWifiByMacAndShop(String idshop, String mac) throws Exception {
+        return mapper.findLastVisitWifiByMacAndShop(idshop, mac);
+    }
+
+    @Override
     public int insertVisit(Visit visit) throws Exception {
         return mapper.insertVisit(visit);
     }

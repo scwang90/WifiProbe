@@ -20,11 +20,9 @@ public class MacBrandTester {
 
     @Test
     public void buildMapper() throws Exception {
-
         Pattern pattern = Pattern.compile("(\\S+)\\s{2,}\\(base 16\\)\\s{2,}(.+)", Pattern.CASE_INSENSITIVE);
         InputStream stream = ClassLoader.getSystemResourceAsStream("premac.txt");
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(stream))) {
-            //reader.readLine()
             try (PrintWriter writer = new PrintWriter(new FileWriter("premac.out.txt"))) {
                 String line;
                 while ((line = reader.readLine()) != null) {

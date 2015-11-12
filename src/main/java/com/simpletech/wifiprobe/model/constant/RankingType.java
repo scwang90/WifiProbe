@@ -5,5 +5,5 @@ package com.simpletech.wifiprobe.model.constant;
  * Created by 树朾 on 2015/10/8.
  */
 public enum RankingType {
-    vt,uv,ip,pv
+    vt,uv,pv
 }

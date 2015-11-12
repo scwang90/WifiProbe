@@ -61,8 +61,20 @@ public abstract class TrendValue {
             for (Field field : fields) {
                 if (!Modifier.isStatic(field.getModifiers())) {
                     field.setAccessible(true);
-                    if (field.getType().equals(String.class)){
-                        field.set(this,"");
+                    if (field.get(this) == null) {
+                        if (field.getType().equals(String.class)) {
+                            field.set(this, "");
+                        } else if (field.getType().equals(Integer.class) || field.getType().equals(int.class)){
+                            field.set(this,0);
+                        } else if (field.getType().equals(Long.class) || field.getType().equals(long.class)){
+                            field.set(this,0l);
+                        } else if (field.getType().equals(Float.class) || field.getType().equals(float.class)){
+                            field.set(this,0f);
+                        } else if (field.getType().equals(Double.class) || field.getType().equals(double.class)){
+                            field.set(this,0d);
+                        } else if (field.getType().equals(Boolean.class) || field.getType().equals(boolean.class)){
+                            field.set(this,false);
+                        }
                     }
                 }
             }

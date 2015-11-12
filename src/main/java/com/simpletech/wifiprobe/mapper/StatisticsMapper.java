@@ -1,6 +1,7 @@
 package com.simpletech.wifiprobe.mapper;
 
 import com.simpletech.wifiprobe.model.Visit;
+import com.simpletech.wifiprobe.model.entity.DeviceBrandValue;
 import com.simpletech.wifiprobe.model.entity.DurationSpanValue;
 import com.simpletech.wifiprobe.model.entity.DurationTrendValue;
 import com.simpletech.wifiprobe.model.entity.EntryTrendValue;
@@ -213,7 +214,7 @@ public interface StatisticsMapper {
             "  oentry / total roentry\n" +
             "FROM (\n" +
             "  SELECT\n" +
-            "    DATE_FORMAT(create_time, '%y%m%d')           date,\n" +
+            "    DATE_FORMAT(create_time, '%y%m%d%H')           date,\n" +
             "    COUNT(id)                                    total,\n" +
             "    SUM(time_duration >= #{entry})                    entry,\n" +
             "    SUM(time_duration < #{entry})                     past,\n" +
@@ -251,7 +252,7 @@ public interface StatisticsMapper {
             "  oentry / total roentry\n" +
             "FROM (\n" +
             "  SELECT\n" +
-            "    DATE_FORMAT(create_time, '%y%m%d')           date,\n" +
+            "    DATE_FORMAT(create_time, '%y-%u')           date,\n" +
             "    COUNT(id)                                    total,\n" +
             "    SUM(time_duration >= #{entry})                    entry,\n" +
             "    SUM(time_duration < #{entry})                     past,\n" +
@@ -270,7 +271,7 @@ public interface StatisticsMapper {
             "  oentry / total roentry\n" +
             "FROM (\n" +
             "  SELECT\n" +
-            "    DATE_FORMAT(create_time, '%y%m%d')           date,\n" +
+            "    DATE_FORMAT(create_time, '%y%m')           date,\n" +
             "    COUNT(id)                                    total,\n" +
             "    SUM(time_duration >= #{entry})                    entry,\n" +
             "    SUM(time_duration < #{entry})                     past,\n" +
@@ -281,4 +282,23 @@ public interface StatisticsMapper {
             "    AND (create_time BETWEEN #{start} AND #{end}) " +
             "    GROUP BY date) AS t")
     List<EntryTrendValue> visitEntryTrendMonth(@Param("idshop") String idshop, @Param("entry") int entry, @Param("start") Date start, @Param("end") Date end) throws Exception;
+
+    /**
+     * 设备品牌排行
+     *
+     * @param idshop 网站ID
+     * @param entry   入店标准
+     * @param type   排序规则
+     * @param start  开始时间
+     * @param end    结束时间
+     * @param limit  分页限制
+     * @param skip   分页起始
+     * @return 设备品牌排行
+     */
+    @Select("SELECT end_brand name, COUNT(id) vt,COUNT(DISTINCT mac_device) uv,SUM(count_logs) pv FROM t_visit WHERE idshop=#{idshop} AND (time_entry BETWEEN #{start} AND #{end}) GROUP BY name ORDER BY ${type} DESC LIMIT ${skip},${limit}")
+    List<DeviceBrandValue> doDeviceBrand(@Param("idshop") String idshop, @Param("entry") int entry, @Param("type") String type, @Param("start") Date start, @Param("end") Date end, @Param("limit") int limit, @Param("skip") int skip) throws Exception;
+
+
+        @Select("SELECT end_brand name, COUNT(id) vt,COUNT(DISTINCT mac_device) uv,SUM(count_logs) pv FROM t_visit GROUP BY name ORDER BY ${type} DESC LIMIT ${skip},${limit}")
+        List<DeviceBrandValue> doDeviceBrand(@Param("type") String type, @Param("limit") int limit, @Param("skip") int skip) throws Exception;
 }
