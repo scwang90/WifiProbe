@@ -80,12 +80,20 @@ public class StatisticsCustomerTypeServiceImpl implements StatisticsCustomerType
                 for (LivenessValue value1 : list) {
 //                    total+=value1.getNum();
                     if(lastValue==0){
-                        value.setLive("<="+Integer.parseInt(_count));
+                        value.setLive("高活跃度顾客");
                     }
                     if(Integer.parseInt(_count)==Integer.MAX_VALUE){
-                        value.setLive(">="+lastValue);
+                        value.setLive("深度沉睡顾客");
                     }else if((lastValue!=Integer.parseInt(_count))&&lastValue!=0) {
-                        value.setLive(lastValue + "-" + _count);
+                        if(total>0&&total<=1){
+                            value.setLive("中活跃度顾客");
+                        }
+                        if(total>1&&total<=2){
+                            value.setLive("低活跃度顾客");
+                        }
+                        if(total>2&&total<=3){
+                            value.setLive("沉睡顾客");
+                        }
                     }
                     value.setNum(value1.getNum());
                     if(countCustomer.getNum()==0){
@@ -100,6 +108,7 @@ public class StatisticsCustomerTypeServiceImpl implements StatisticsCustomerType
 
                 }
                 lastValue = Integer.parseInt(_count);
+                total++;
             }
         }
 
