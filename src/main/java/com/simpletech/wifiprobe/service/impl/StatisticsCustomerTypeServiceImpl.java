@@ -150,7 +150,6 @@ public class StatisticsCustomerTypeServiceImpl implements StatisticsCustomerType
                         }else{
                             value.setRate(1f * 0);
                         }
-//                        value.setRate(value.getNum()/countCustomer.getNum());
 
                         values.add(value);
                     }
