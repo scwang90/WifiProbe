@@ -39,7 +39,7 @@ public interface StatisticsCustomerTypeMapper {
             "            AND (create_time BETWEEN #{start} AND  #{end})\n" +
             "      GROUP BY is_new_user) AS t"
     )
-    List<IsNewCustomerValue> customer(@Param("idshop") String idshop, @Param("entry") float entry, @Param("start") Date start, @Param("end") Date end) throws Exception;
+    List<IsNewCustomerValue> customer(@Param("idshop") String idshop, @Param("entry") int entry, @Param("start") Date start, @Param("end") Date end) throws Exception;
 
     /**
      * 统计总量（visit|uv|pv）
@@ -59,7 +59,7 @@ public interface StatisticsCustomerTypeMapper {
             "    AND time_duration>=#{entry}\n" +
             "    AND is_new_user<>1\n" +
             "  AND (create_time BETWEEN #{start} AND #{end})")
-    LivenessTrendValue countCustomer(@Param("idshop") String idshop, @Param("entry") float entry,@Param("start") Date start, @Param("end") Date end) throws Exception;
+    LivenessTrendValue countCustomer(@Param("idshop") String idshop, @Param("entry") int entry,@Param("start") Date start, @Param("end") Date end) throws Exception;
 
     /**
      * 统计老客户活跃度
@@ -89,7 +89,7 @@ public interface StatisticsCustomerTypeMapper {
             "            AND(time_from_last>=#{min} AND time_from_last<=#{max})\n" +
             "            AND (create_time BETWEEN #{start} AND  #{end})\n" +
             "      ) AS t")
-    List<LivenessValue> customerLiveness(@Param("idshop") String idshop, @Param("entry") float entry, @Param("min") float min, @Param("max") float max, @Param("start") Date start, @Param("end") Date end) throws Exception;
+    List<LivenessValue> customerLiveness(@Param("idshop") String idshop, @Param("entry") int entry, @Param("min") int min, @Param("max") int max, @Param("start") Date start, @Param("end") Date end) throws Exception;
 
         /**
          * 统计顾客活跃度趋势
@@ -116,7 +116,7 @@ public interface StatisticsCustomerTypeMapper {
             "            AND (create_time BETWEEN #{start} AND  #{end})\n" +
             "            GROUP BY date\n" +
             "      ) AS t")
-    List<LivenessTrendValue> livenessTrendHour(@Param("idshop") String idshop, @Param("entry") float entry, @Param("min") float min, @Param("max") float max, @Param("start") Date start, @Param("end") Date end) throws Exception;
+    List<LivenessTrendValue> livenessTrendHour(@Param("idshop") String idshop, @Param("entry") int entry, @Param("min") int min, @Param("max") int max, @Param("start") Date start, @Param("end") Date end) throws Exception;
 
     @Select("SELECT\n" +
             "  date,\n" +
@@ -132,7 +132,7 @@ public interface StatisticsCustomerTypeMapper {
             "            AND (create_time BETWEEN #{start} AND  #{end})\n" +
             "            GROUP BY date\n" +
             "      ) AS t")
-    List<LivenessTrendValue> livenessTrendDay(@Param("idshop") String idshop, @Param("entry") float entry, @Param("min") float min, @Param("max") float max, @Param("start") Date start, @Param("end") Date end) throws Exception;
+    List<LivenessTrendValue> livenessTrendDay(@Param("idshop") String idshop, @Param("entry") int entry, @Param("min") int min, @Param("max") int max, @Param("start") Date start, @Param("end") Date end) throws Exception;
 
     @Select("SELECT\n" +
             "  date,\n" +
@@ -149,7 +149,7 @@ public interface StatisticsCustomerTypeMapper {
             "            AND (create_time BETWEEN #{start} AND  #{end})\n" +
             "            GROUP BY date\n" +
             "      ) AS t")
-    List<LivenessTrendValue> livenessTrendWeek(@Param("idshop") String idshop, @Param("entry") float entry, @Param("min") float min, @Param("max") float max, @Param("start") Date start, @Param("end") Date end) throws Exception;
+    List<LivenessTrendValue> livenessTrendWeek(@Param("idshop") String idshop, @Param("entry") int entry, @Param("min") int min, @Param("max") int max, @Param("start") Date start, @Param("end") Date end) throws Exception;
 
     @Select("SELECT\n" +
             "  date,\n" +
@@ -165,7 +165,7 @@ public interface StatisticsCustomerTypeMapper {
             "            AND (create_time BETWEEN #{start} AND  #{end})\n" +
             "            GROUP BY date\n" +
             "      ) AS t")
-    List<LivenessTrendValue> livenessTrendMonth(@Param("idshop") String idshop, @Param("entry") float entry, @Param("min") float min, @Param("max") float max, @Param("start") Date start, @Param("end") Date end) throws Exception;
+    List<LivenessTrendValue> livenessTrendMonth(@Param("idshop") String idshop, @Param("entry") int entry, @Param("min") int min, @Param("max") int max, @Param("start") Date start, @Param("end") Date end) throws Exception;
 
     /**
      * 统计顾客趋势
@@ -190,7 +190,7 @@ public interface StatisticsCustomerTypeMapper {
             "            AND time_duration >= #{entry}\n" +
             "            AND (create_time BETWEEN #{start} AND #{end})\n" +
             "      GROUP BY date) AS t;")
-    List<CustomerTrendValue> customerTrendHour(@Param("idshop") String idshop,@Param("entry") float entry, @Param("start") Date start, @Param("end") Date end) throws Exception;
+    List<CustomerTrendValue> customerTrendHour(@Param("idshop") String idshop,@Param("entry") int entry, @Param("start") Date start, @Param("end") Date end) throws Exception;
 
     //    @Select("SELECT DATE_FORMAT(create_time,'%y%m%d') date,SUM(is_new_user) nv,COUNT(DISTINCT mac_device) uv FROM t_visit WHERE idshop=#{idshop} AND(create_time BETWEEN #{start} AND #{end}) GROUP BY date")
     @Select("SELECT\n" +
@@ -207,7 +207,7 @@ public interface StatisticsCustomerTypeMapper {
             "            AND time_duration >= #{entry}\n" +
             "            AND (create_time BETWEEN #{start} AND #{end})\n" +
             "      GROUP BY date) AS t;")
-    List<CustomerTrendValue> customerTrendDay(@Param("idshop") String idshop,@Param("entry") float entry, @Param("start") Date start, @Param("end") Date end) throws Exception;
+    List<CustomerTrendValue> customerTrendDay(@Param("idshop") String idshop,@Param("entry") int entry, @Param("start") Date start, @Param("end") Date end) throws Exception;
 
     //    @Select("SELECT DATE_FORMAT(create_time,'%y-%u') date,SUM(is_new_user) nv,COUNT(DISTINCT mac_device) uv FROM t_visit WHERE idshop=#{idshop} AND(create_time BETWEEN #{start} AND #{end}) GROUP BY date")
     @Select("SELECT\n" +
@@ -224,7 +224,7 @@ public interface StatisticsCustomerTypeMapper {
             "            AND time_duration >= #{entry}\n" +
             "            AND (create_time BETWEEN #{start} AND #{end})\n" +
             "      GROUP BY date) AS t;")
-    List<CustomerTrendValue> customerTrendWeek(@Param("idshop") String idshop,@Param("entry") float entry, @Param("start") Date start, @Param("end") Date end) throws Exception;
+    List<CustomerTrendValue> customerTrendWeek(@Param("idshop") String idshop,@Param("entry") int entry, @Param("start") Date start, @Param("end") Date end) throws Exception;
 
     //    @Select("SELECT DATE_FORMAT(create_time,'%y%m') date,SUM(is_new_user) nv,COUNT(DISTINCT mac_device) uv FROM t_visit WHERE idshop=#{idshop} AND(create_time BETWEEN #{start} AND #{end}) GROUP BY date")
     @Select("SELECT\n" +
@@ -241,6 +241,6 @@ public interface StatisticsCustomerTypeMapper {
             "            AND time_duration >= #{entry}\n" +
             "            AND (create_time BETWEEN #{start} AND #{end})\n" +
             "      GROUP BY date) AS t;")
-    List<CustomerTrendValue> customerTrendMonth(@Param("idshop") String idshop,@Param("entry") float entry, @Param("start") Date start, @Param("end") Date end) throws Exception;
+    List<CustomerTrendValue> customerTrendMonth(@Param("idshop") String idshop,@Param("entry") int entry, @Param("start") Date start, @Param("end") Date end) throws Exception;
 
 }

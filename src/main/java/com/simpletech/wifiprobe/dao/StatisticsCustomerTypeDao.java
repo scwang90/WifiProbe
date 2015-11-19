@@ -21,7 +21,7 @@ public interface StatisticsCustomerTypeDao {
 	 * @param end    结束时间
 	 * @return 新老用户
 	 */
-	List<IsNewCustomerValue> customer(String idshop,float entry,Date start, Date end) throws Exception;
+	List<IsNewCustomerValue> customer(String idshop,int entry,Date start, Date end) throws Exception;
 
 
 	/**
@@ -32,7 +32,7 @@ public interface StatisticsCustomerTypeDao {
 	 * @return
 	 * @throws Exception
 	 */
-	List<LivenessValue> customerLiveness(String idshop,float entry, float min, float max, Date start, Date end) throws Exception;
+	List<LivenessValue> customerLiveness(String idshop,int entry, int min, int max, Date start, Date end) throws Exception;
 
 	/**
 	 * 顾客-趋势
@@ -56,7 +56,7 @@ public interface StatisticsCustomerTypeDao {
 	 * @return
 	 * @throws Exception
 	 */
-	List<LivenessTrendValue> livenessTrend(String idshop, Period period, float min, float max,Date start, Date end) throws Exception;
+	List<LivenessTrendValue> livenessTrend(String idshop, Period period, int min, int max,Date start, Date end) throws Exception;
 
 	/**
 	 * 老顾客信息统计
@@ -66,5 +66,5 @@ public interface StatisticsCustomerTypeDao {
 	 * @return
 	 * @throws Exception
 	 */
-	LivenessTrendValue countCustomer(String idshop, float entry, Date start, Date end) throws Exception;
+	LivenessTrendValue countCustomer(String idshop, int entry, Date start, Date end) throws Exception;
 }
