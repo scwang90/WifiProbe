@@ -64,7 +64,7 @@ public class StatisticsCustomerTypeServiceImpl implements StatisticsCustomerType
         List<LivenessValue> values = new ArrayList<>();
         List<LivenessValue> ss = new ArrayList<>();
         Shop shop = shopDao.findById(idshop);
-        int entry=shop.getConfigApiVisitDurationEnter().intValue();
+        float entry=shop.getConfigApiVisitDurationEnter().intValue();
         LivenessTrendValue countCustomer=dao.countCustomer(idshop,entry ,start, end);
 
         if (shop != null) {
@@ -72,11 +72,11 @@ public class StatisticsCustomerTypeServiceImpl implements StatisticsCustomerType
             count = count.matches("(\\d+,)+\\d+") ? count : "1,7,15,30";
 //            count = count + "," + Integer.MAX_VALUE;
             String[] counts = count.split(",");
-            int lastValue = 0,total=0;
+            float lastValue = 0,total=0;
             for (String _count : counts) {
                 LivenessValue value=new LivenessValue(lastValue,Float.parseFloat(_count),"天");
 
-                List<LivenessValue> list=dao.customerLiveness(idshop,shop.getConfigApiVisitDurationEnter().intValue(), lastValue*24*60*60, Integer.parseInt(_count)*24*60*60, start, end);
+                List<LivenessValue> list=dao.customerLiveness(idshop,shop.getConfigApiVisitDurationEnter().intValue(), lastValue*24*60*60, Float.parseFloat(_count)*24*60*60, start, end);
 
                 for (LivenessValue value1 : list) {
                     if(lastValue==0){
@@ -129,21 +129,23 @@ public class StatisticsCustomerTypeServiceImpl implements StatisticsCustomerType
      */
     public List<LivenessTrendValue> livenessTrend(String idshop,Level level, Period period,Date start, Date end) throws Exception {
         List<LivenessTrendValue> values = new ArrayList<>();
+
         Shop shop = shopDao.findById(idshop);
-        int entry=shop.getConfigApiVisitDurationEnter().intValue();
+        float entry=shop.getConfigApiVisitDurationEnter().intValue();
         LivenessTrendValue countCustomer=dao.countCustomer(idshop,entry, start, end);
 
         if (shop != null) {
             String count = "" + shop.getConfigApiLiveness();
-            count = count.matches("(\\d+,)+\\d+") ? count : "1,7,15,30";
+            count = count.matches("(\\d+,)+\\d+") ? count : "0.5,7,15,30";
             count = count + "," + Integer.MAX_VALUE;
             String[] counts = count.split(",");
-            int lastValue = 0,total=0;
+            float lastValue = 0,total=0;
             switch (level){
                 case high:
-                    List<LivenessTrendValue> list=dao.livenessTrend(idshop, period, shop.getConfigApiVisitDurationEnter().intValue(), lastValue * 24 * 60 * 60, Integer.parseInt(counts[0]) * 24 * 60 * 60, start, end);
+
+                    List<LivenessTrendValue> list=dao.livenessTrend(idshop, period, lastValue * 24 * 60 * 60, Float.parseFloat(counts[0]) * 24 * 60 * 60, start, end);
                     for(LivenessTrendValue value : list){
-                        value.setRemark("high");
+                        value.setRemark(level.toString());
                         if(countCustomer.getNum()!=0){
                             System.out.println(countCustomer.getNum());
                             value.setRate(1f*value.getNum()/countCustomer.getNum());
@@ -155,10 +157,10 @@ public class StatisticsCustomerTypeServiceImpl implements StatisticsCustomerType
                     }
                     break;
                 case middle:
-                    List<LivenessTrendValue> list1=dao.livenessTrend(idshop, period, shop.getConfigApiVisitDurationEnter().intValue(), Integer.parseInt(counts[0]) * 24 * 60 * 60, Integer.parseInt(counts[1]) * 24 * 60 * 60, start, end);
+                    List<LivenessTrendValue> list1=dao.livenessTrend(idshop, period, Float.parseFloat(counts[0]) * 24 * 60 * 60,Float.parseFloat(counts[1]) * 24 * 60 * 60, start, end);
                     for(LivenessTrendValue value : list1){
 //                        total+=value.getNum();
-                        value.setRemark("middle");
+                        value.setRemark(level.toString());
                         if(countCustomer.getNum()!=0){
                             value.setRate(1f * value.getNum() / countCustomer.getNum());
                         }else{
@@ -168,10 +170,10 @@ public class StatisticsCustomerTypeServiceImpl implements StatisticsCustomerType
                     }
                     break;
                 case low:
-                    List<LivenessTrendValue> list2=dao.livenessTrend(idshop, period, shop.getConfigApiVisitDurationEnter().intValue(), Integer.parseInt(counts[1]) * 24 * 60 * 60, Integer.parseInt(counts[2]) * 24 * 60 * 60, start, end);
+                    List<LivenessTrendValue> list2=dao.livenessTrend(idshop, period,  Float.parseFloat(counts[1]) * 24 * 60 * 60, Float.parseFloat(counts[2]) * 24 * 60 * 60, start, end);
                     for(LivenessTrendValue value : list2){
 //                        total+=value.getNum();
-                        value.setRemark("low");
+                        value.setRemark(level.toString());
                         if(countCustomer.getNum()!=0){
                             value.setRate(1f * value.getNum() / countCustomer.getNum());
                         }else{
@@ -181,10 +183,10 @@ public class StatisticsCustomerTypeServiceImpl implements StatisticsCustomerType
                     }
                     break;
                 case sleep:
-                    List<LivenessTrendValue> list3=dao.livenessTrend(idshop, period, shop.getConfigApiVisitDurationEnter().intValue(), Integer.parseInt(counts[2]) * 24 * 60 * 60, Integer.parseInt(counts[3]) * 24 * 60 * 60, start, end);
+                    List<LivenessTrendValue> list3=dao.livenessTrend(idshop, period,  Float.parseFloat(counts[2]) * 24 * 60 * 60, Float.parseFloat(counts[3]) * 24 * 60 * 60, start, end);
                     for(LivenessTrendValue value : list3){
 //                        total+=value.getNum();
-                        value.setRemark("sleep");
+                        value.setRemark(level.toString());
                         if(countCustomer.getNum()!=0){
                             value.setRate(1f * value.getNum() / countCustomer.getNum());
                         }else{
@@ -194,10 +196,10 @@ public class StatisticsCustomerTypeServiceImpl implements StatisticsCustomerType
                     }
                     break;
                 case deepsleep:
-                    List<LivenessTrendValue> list4=dao.livenessTrend(idshop, period, shop.getConfigApiVisitDurationEnter().intValue(), Integer.parseInt(counts[3]) * 24 * 60 * 60, Integer.MAX_VALUE * 24 * 60 * 60, start, end);
+                    List<LivenessTrendValue> list4=dao.livenessTrend(idshop, period,  Float.parseFloat(counts[3]) * 24 * 60 * 60, Integer.MAX_VALUE * 24 * 60 * 60, start, end);
                     for(LivenessTrendValue value : list4){
 //                        total+=value.getNum();
-                        value.setRemark("deepsleep");
+                        value.setRemark(level.toString());
                         if(countCustomer.getNum()!=0){
                             value.setRate(1f * value.getNum() / countCustomer.getNum());
                         }else{

@@ -12,6 +12,7 @@ public class LivenessTrendValue extends TrendValue{
 
     public LivenessTrendValue(){}
 
+
     public Integer getNum() {
         return num;
     }

@@ -1,5 +1,6 @@
 package com.simpletech.wifiprobe.controller;
 
+import com.simpletech.wifiprobe.model.constant.Level;
 import com.simpletech.wifiprobe.model.constant.Period;
 import com.simpletech.wifiprobe.util.JacksonUtil;
 import org.junit.Test;
@@ -29,6 +30,11 @@ public class StatisticsCustomerTypeControllerTester {
     @Test
     public void customerTrend() throws Exception{
         Object result = controller.customerTrend("1", Period.day, null, null, monthf.parse("2015-11-0"), monthf.parse("2015-11-30"));
+        System.out.println(JacksonUtil.toJson(result).replace("{","\n{"));
+    }
+    @Test
+    public void livenessTrend() throws Exception{
+        Object result = controller.customerLivenessTrend("1", Level.middle, Period.day, null, null, monthf.parse("2015-11-06"), monthf.parse("2015-11-31"));
         System.out.println(JacksonUtil.toJson(result).replace("{","\n{"));
     }
 

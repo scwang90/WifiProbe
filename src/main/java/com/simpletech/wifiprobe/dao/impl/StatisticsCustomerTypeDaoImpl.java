@@ -35,12 +35,12 @@ public class StatisticsCustomerTypeDaoImpl implements StatisticsCustomerTypeDao 
      * @throws Exception
      */
     @Override
-    public List<IsNewCustomerValue> customer(String idshop,int entry, Date start, Date end) throws Exception {
+    public List<IsNewCustomerValue> customer(String idshop,float entry, Date start, Date end) throws Exception {
         return mapper.customer(idshop, entry,start, end);
     }
 
     @Override
-    public List<LivenessValue> customerLiveness(String idshop,int entry,int min, int max, Date start, Date end) throws Exception {
+    public List<LivenessValue> customerLiveness(String idshop,float entry,float min, float max, Date start, Date end) throws Exception {
 
         return mapper.customerLiveness(idshop, entry, min, max, start, end);
     }
@@ -56,7 +56,7 @@ public class StatisticsCustomerTypeDaoImpl implements StatisticsCustomerTypeDao 
     public List<CustomerTrendValue> customerTrend(String idshop,Period period, Date start, Date end) throws Exception {
         List<CustomerTrendValue> list= new ArrayList<>();
         Shop shop=shopMapper.findById(idshop);
-        int entry=shop.getConfigApiVisitDurationEnter().intValue();
+        float entry=shop.getConfigApiVisitDurationEnter().intValue();
 //        CustomerValue count=mapper.countCustomer(idshop,start,end);
         switch (period) {
             case hour:
@@ -84,7 +84,7 @@ public class StatisticsCustomerTypeDaoImpl implements StatisticsCustomerTypeDao 
      * 活跃度-趋势
      * @param idshop 店铺ID
      * @param period
-     * @param entry
+     * @param
      * @param min
      * @param max
      * @param start
@@ -92,12 +92,15 @@ public class StatisticsCustomerTypeDaoImpl implements StatisticsCustomerTypeDao 
      * @return
      * @throws Exception
      */
-    public List<LivenessTrendValue> livenessTrend(String idshop,Period period,int entry,int min, int max, Date start, Date end) throws Exception {
+    public List<LivenessTrendValue> livenessTrend(String idshop,Period period,float min, float max, Date start, Date end) throws Exception {
         List<LivenessTrendValue> list= new ArrayList<>();
+        Shop shop=shopMapper.findById(idshop);
+        float entry=shop.getConfigApiVisitDurationEnter().intValue();
 //        CustomerValue count=mapper.countCustomer(idshop,start,end);
          switch (period) {
             case hour:
                 list = mapper.livenessTrendHour(idshop,entry,min,max, start, end);
+                System.out.println("mapper.livenessTrendHour-size="+list.size());
                 break;
             case day:
                 list = mapper.livenessTrendDay(idshop, entry,min,max, start, end);
@@ -126,7 +129,7 @@ public class StatisticsCustomerTypeDaoImpl implements StatisticsCustomerTypeDao 
      * @return
      * @throws Exception
      */
-    public LivenessTrendValue countCustomer(String idshop, int entry,Date start, Date end)throws Exception{
+    public LivenessTrendValue countCustomer(String idshop, float entry,Date start, Date end)throws Exception{
         return mapper.countCustomer(idshop,entry,start,end);
     }
 }
