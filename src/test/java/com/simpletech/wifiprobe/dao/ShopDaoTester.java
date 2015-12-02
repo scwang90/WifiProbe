@@ -10,9 +10,9 @@ import com.simpletech.wifiprobe.model.Shop;
 import com.simpletech.wifiprobe.util.JacksonUtil;
 
 /**
- * 数据库表t_shop的Dao层测试类
+ * 数据库表shop的Dao层测试类
  * @author 树朾
- * @date 2015-11-02 17:16:40 中国标准时间
+ * @date 2015-11-24 18:16:03 中国标准时间
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:spring-*.xml")

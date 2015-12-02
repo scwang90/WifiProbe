@@ -1,7 +1,6 @@
 package com.simpletech.wifiprobe.service;
 
 import com.simpletech.wifiprobe.aspect.LoggingAspect;
-import com.simpletech.wifiprobe.mapper.StatisticsMapper;
 import com.simpletech.wifiprobe.model.constant.Period;
 import com.simpletech.wifiprobe.model.constant.RankingType;
 import com.simpletech.wifiprobe.util.JacksonUtil;
@@ -65,14 +64,57 @@ public class StatisticsServiceTester {
 	}
 
 	@Test
-	public void visitEntryTrend() throws Exception{
-		Object result = service.visitEntryTrend("1", Period.day, monthf.parse("2015-11-0"), monthf.parse("2015-11-30"));
+	public void visitTrend() throws Exception{
+		Object result = service.visitTrend("1", Period.day, monthf.parse("2015-11-0"), monthf.parse("2015-11-30"));
+		System.out.println(JacksonUtil.toJson(result).replace("{","\n{"));
+	}
+
+	@Test
+	public void visitSpan() throws Exception{
+		Object result = service.visitSpan("1", monthf.parse("2015-11-0"), monthf.parse("2015-11-30"));
 		System.out.println(JacksonUtil.toJson(result).replace("{","\n{"));
 	}
 
 	@Test
 	public void deviceBrandRanking() throws Exception{
-		Object result = service.deviceBrandRanking("1", RankingType.pv, monthf.parse("2015-11-0"), monthf.parse("2015-11-30"), 100, 0);
+		Object result = service.deviceBrandRanking("1", RankingType.pv, monthf.parse("2015-11-0"), monthf.parse("2015-11-30"), 10, 0);
 		System.out.println(JacksonUtil.toJson(result).replace("{","\n{"));
 	}
+
+	@Test
+	public void deviceBrandRank() throws Exception{
+		Object result = service.deviceBrandRank("1", RankingType.uv, monthf.parse("2015-11-0"), monthf.parse("2015-11-30"), 100, 0);
+		System.out.println(JacksonUtil.toJson(result).replace("{","\n{"));
+	}
+
+	@Test
+	public void userTypeSpan() throws Exception{
+		Object result = service.userTypeSpan("7", monthf.parse("2015-11-0"), monthf.parse("2015-12-1"));
+		System.out.println(JacksonUtil.toJson(result).replace("{","\n{"));
+	}
+
+	@Test
+	public void onlineProbeAll() throws Exception{
+		Object result = service.onlineProbeAll();
+		System.out.println(JacksonUtil.toJson(result).replace("{","\n{"));
+	}
+
+	@Test
+	public void onlineUserAll() throws Exception{
+		Object result = service.onlineUserAll();
+		System.out.println(JacksonUtil.toJson(result).replace("{","\n{"));
+	}
+	@Test
+	public void onlineProbe() throws Exception{
+		Object result = service.onlineProbe("1");
+		System.out.println(JacksonUtil.toJson(result).replace("{","\n{"));
+	}
+
+	@Test
+	public void onlineUser() throws Exception{
+		Object result = service.onlineUser("1");
+		System.out.println(JacksonUtil.toJson(result).replace("{","\n{"));
+	}
+
+
 }

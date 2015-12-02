@@ -1,55 +1,52 @@
 package com.simpletech.wifiprobe.model;
 
-import com.simpletech.wifiprobe.annotations.dbmodel.Column;
 import com.simpletech.wifiprobe.annotations.dbmodel.Id;
 import com.simpletech.wifiprobe.annotations.dbmodel.Table;
 import com.simpletech.wifiprobe.model.base.ModelBase;
 
 /**
- * 数据库表t_wifi
+ * 数据库表probe_binding
  * @author 树朾
- * @date 2015-11-06 15:39:46 中国标准时间
+ * @date 2015-11-26 15:36:56 中国标准时间
  */
-@Table("t_wifi")
-public class Wifi extends ModelBase{
+@Table("probe_binding")
+public class ProbeBinding extends ModelBase{
 
 	/**
 	 * ID主键
 	 */
 	@Id
-	private String id;
+	private String probeID;
 	/**
 	 * 店铺ID
 	 */
-	private String idshop;
+	private String shopID;
 	/**
-	 * 服务器时间
+	 * 创建时间
 	 */
-	@Column("create_time")
 	private java.util.Date createTime;
 	/**
 	 * 更新时间
 	 */
-	@Column("update_time")
 	private java.util.Date updateTime;
 
-	public Wifi() {
+	public ProbeBinding() {
 	}
 	
-	public String getId(){
-		return this.id;
+	public String getProbeID(){
+		return this.probeID;
 	}
 
-	public void setId(String id) {
-		this.id = id;
+	public void setProbeID(String probeID) {
+		this.probeID = probeID;
 	}
 	
-	public String getIdshop(){
-		return this.idshop;
+	public String getShopID(){
+		return this.shopID;
 	}
 
-	public void setIdshop(String idshop) {
-		this.idshop = idshop;
+	public void setShopID(String shopID) {
+		this.shopID = shopID;
 	}
 	
 	public java.util.Date getCreateTime(){

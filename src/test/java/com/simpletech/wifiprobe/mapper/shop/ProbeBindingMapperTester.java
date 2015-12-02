@@ -1,5 +1,8 @@
-package com.simpletech.wifiprobe.mapper;
+package com.simpletech.wifiprobe.mapper_shop;
 
+import com.simpletech.wifiprobe.aspect.LoggingAspect;
+import com.simpletech.wifiprobe.model.ProbeBinding;
+import com.simpletech.wifiprobe.util.JacksonUtil;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -7,22 +10,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.simpletech.wifiprobe.aspect.LoggingAspect;
-import com.simpletech.wifiprobe.model.Wifi;
-import com.simpletech.wifiprobe.util.JacksonUtil;
-
 /**
- * 数据库表t_wifi的Mapper层测试类
+ * 数据库表probe_binding的Mapper层测试类
  * @author 树朾
- * @date 2015-11-02 17:16:40 中国标准时间
+ * @date 2015-11-24 18:16:03 中国标准时间
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:spring-*.xml")
-public class WifiMapperTester {
+public class ProbeBindingMapperTester {
 
 	
 	@Autowired
-	WifiMapper mapper;
+	ProbeBindingMapper mapper;
 
 	@Before
 	public void setUp() {
@@ -31,14 +30,14 @@ public class WifiMapperTester {
 
 	@Test
 	public void insert() throws Exception{
-		Wifi model = new Wifi();
+		ProbeBinding model = new ProbeBinding();
 		Object result = mapper.insert(model);
 		System.out.println(JacksonUtil.toJson(result).replace("{","\n{"));
 	}
 	
 	@Test
 	public void update() throws Exception {
-		Wifi model = new Wifi();
+		ProbeBinding model = new ProbeBinding();
 		Object result = mapper.update(model);
 		System.out.println(JacksonUtil.toJson(result).replace("{","\n{"));
 	}

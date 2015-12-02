@@ -2,20 +2,21 @@ package com.simpletech.wifiprobe.service.impl;
 
 import com.simpletech.wifiprobe.dao.ShopDao;
 import com.simpletech.wifiprobe.dao.StatisticsDao;
-import com.simpletech.wifiprobe.mac.MacBrand;
 import com.simpletech.wifiprobe.mac.MacBrandMemory;
+import com.simpletech.wifiprobe.mapper.api.StatisticsMapper;
 import com.simpletech.wifiprobe.model.Shop;
-import com.simpletech.wifiprobe.model.Visit;
 import com.simpletech.wifiprobe.model.constant.Period;
 import com.simpletech.wifiprobe.model.constant.RankingType;
 import com.simpletech.wifiprobe.model.entity.*;
 import com.simpletech.wifiprobe.service.StatisticsService;
+import com.simpletech.wifiprobe.util.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 统计API Service 实现
@@ -28,32 +29,27 @@ public class StatisticsServiceImpl implements StatisticsService {
     StatisticsDao dao;
 
     @Autowired
-    ShopDao shopDao;
+    StatisticsMapper mapper;
 
-    @Override
-    public List<Visit> visitmac(String idshop, String mac, Date start, Date end) throws Exception {
-        List<Visit> visits = dao.visitmac(idshop, mac, start, end);
-        for (Visit visit : visits) {
-            visit.setEndBrand(MacBrand.parser(visit.getEndBrand()).getCompany());
-        }
-        return visits;
-    }
+    @Autowired
+    ShopDao shopDao;
 
     @Override
     public List<FrequencyMapValue> visitFrequencyMap(String idshop, Date start, Date end) throws Exception {
         List<FrequencyMapValue> values = new ArrayList<>();
         Shop shop = shopDao.findById(idshop);
         if (shop != null) {
-            String count = "" + shop.getConfigApiVisitCounts();
+            shop = new ShopEntity(shop);
+            String count = "" + shop.getConfigProbeApiVisitCounts();
             count = count.matches("(\\d+,)+\\d+") ? count : "1,2,5";
             count = count + "," + Integer.MAX_VALUE;
             String[] counts = count.split(",");
             int lastValue = 1, total = 0;
             for (String _count : counts) {
                 FrequencyMapValue value = new FrequencyMapValue(lastValue, Integer.valueOf(_count), "次");
-                value.setNum(dao.visitFrequencyMap(idshop, (int) (shop.getConfigApiVisitDurationEnter() * 60), lastValue, Integer.parseInt(_count), start, end));
+                value.setNum(mapper.visitFrequencyMap(idshop, (int) (shop.getConfigProbeApiVisitDurationEnter() * 60), lastValue, Integer.parseInt(_count), start, end));
 
-                if (_count.equals(Integer.MAX_VALUE)) {
+                if (_count.equals(String.valueOf(Integer.MAX_VALUE))) {
                     if (value.getNum() > 0) {
                         values.add(value);
                     }
@@ -70,67 +66,22 @@ public class StatisticsServiceImpl implements StatisticsService {
         return values;
     }
 
-//    @Override
-//    public List<FrequencyMapValue> visitFrequencyMap(String idshop, Date start, Date end) throws Exception {
-//        List<FrequencyMapValue> values = new ArrayList<>();
-//        Shop shop = shopDao.findById(idshop);
-//        if (shop != null) {
-//            String count = "" + shop.getConfigApiVisitCounts();
-//            count = count.matches("(\\d+,)+\\d+") ? count : "1,2,5";
-//            String[] counts = count.split(",");
-//            List<FrequencyMapValue> frequencys = new ArrayList<>(dao.visitFrequencyMap(idshop, start, end));
-//            String lastValue = "1", indexValue = "0";
-//            FrequencyMapValue value = new FrequencyMapValue();
-//            value.setNum(Integer.MAX_VALUE);
-//            frequencys.add(value);
-//            while (frequencys.size() > 0) {
-//                FrequencyMapValue frequency = frequencys.get(0);
-//                if (frequency.getNum() <= Integer.parseInt(indexValue)) {
-//                    if (frequency.getNum() < Integer.MAX_VALUE) {
-//                        value.setNum(value.getNum() + frequency.getNum());
-//                    }
-//                } else if (values.size() < counts.length) {
-//                    indexValue = counts[values.size()];
-//                    value = new FrequencyMapValue();
-//                    if (lastValue.compareTo(indexValue) == 0) {
-//                        value.setFre(indexValue);
-//                    } else {
-//                        value.setFre(lastValue + "~" + indexValue);
-//                    }
-//                    value.setNum(frequency.getNum() < Integer.MAX_VALUE ? frequency.getNum() : 0);
-//                    lastValue = String.valueOf(Integer.parseInt(indexValue) + 1);
-//                    values.add(value);
-//                } else {
-//                    indexValue = String.valueOf(Integer.MAX_VALUE);
-//                    value = new FrequencyMapValue();
-//                    value.setFre(lastValue + "~");
-//                    value.setNum(frequency.getNum() < Integer.MAX_VALUE ? frequency.getNum() : 0);
-//                    values.add(value);
-//                }
-//                if (frequency.getNum() != Integer.MAX_VALUE || values.size() >= counts.length) {
-//                    frequencys.remove(0);
-//                }
-//            }
-//        }
-//        return values;
-//    }
-
     @Override
-    public List<DurationMapValue> visitDurationMap(String idshop, Date start, Date end) throws Exception {
-        List<DurationMapValue> values = new ArrayList<>();
+    public List<FrequencyMapValue> pastFrequencyMap(String idshop, Date start, Date end) throws Exception {
+        List<FrequencyMapValue> values = new ArrayList<>();
         Shop shop = shopDao.findById(idshop);
         if (shop != null) {
-            String duration = "" + shop.getConfigApiVisitDuration();
-            duration = duration.matches("(\\d[\\d\\.]*,)+\\d[\\d\\.]*") ? duration : "5,30,60,120";
-            duration = duration + "," + Integer.MAX_VALUE;
-            String[] durations = duration.split(",");
-            int total = 0;
-            float lastValue = 0;
-            for (String durate : durations) {
-                DurationMapValue value = new DurationMapValue(lastValue, Float.parseFloat(durate), "分钟");
-                value.setNum(dao.visitDurationMap(idshop, (int) (lastValue * 60), (int) (Float.parseFloat(durate) * 60), start, end));
+            shop = new ShopEntity(shop);
+            String count = "" + shop.getConfigProbeApiVisitCounts();
+            count = count.matches("(\\d+,)+\\d+") ? count : "1,2,5";
+            count = count + "," + Integer.MAX_VALUE;
+            String[] counts = count.split(",");
+            int lastValue = 1, total = 0;
+            for (String _count : counts) {
+                FrequencyMapValue value = new FrequencyMapValue(lastValue, Integer.valueOf(_count), "次");
+                value.setNum(mapper.pastFrequencyMap(idshop, (int) (shop.getConfigProbeApiVisitDurationEnter() * 60), lastValue, Integer.parseInt(_count), start, end));
 
-                if (durate.equals(Integer.MAX_VALUE)) {
+                if (_count.equals(String.valueOf(Integer.MAX_VALUE))) {
                     if (value.getNum() > 0) {
                         values.add(value);
                     }
@@ -138,7 +89,42 @@ public class StatisticsServiceImpl implements StatisticsService {
                     values.add(value);
                 }
                 total += value.getNum();
-                lastValue = Float.parseFloat(durate);
+                lastValue = Integer.parseInt(_count) + 1;
+            }
+            for (FrequencyMapValue value : values) {
+                value.setRate(1f * value.getNum() / total);
+            }
+        }
+        return values;
+    }
+
+    @Override
+    public List<DurationMapValue> visitDurationMap(String idshop, Date start, Date end) throws Exception {
+        List<DurationMapValue> values = new ArrayList<>();
+        Shop shop = shopDao.findById(idshop);
+        if (shop != null) {
+            shop = new ShopEntity(shop);
+            String duration = "" + shop.getConfigProbeApiVisitDuration();
+            duration = duration.matches("(\\d[\\d\\.]*,)+\\d[\\d\\.]*") ? duration : "5,30,60,120";
+            duration = duration + "," + Integer.MAX_VALUE;
+            String[] durations = duration.split(",");
+            int total = 0;
+            float lastValue = shop.getConfigProbeApiVisitDurationEnter().floatValue();
+            for (String durate : durations) {
+                if (Float.parseFloat(durate) > lastValue) {
+                    DurationMapValue value = new DurationMapValue(lastValue, Float.parseFloat(durate), "分钟");
+                    value.setNum(mapper.visitDurationMap(idshop, (int) (lastValue * 60), (int) (Float.parseFloat(durate) * 60), start, end));
+
+                    if (durate.equals(String.valueOf(Integer.MAX_VALUE))) {
+                        if (value.getNum() > 0) {
+                            values.add(value);
+                        }
+                    } else {
+                        values.add(value);
+                    }
+                    total += value.getNum();
+                    lastValue = Float.parseFloat(durate);
+                }
             }
             for (DurationMapValue value : values) {
                 value.setRate(1f * value.getNum() / total);
@@ -152,12 +138,13 @@ public class StatisticsServiceImpl implements StatisticsService {
         List<PeriodMapValue> values = new ArrayList<>();
         Shop shop = shopDao.findById(idshop);
         if (shop != null) {
-            String period = "" + shop.getConfigApiVisitPeriod();
+            shop = new ShopEntity(shop);
+            String period = "" + shop.getConfigProbeApiVisitPeriod();
             period = period.matches("(\\d[\\d\\.]*,)+\\d[\\d\\.]*") ? period : "1,2,4,7,14";
 //            period = period + "," + (Integer.MAX_VALUE/24/60/60);
             String[] periods = period.split(",");
 
-            List<Integer> list = dao.visitPeriodMap(idshop, (int) (shop.getConfigApiVisitDurationEnter() * 60), start, end);
+            List<Integer> list = mapper.visitPeriodMap(idshop, (int) (shop.getConfigProbeApiVisitDurationEnter() * 60), start, end);
             PeriodMapValue value = new PeriodMapValue();
             float lastValue = 1, indexValue = 0;
             list.add((Integer.MAX_VALUE / 24 / 60 / 60) * 24 * 60 * 60);
@@ -199,10 +186,11 @@ public class StatisticsServiceImpl implements StatisticsService {
         DurationSpanValue value = new DurationSpanValue();
         Shop shop = shopDao.findById(idshop);
         if (shop != null) {
-            int entry = (int) (shop.getConfigApiVisitDurationEnter() * 60);
-            int deep = (int) (shop.getConfigApiVisitDurationDeep() * 60);
-            int jump = (int) (shop.getConfigApiVisitDurationJump() * 60);
-            return dao.visitDurationSpan(idshop, entry, deep, jump, start, end);
+            shop = new ShopEntity(shop);
+            int entry = (int) (shop.getConfigProbeApiVisitDurationEnter() * 60);
+            int deep = (int) (shop.getConfigProbeApiVisitDurationDeep() * 60);
+            int jump = (int) (shop.getConfigProbeApiVisitDurationJump() * 60);
+            return mapper.visitDurationSpan(idshop, entry, deep, jump, start, end);
         }
         return value;
     }
@@ -212,21 +200,22 @@ public class StatisticsServiceImpl implements StatisticsService {
         List<DurationTrendValue> list = new ArrayList<>();
         Shop shop = shopDao.findById(idshop);
         if (shop != null) {
-            int entry = (int) (shop.getConfigApiVisitDurationEnter() * 60);
-            int jump = (int) (shop.getConfigApiVisitDurationJump() * 60);
-            int deep = (int) (shop.getConfigApiVisitDurationDeep() * 60);
+            shop = new ShopEntity(shop);
+            int entry = (int) (shop.getConfigProbeApiVisitDurationEnter() * 60);
+            int jump = (int) (shop.getConfigProbeApiVisitDurationJump() * 60);
+            int deep = (int) (shop.getConfigProbeApiVisitDurationDeep() * 60);
             switch (period) {
                 case hour:
-                    list = dao.visitDurationTrendHour(idshop, entry, deep, jump, start, end);
+                    list = mapper.visitDurationTrendHour(idshop, entry, deep, jump, start, end);
                     break;
                 case day:
-                    list = dao.visitDurationTrendDay(idshop, entry, deep, jump, start, end);
+                    list = mapper.visitDurationTrendDay(idshop, entry, deep, jump, start, end);
                     break;
                 case week:
-                    list = dao.visitDurationTrendWeek(idshop, entry, deep, jump, start, end);
+                    list = mapper.visitDurationTrendWeek(idshop, entry, deep, jump, start, end);
                     break;
                 case month:
-                    list = dao.visitDurationTrendMonth(idshop, entry, deep, jump, start, end);
+                    list = mapper.visitDurationTrendMonth(idshop, entry, deep, jump, start, end);
                     break;
             }
         }
@@ -234,23 +223,35 @@ public class StatisticsServiceImpl implements StatisticsService {
     }
 
     @Override
-    public List<EntryTrendValue> visitEntryTrend(String idshop, Period period, Date start, Date end) throws Exception {
+    public EntryTrendValue visitSpan(String idshop, Date start, Date end) throws Exception {
+        Shop shop = shopDao.findById(idshop);
+        if (shop != null) {
+            shop = new ShopEntity(shop);
+            int entry = (int) (shop.getConfigProbeApiVisitDurationEnter() * 60);
+            return mapper.visitSpan(idshop, entry, start, end);
+        }
+        throw new ServiceException("无效ID");
+    }
+
+    @Override
+    public List<EntryTrendValue> visitTrend(String idshop, Period period, Date start, Date end) throws Exception {
         List<EntryTrendValue> list = new ArrayList<>();
         Shop shop = shopDao.findById(idshop);
         if (shop != null) {
-            int entry = (int) (shop.getConfigApiVisitDurationEnter() * 60);
+            shop = new ShopEntity(shop);
+            int entry = (int) (shop.getConfigProbeApiVisitDurationEnter() * 60);
             switch (period) {
                 case hour:
-                    list = dao.visitEntryTrendHour(idshop, entry, start, end);
+                    list = mapper.visitTrendHour(idshop, entry, start, end);
                     break;
                 case day:
-                    list = dao.visitEntryTrendDay(idshop, entry, start, end);
+                    list = mapper.visitTrendDay(idshop, entry, start, end);
                     break;
                 case week:
-                    list = dao.visitEntryTrendWeek(idshop, entry, start, end);
+                    list = mapper.visitTrendWeek(idshop, entry, start, end);
                     break;
                 case month:
-                    list = dao.visitEntryTrendMonth(idshop, entry, start, end);
+                    list = mapper.visitTrendMonth(idshop, entry, start, end);
                     break;
             }
         }
@@ -261,12 +262,258 @@ public class StatisticsServiceImpl implements StatisticsService {
     public List<DeviceBrandValue> deviceBrandRanking(String idshop, RankingType ranktype, Date start, Date end, int limit, int skip) throws Exception {
         Shop shop = shopDao.findById(idshop);
         if (shop != null) {
-            List<DeviceBrandValue> list = dao.deviceBrand(idshop, (int) (shop.getConfigApiVisitDurationEnter() * 60), ranktype.name(), start, end, limit, skip);
+            shop = new ShopEntity(shop);
+            int entry = (int) (shop.getConfigProbeApiVisitDurationEnter() * 60);
+            List<DeviceBrandValue> list = mapper.deviceBrand(idshop, entry, ranktype.name(), start, end, limit, skip);
             for (DeviceBrandValue value : list) {
                 value.setName(MacBrandMemory.parser(value.getName()));
             }
             return list;
         }
         return new ArrayList<>();
+    }
+
+    @Override
+    public List<DeviceBrandValue> deviceBrandRank(String idshop, RankingType ranktype, Date start, Date end, int limit, int skip) throws Exception {
+        Shop shop = shopDao.findById(idshop);
+        if (shop != null) {
+            shop = new ShopEntity(shop);
+            int entry = (int) (shop.getConfigProbeApiVisitDurationEnter() * 60);
+            int olimit = limit;
+            limit = limit + limit / 2;
+
+            List<DeviceBrandValue> list = new ArrayList<>(), tmps;
+            do {
+                tmps = mapper.deviceBrand(idshop, entry, ranktype.name(), start, end, limit, skip);
+                for (int i = 0; i < tmps.size() && list.size() < olimit - 1; i++) {
+                    DeviceBrandValue value = tmps.get(i);
+                    String brand = MacBrandMemory.parserNull(value.getName());
+                    if (brand != null) {
+                        value.setName(brand);
+                        list.add(value);
+                    }
+                }
+                skip += tmps.size();
+            } while (list.size() < olimit - 1 && tmps.size() == limit);
+
+            if (list.size() > 0) {
+                DeviceBrandValue top = tmps.get(0);
+                DeviceBrandValue total = new DeviceBrandValue();
+                total.setVt(Float.valueOf(1f * top.getVt() / top.getRvt()).intValue());
+                total.setUv(Float.valueOf(1f * top.getUv() / top.getRuv()).intValue());
+                total.setPv(Float.valueOf(1f * top.getPv() / top.getRpv()).intValue());
+                DeviceBrandValue other = new DeviceBrandValue();
+                for (DeviceBrandValue value : list) {
+                    other.setVt(other.getVt() + value.getVt());
+                    other.setUv(other.getUv() + value.getUv());
+                    other.setPv(other.getPv() + value.getPv());
+                }
+                other.setVt(total.getVt() - other.getVt());
+                other.setUv(total.getUv() - other.getUv());
+                other.setPv(total.getPv() - other.getPv());
+                other.setRvt(1f * other.getVt() / total.getVt());
+                other.setRuv(1f * other.getUv() / total.getUv());
+                other.setRpv(1f * other.getPv() / total.getPv());
+
+                if (other.getPv() > 0 || other.getVt() > 0 || other.getUv() > 0) {
+                    other.setName("其他");
+                    list.add(other);
+                }
+            }
+            return list;
+        }
+        return new ArrayList<>();
+    }
+
+    @Override
+    public List<UserTypeSpanValue> userTypeSpan(String idshop, Date start, Date end) throws Exception {
+        List<UserTypeSpanValue> list = new ArrayList<>();
+        Shop shop = shopDao.findById(idshop);
+        if (shop != null) {
+            shop = new ShopEntity(shop);
+            int entry = (int) (shop.getConfigProbeApiVisitDurationEnter() * 60);
+            Map<String, Object> map = mapper.userTypeSpan(idshop, entry, start, end);
+            UserTypeSpanValue value1 = new UserTypeSpanValue();
+            value1.setIsNewUser(true);
+            try {
+                value1.setUv(Integer.valueOf(map.get("nuv").toString()));
+                value1.setVt(Integer.valueOf(map.get("nvt").toString()));
+                value1.setRuv(Double.valueOf(map.get("rnuv").toString()).floatValue());
+                value1.setRvt(Double.valueOf(map.get("rnvt").toString()).floatValue());
+                value1.setStay(Double.valueOf(map.get("nstay").toString()).intValue());
+                try {
+                    value1.setPeriod(Double.valueOf(map.get("nperiod").toString()).intValue());
+                } catch (NullPointerException e) {
+                    value1.setPeriod(0);
+                }
+            } catch (NullPointerException e) {
+                value1.setUv(0);
+                value1.setVt(0);
+                value1.setRuv(0);
+                value1.setRvt(0);
+                value1.setStay(0);
+                value1.setPeriod(0);
+            }
+            UserTypeSpanValue value2 = new UserTypeSpanValue();
+            value2.setIsNewUser(false);
+            try {
+                value2.setUv(Integer.valueOf(map.get("ouv").toString()));
+                value2.setVt(Integer.valueOf(map.get("ovt").toString()));
+                value2.setRuv(Double.valueOf(map.get("rouv").toString()).floatValue());
+                value2.setRvt(Double.valueOf(map.get("rovt").toString()).floatValue());
+                value2.setStay(Double.valueOf(map.get("ostay").toString()).intValue());
+                value2.setPeriod(Double.valueOf(map.get("operiod").toString()).intValue());
+            } catch (NullPointerException e) {
+                value2.setUv(0);
+                value2.setVt(0);
+                value2.setRuv(0);
+                value2.setRvt(0);
+                value2.setStay(0);
+                value2.setPeriod(0);
+            }
+            list.add(value1);
+            list.add(value2);
+        }
+        return list;
+    }
+
+    @Override
+    public List<UserTypeTrendValue> userTypeTrend(String idshop, Period period, Date start, Date end) throws Exception {
+        List<UserTypeTrendValue> list = new ArrayList<>();
+        Shop shop = shopDao.findById(idshop);
+        if (shop != null) {
+            shop = new ShopEntity(shop);
+            int entry = (int) (shop.getConfigProbeApiVisitDurationEnter() * 60);
+            switch (period) {
+                case hour:
+                    list = mapper.userTypeTrendHour(idshop, entry, start, end);
+                    break;
+                case day:
+                    list = mapper.userTypeTrendDay(idshop, entry, start, end);
+                    break;
+                case week:
+                    list = mapper.userTypeTrendWeek(idshop, entry, start, end);
+                    break;
+                case month:
+                    list = mapper.userTypeTrendMonth(idshop, entry, start, end);
+                    break;
+            }
+        }
+        return list;
+    }
+
+    @Override
+    public List<UserLivenessMapValue> userLivenessMap(String idshop, Date start, Date end) throws Exception {
+        List<UserLivenessMapValue> list = new ArrayList<>();
+        Shop shop = shopDao.findById(idshop);
+        if (shop != null) {
+            shop = new ShopEntity(shop);
+            int entry = (int) (shop.getConfigProbeApiVisitDurationEnter() * 60);
+            String _map = "" + shop.getConfigProbeApiLiveness();
+            _map = _map.matches("(\\d[\\d\\.]*,)+\\d[\\d\\.]*") ? _map : "1,7,15,30";
+            _map = _map + "," + Integer.MAX_VALUE;
+            String[] maps = _map.split(",");
+            float lastValue = 0;
+            for (String map : maps) {
+                UserLivenessMapValue value = new UserLivenessMapValue(lastValue, Float.parseFloat(map), "天");
+                int min = (int) (lastValue * 24 * 60 * 60);
+                int max = (int) (Float.parseFloat(map) * 24 * 60 * 60);
+                UserLivenessTrendValue trendValue = mapper.userLivenessMap(idshop, entry, min, max, start, end);
+                value.setUv(trendValue.getUv());
+                value.setVt(trendValue.getVt());
+                if (map.equals(String.valueOf(Integer.MAX_VALUE))) {
+                    if (value.getUv() > 0 || value.getVt() > 0) {
+                        list.add(value);
+                    }
+                } else {
+                    list.add(value);
+                }
+                lastValue = Float.parseFloat(map);
+            }
+            String[] remarks = {"高活跃度顾客", "中活跃度顾客", "低活跃度顾客", "沉睡顾客", "深度沉睡顾客"};
+            for (int i = 0; i < list.size(); i++) {
+                if (i < remarks.length) {
+                    list.get(i).setRemark(remarks[i]);
+                } else {
+                    list.get(i).setRemark(remarks[remarks.length - 1]);
+                }
+            }
+        }
+        return list;
+    }
+
+    @Override
+    public List<UserLivenessTrendMapValue> userLivenessTrend(String idshop, Period period, Date start, Date end) throws Exception {
+        List<UserLivenessTrendMapValue> list = new ArrayList<>();
+        Shop shop = shopDao.findById(idshop);
+        if (shop != null) {
+            shop = new ShopEntity(shop);
+            int entry = (int) (shop.getConfigProbeApiVisitDurationEnter() * 60);
+            String _map = "" + shop.getConfigProbeApiLiveness();
+            _map = _map.matches("(\\d[\\d\\.]*,)+\\d[\\d\\.]*") ? _map : "1,7,15,30";
+            _map = _map + "," + Integer.MAX_VALUE;
+            String[] maps = _map.split(",");
+            float lastValue = 0;
+            for (String map : maps) {
+                UserLivenessTrendMapValue value = new UserLivenessTrendMapValue(lastValue, Float.parseFloat(map), "天");
+                int min = (int) (lastValue * 24 * 60 * 60);
+                int max = (int) (Float.parseFloat(map) * 24 * 60 * 60);
+                switch (period) {
+                    case hour:
+                        value.setTrend(mapper.userLivenessTrendHour(idshop, entry, min, max, start, end));
+                        break;
+                    case day:
+                        value.setTrend(mapper.userLivenessTrendDay(idshop, entry, min, max, start, end));
+                        break;
+                    case week:
+                        value.setTrend(mapper.userLivenessTrendWeek(idshop, entry, min, max, start, end));
+                        break;
+                    case month:
+                        value.setTrend(mapper.userLivenessTrendMonth(idshop, entry, min, max, start, end));
+                        break;
+                }
+                if (map.equals(String.valueOf(Integer.MAX_VALUE))) {
+                    if (value.getTrend() != null && value.getTrend().size() > 0) {
+                        list.add(value);
+                    }
+                } else {
+                    list.add(value);
+                }
+                lastValue = Float.parseFloat(map);
+            }
+            String[] remarks = {"高活跃度顾客", "中活跃度顾客", "低活跃度顾客", "沉睡顾客", "深度沉睡顾客"};
+            for (int i = 0; i < list.size(); i++) {
+                if (i < remarks.length) {
+                    list.get(i).setRemark(remarks[i]);
+                } else {
+                    list.get(i).setRemark(remarks[remarks.length - 1]);
+                }
+            }
+        }
+        return list;
+    }
+
+    @Override
+    public int onlineProbe(String idshop) throws Exception {
+        Date time = new Date(System.currentTimeMillis() - 5 * 60 * 1000);
+        return mapper.onlineProbe(idshop, time);
+    }
+
+    @Override
+    public int onlineUser(String idshop) throws Exception {
+        Date time = new Date(System.currentTimeMillis() - 5 * 60 * 1000);
+        return mapper.onlineUser(idshop, time);
+    }
+
+    @Override
+    public List<OnlineValue> onlineProbeAll() throws Exception {
+        Date time = new Date(System.currentTimeMillis() - 5 * 60 * 1000);
+        return mapper.onlineProbeAll(time);
+    }
+
+    @Override
+    public List<OnlineValue> onlineUserAll() throws Exception {
+        Date time = new Date(System.currentTimeMillis() - 5 * 60 * 1000);
+        return mapper.onlineUserAll(time);
     }
 }

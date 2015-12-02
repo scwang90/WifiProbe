@@ -1,9 +1,9 @@
 package com.simpletech.wifiprobe.service.impl;
 
-import com.simpletech.wifiprobe.dao.WifiDao;
-import com.simpletech.wifiprobe.model.Wifi;
+import com.simpletech.wifiprobe.dao.ProbeBindingDao;
+import com.simpletech.wifiprobe.model.ProbeBinding;
 import com.simpletech.wifiprobe.model.base.ModelBase;
-import com.simpletech.wifiprobe.service.WifiService;
+import com.simpletech.wifiprobe.service.ProbeBindingService;
 import com.simpletech.wifiprobe.service.base.BaseServiceImpl;
 import com.simpletech.wifiprobe.util.Page;
 import com.simpletech.wifiprobe.util.ServiceException;
@@ -13,26 +13,26 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * 数据库表t_wifi的Service接实现
+ * 数据库表probe_binding的Service接实现
  * @author 树朾
- * @date 2015-11-03 17:09:44 中国标准时间
+ * @date 2015-11-24 18:16:03 中国标准时间
  */
 @Service
-public class WifiServiceImpl extends BaseServiceImpl<Wifi> implements WifiService{
+public class ProbeBindingServiceImpl extends BaseServiceImpl<ProbeBinding> implements ProbeBindingService{
 
 	@Autowired
-	WifiDao dao;
+	ProbeBindingDao dao;
 	
 	@Override
-	public int insert(Wifi model) throws Exception{
+	public int insert(ProbeBinding model){
 		ModelBase.check(model);
 		ModelBase.fillNullID(model);
 		return dao.insert(model);
 	}
 	
 	@Override
-	public int update(Wifi model) throws Exception {
-		Wifi old = findById(getModelID(model));
+	public int update(ProbeBinding model) {
+		ProbeBinding old = findById(getModelID(model));
 		if (old == null) {
 			throw new ServiceException("请求更新记录不存在或已经被删除！");
 		}
@@ -41,49 +41,49 @@ public class WifiServiceImpl extends BaseServiceImpl<Wifi> implements WifiServic
 	}
 
 	@Override
-	public int delete(Object id) throws Exception {
+	public int delete(Object id) {
 		return dao.delete(id);
 	}
 
 	@Override
-	public Wifi findById(Object id) throws Exception{
+	public ProbeBinding findById(Object id){
 		return dao.findById(id);
 	}
 
 	@Override
-	public List<Wifi> findAll() throws Exception{
+	public List<ProbeBinding> findAll(){
 		return dao.findAll();
 	}
 
 	@Override
-	public int delete(String id) throws Exception{
+	public int delete(String id){
 		return dao.delete(id);
 	}
 
 	@Override
-	public List<Wifi> findByPage(int limit, int start) throws Exception {
+	public List<ProbeBinding> findByPage(int limit, int start) {
 		return dao.findByPage(limit,start);
 	}
 
 	@Override
-	public Wifi findById(String id) throws Exception {
+	public ProbeBinding findById(String id) {
 		return dao.findById(id);
 	}
 	
 	@Override
-	public Page<Wifi> listByPage(int pageSize, int pageNo) throws Exception{
+	public Page<ProbeBinding> listByPage(int pageSize, int pageNo){
 		int limit = pageSize; 
 		int start = pageNo*pageSize;
 		int totalRecord = dao.countAll();
 		int totalPage = 1 + (totalRecord - 1) / pageSize;
 		
-		List<Wifi> list = dao.findByPage(limit, start);
+		List<ProbeBinding> list = dao.findByPage(limit, start);
 		
-		return new Page<Wifi>(pageNo,pageSize,totalPage,totalRecord,list){};
+		return new Page<ProbeBinding>(pageNo,pageSize,totalPage,totalRecord,list){};
 	}
 
 	@Override
-	public int countAll() throws Exception {
+	public int countAll() {
 		return dao.countAll();
 	}
 }

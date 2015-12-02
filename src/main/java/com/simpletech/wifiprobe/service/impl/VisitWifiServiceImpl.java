@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * 数据库表t_visit_wifi的Service接实现
  * @author 树朾
- * @date 2015-11-03 17:09:44 中国标准时间
+ * @date 2015-11-24 18:16:03 中国标准时间
  */
 @Service
 public class VisitWifiServiceImpl extends BaseServiceImpl<VisitWifi> implements VisitWifiService{
@@ -24,14 +24,14 @@ public class VisitWifiServiceImpl extends BaseServiceImpl<VisitWifi> implements 
 	VisitWifiDao dao;
 	
 	@Override
-	public int insert(VisitWifi model) throws Exception{
+	public int insert(VisitWifi model){
 		ModelBase.check(model);
 		ModelBase.fillNullID(model);
 		return dao.insert(model);
 	}
 	
 	@Override
-	public int update(VisitWifi model) throws Exception {
+	public int update(VisitWifi model) {
 		VisitWifi old = findById(getModelID(model));
 		if (old == null) {
 			throw new ServiceException("请求更新记录不存在或已经被删除！");
@@ -41,37 +41,37 @@ public class VisitWifiServiceImpl extends BaseServiceImpl<VisitWifi> implements 
 	}
 
 	@Override
-	public int delete(Object id) throws Exception {
+	public int delete(Object id) {
 		return dao.delete(id);
 	}
 
 	@Override
-	public VisitWifi findById(Object id) throws Exception{
+	public VisitWifi findById(Object id){
 		return dao.findById(id);
 	}
 
 	@Override
-	public List<VisitWifi> findAll() throws Exception{
+	public List<VisitWifi> findAll(){
 		return dao.findAll();
 	}
 
 	@Override
-	public int delete(String id) throws Exception{
+	public int delete(String id){
 		return dao.delete(id);
 	}
 
 	@Override
-	public List<VisitWifi> findByPage(int limit, int start) throws Exception {
+	public List<VisitWifi> findByPage(int limit, int start) {
 		return dao.findByPage(limit,start);
 	}
 
 	@Override
-	public VisitWifi findById(String id) throws Exception {
+	public VisitWifi findById(String id) {
 		return dao.findById(id);
 	}
 	
 	@Override
-	public Page<VisitWifi> listByPage(int pageSize, int pageNo) throws Exception{
+	public Page<VisitWifi> listByPage(int pageSize, int pageNo){
 		int limit = pageSize; 
 		int start = pageNo*pageSize;
 		int totalRecord = dao.countAll();
@@ -83,7 +83,7 @@ public class VisitWifiServiceImpl extends BaseServiceImpl<VisitWifi> implements 
 	}
 
 	@Override
-	public int countAll() throws Exception {
+	public int countAll() {
 		return dao.countAll();
 	}
 }

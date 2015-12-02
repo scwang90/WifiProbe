@@ -1,14 +1,13 @@
 package com.simpletech.wifiprobe.service.impl;
 
 import com.simpletech.wifiprobe.dao.TrackerDao;
-import com.simpletech.wifiprobe.mac.MacBrand;
 import com.simpletech.wifiprobe.mac.MacBrandMemory;
-import com.simpletech.wifiprobe.model.MacLog;
-import com.simpletech.wifiprobe.model.Shop;
-import com.simpletech.wifiprobe.model.Visit;
-import com.simpletech.wifiprobe.model.VisitWifi;
+import com.simpletech.wifiprobe.mapper.api.TrackerMapper;
+import com.simpletech.wifiprobe.mapper_log.ProbeLogMapper;
+import com.simpletech.wifiprobe.model.*;
+import com.simpletech.wifiprobe.model.entity.ShopEntity;
 import com.simpletech.wifiprobe.service.TrackerService;
-import com.simpletech.wifiprobe.util.AfStringUtil;
+import com.simpletech.wifiprobe.util.SynchronizedLock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,9 +20,16 @@ import java.util.Date;
 @Service
 public class TrackerServiceImpl implements TrackerService {
 
-
     @Autowired
     TrackerDao dao;
+
+    @Autowired
+    TrackerMapper mapper;
+
+    @Autowired
+    ProbeLogMapper logMapper;
+
+    SynchronizedLock<String> visitLock = new SynchronizedLock<>(1000);
 
     /**
      * 接收探针日志数据
@@ -31,66 +37,70 @@ public class TrackerServiceImpl implements TrackerService {
      * @param log 日志数据
      */
     @Override
-    public void maclog(MacLog log) throws Exception {
+    public void maclog(ProbeLog log) throws Exception {
         Date now = new Date();
         Shop shop = dao.findShopByFiwiId(log.getIdwifi());
         if (shop != null) {
+            shop = new ShopEntity(shop);
             String idvisit = "";
             String idvisitwifi = "";
-            if (log.getSignalStrength() >= (100 - 30) * shop.getConfigVisitSignal() / 100 - 100) {//信号过滤
-                Visit lastVist = dao.findLastVistByMacAndShop(shop.getId(), log.getMacDevice());
-                if (lastVist == null || lastVist.getTimeLeave().getTime() < now.getTime() - shop.getConfigVisitExpired() * 60 * 1000) {
-                    Visit visit = new Visit();
-                    visit.setMacDevice(log.getMacDevice());
-                    visit.setIdwifi(log.getIdwifi());
-                    visit.setIdshop(shop.getId());
-                    visit.fillNullID();
-                    visit.setCreateTime(now);
-                    visit.setUpdateTime(now);
-                    visit.setTimeEntry(now);
-                    visit.setTimeLeave(now);
-                    visit.setTimeFromLast((int) ((now.getTime() - ((lastVist != null)?lastVist.getCreateTime().getTime():now.getTime()))/1000));//除以1000换算成秒
-                    visit.setTimeDuration(0);
-                    visit.setCountLogs(1);
-                    visit.setEndBrand(MacBrandMemory.parserBrandMac(log.getMacDevice()));
-                    visit.setIsNewUser((lastVist == null || lastVist.getCreateTime().getTime() < now.getTime() - shop.getConfigUserExpired() * 24 * 60 * 60 * 1000));
-                    dao.insertVisit(visit);
-                    idvisit = visit.getId();
-                } else {
-                    idvisit = lastVist.getId();
-                    MacLog macLog = new MacLog();
-                    macLog.setIdvisit(idvisit);
-                    dao.updateVisitByMacLog(macLog);
+            synchronized (visitLock.getLock(shop.getShopID() + log.getMacDevice())) {
+                if (log.getSignalStrength() >= (100 - 30) * shop.getConfigProbeVisitSignal() / 100 - 100) {//信号过滤
+                    Visit lastVist = mapper.findLastVistByMacAndShop(shop.getShopID(), log.getMacDevice());
+                    if (lastVist == null || lastVist.getTimeLeave().getTime() < now.getTime() - shop.getConfigProbeVisitExpired() * 60 * 1000l) {
+                        Visit visit = new Visit();
+                        visit.setMacDevice(log.getMacDevice());
+                        visit.setIdwifi(log.getIdwifi());
+                        visit.setIdshop(shop.getShopID());
+                        visit.fillNullID();
+                        visit.setCreateTime(now);
+                        visit.setUpdateTime(now);
+                        visit.setTimeEntry(now);
+                        visit.setTimeLeave(now);
+                        visit.setTimeFromLast((int) ((now.getTime() - ((lastVist != null)?lastVist.getCreateTime().getTime():now.getTime()))/1000l));//除以1000换算成秒
+                        visit.setTimeDuration(0);
+                        visit.setCountLogs(1);
+                        visit.setEndBrand(MacBrandMemory.parserBrandMac(log.getMacDevice()));
+                        visit.setIsNewUser((lastVist == null || lastVist.getCreateTime().getTime() < now.getTime() - shop.getConfigProbeUserExpired() * 24 * 60 * 60 * 1000l));
+                        mapper.insertVisit(visit);
+                        idvisit = visit.getId();
+                    } else {
+                        idvisit = lastVist.getId();
+                        MacLog macLog = new MacLog();
+                        macLog.setIdvisit(idvisit);
+                        mapper.updateVisitByMacLog(macLog);
+                    }
                 }
-            }
-            if (log.getSignalStrength() >= (100 - 30) * shop.getConfigVisitSignalWifi() / 100 - 100) {//信号过滤
-                VisitWifi lastVist = dao.findLastVisitWifiByMacAndShop(shop.getId(), log.getMacDevice());
-                if (lastVist == null || lastVist.getTimeLeave().getTime() < now.getTime() - shop.getConfigVisitExpiredWifi() * 60 * 1000) {
-                    VisitWifi visit = new VisitWifi();
-                    visit.setMacDevice(log.getMacDevice());
-                    visit.setIdwifi(log.getIdwifi());
-                    visit.setIdshop(shop.getId());
-                    visit.fillNullID();
-                    visit.setCreateTime(now);
-                    visit.setUpdateTime(now);
-                    visit.setTimeEntry(now);
-                    visit.setTimeLeave(now);
-                    visit.setTimeDuration(0);
-                    visit.setCountLogs(1);
-                    dao.insertVisitWifi(visit);
-                    idvisitwifi = visit.getId();
-                } else {
-                    idvisitwifi = lastVist.getId();
-                    MacLog macLog = new MacLog();
-                    macLog.setIdvisitwifi(idvisitwifi);
-                    dao.updateVisitWifiByMacLog(macLog);
+                if (log.getSignalStrength() >= (100 - 30) * shop.getConfigProbeVisitSignalWifi() / 100 - 100) {//信号过滤
+                    VisitWifi lastVist = mapper.findLastVisitWifiByMacAndShop(shop.getShopID(), log.getMacDevice());
+                    if (lastVist == null || lastVist.getTimeLeave().getTime() < now.getTime() - shop.getConfigProbeVisitExpiredWifi() * 60 * 1000l) {
+                        VisitWifi visit = new VisitWifi();
+                        visit.setMacDevice(log.getMacDevice());
+                        visit.setIdwifi(log.getIdwifi());
+                        visit.setIdshop(shop.getShopID());
+                        visit.fillNullID();
+                        visit.setCreateTime(now);
+                        visit.setUpdateTime(now);
+                        visit.setTimeEntry(now);
+                        visit.setTimeLeave(now);
+                        visit.setTimeDuration(0);
+                        visit.setCountLogs(1);
+                        mapper.insertVisitWifi(visit);
+                        idvisitwifi = visit.getId();
+                    } else {
+                        idvisitwifi = lastVist.getId();
+                        MacLog macLog = new MacLog();
+                        macLog.setIdvisitwifi(idvisitwifi);
+                        mapper.updateVisitWifiByMacLog(macLog);
+                    }
                 }
-            }
 
-            log.setIdvisit(idvisit);
-            log.setIdvisitwifi(idvisitwifi);
-            log.setIdshop(shop.getId());
-            dao.insertMacLog(log);
+                log.setIdvisit(idvisit);
+                log.setIdvisitwifi(idvisitwifi);
+                log.setIdshop(shop.getShopID());
+//                mapper.insertMacLog(log);
+                logMapper.insert(log);
+            }
         } else {
             System.out.println("无效WifiId：" + log.getIdwifi());
         }

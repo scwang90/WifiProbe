@@ -37,7 +37,7 @@ public class StatisticsCustomerTypeServiceImpl implements StatisticsCustomerType
     @Override
     public List<IsNewCustomerValue> customer(String idshop, Date start, Date end) throws Exception {
         Shop shop=shopDao.findById(idshop);
-        List<IsNewCustomerValue> values= dao.customer(idshop, (int)(shop.getConfigApiVisitDurationEnter()*60), start, end);
+        List<IsNewCustomerValue> values= dao.customer(idshop, (int)(shop.getConfigProbeApiVisitDurationEnter()*60), start, end);
         int total=0;
         for(IsNewCustomerValue list:values){
             total+=list.getNum();
@@ -64,11 +64,11 @@ public class StatisticsCustomerTypeServiceImpl implements StatisticsCustomerType
         List<LivenessValue> values = new ArrayList<>();
         List<LivenessValue> ss = new ArrayList<>();
         Shop shop = shopDao.findById(idshop);
-        int entry=(int)(shop.getConfigApiVisitDurationEnter()*60);//getConfigApiVisitDurationEnter()值的单位是分钟，化成秒需要乘以60
+        int entry=(int)(shop.getConfigProbeApiVisitDurationEnter()*60);//getConfigApiVisitDurationEnter()值的单位是分钟，化成秒需要乘以60
         LivenessTrendValue countCustomer=dao.countCustomer(idshop,entry ,start, end);
 
         if (shop != null) {
-            String count = "" + shop.getConfigApiLiveness();
+            String count = "" + shop.getConfigProbeApiLiveness();
             count = count.matches("(\\d[\\d\\.]*,)+\\d[\\d\\.]*") ? count : "0.5,7,15,30";
 //            count = count + "," + Integer.MAX_VALUE;
             String[] counts = count.split(",");
@@ -131,12 +131,12 @@ public class StatisticsCustomerTypeServiceImpl implements StatisticsCustomerType
         List<LivenessTrendValue> values = new ArrayList<>();
 
         Shop shop = shopDao.findById(idshop);
-        int entry=(int)(shop.getConfigApiVisitDurationEnter()*60);//getConfigApiVisitDurationEnter()值的单位是分钟，化成秒需要乘以60
+        int entry=(int)(shop.getConfigProbeApiVisitDurationEnter()*60);//getConfigApiVisitDurationEnter()值的单位是分钟，化成秒需要乘以60
 
         LivenessTrendValue countCustomer=dao.countCustomer(idshop,entry, start, end);
 
         if (shop != null) {
-            String count = "" + shop.getConfigApiLiveness();
+            String count = "" + shop.getConfigProbeApiLiveness();
             count = count.matches("(\\d[\\d\\.]*,)+\\d[\\d\\.]*") ? count : "0.5,7,15,30";
             count = count + "," + Integer.MAX_VALUE;
             String[] counts = count.split(",");

@@ -1,63 +1,55 @@
-package com.simpletech.wifiprobe.mapper;
+package com.simpletech.wifiprobe.service;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.simpletech.wifiprobe.aspect.LoggingAspect;
-import com.simpletech.wifiprobe.model.Shop;
+import com.simpletech.wifiprobe.model.ProbeBinding;
 import com.simpletech.wifiprobe.util.JacksonUtil;
 
 /**
- * 数据库表t_shop的Mapper层测试类
+ * 数据库表probe_binding的Service层测试类
  * @author 树朾
- * @date 2015-11-02 17:16:40 中国标准时间
+ * @date 2015-11-24 18:16:03 中国标准时间
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:spring-*.xml")
-public class ShopMapperTester {
+public class ProbeBindingServiceTester {
 
-	
 	@Autowired
-	ShopMapper mapper;
-
-	@Before
-	public void setUp() {
-		LoggingAspect.log = false;
-	}
-
+	ProbeBindingService service;
+	
 	@Test
 	public void insert() throws Exception{
-		Shop model = new Shop();
-		Object result = mapper.insert(model);
+		ProbeBinding model = new ProbeBinding();
+		Object result = service.insert(model);
 		System.out.println(JacksonUtil.toJson(result).replace("{","\n{"));
 	}
 	
 	@Test
 	public void update() throws Exception {
-		Shop model = new Shop();
-		Object result = mapper.update(model);
+		ProbeBinding model = new ProbeBinding();
+		Object result = service.update(model);
 		System.out.println(JacksonUtil.toJson(result).replace("{","\n{"));
 	}
 	
 	@Test
 	public void delete() throws Exception {
-		Object result = mapper.delete("1");
+		Object result = service.delete("1");
 		System.out.println(JacksonUtil.toJson(result).replace("{","\n{"));
 	}
 	
 	@Test
 	public void countAll() throws Exception {
-		Object result = mapper.countAll();
+		Object result = service.countAll();
 		System.out.println(JacksonUtil.toJson(result).replace("{","\n{"));
 	}
 
 	@Test
-	public void findAll() throws Exception {
-		Object result = mapper.findAll("");
+	public void findByPage() throws Exception {
+		Object result = service.findByPage(5,0);
 		System.out.println(JacksonUtil.toJson(result).replace("{","\n{"));
 	}
 

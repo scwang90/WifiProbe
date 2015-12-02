@@ -62,4 +62,12 @@ public class StatisticsControllerTester {
 		Object result = controller.visitDurationTrend("1", Period.day, null, null, monthf.parse("2015-11-0"), monthf.parse("2015-11-30"));
 		System.out.println(JacksonUtil.toJson(result).replace("{","\n{"));
 	}
+
+
+	@Test
+	public void visitSpan() throws Exception{
+		Object result = controller.visitSpan("1",null,null, monthf.parse("2015-11-0"), monthf.parse("2015-11-30"));
+		System.out.println(JacksonUtil.toJson(result).replace("{","\n{"));
+	}
+
 }

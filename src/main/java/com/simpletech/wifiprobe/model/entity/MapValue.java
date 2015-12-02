@@ -6,8 +6,8 @@ package com.simpletech.wifiprobe.model.entity;
  */
 public abstract class MapValue {
 
-    private float map_min;            //范围最小值
-    private float map_max;            //范围最大值
+    private float map_min;          //范围最小值
+    private float map_max;          //范围最大值
     private String map_val;         //范围值
     private String map_unit;        //单位
 

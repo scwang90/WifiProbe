@@ -13,9 +13,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * 数据库表t_shop的Service接实现
+ * 数据库表shop的Service接实现
  * @author 树朾
- * @date 2015-11-03 17:09:44 中国标准时间
+ * @date 2015-11-24 18:16:03 中国标准时间
  */
 @Service
 public class ShopServiceImpl extends BaseServiceImpl<Shop> implements ShopService{
@@ -24,14 +24,14 @@ public class ShopServiceImpl extends BaseServiceImpl<Shop> implements ShopServic
 	ShopDao dao;
 	
 	@Override
-	public int insert(Shop model) throws Exception{
+	public int insert(Shop model){
 		ModelBase.check(model);
 		ModelBase.fillNullID(model);
 		return dao.insert(model);
 	}
 	
 	@Override
-	public int update(Shop model) throws Exception {
+	public int update(Shop model) {
 		Shop old = findById(getModelID(model));
 		if (old == null) {
 			throw new ServiceException("请求更新记录不存在或已经被删除！");
@@ -41,37 +41,37 @@ public class ShopServiceImpl extends BaseServiceImpl<Shop> implements ShopServic
 	}
 
 	@Override
-	public int delete(Object id) throws Exception {
+	public int delete(Object id) {
 		return dao.delete(id);
 	}
 
 	@Override
-	public Shop findById(Object id) throws Exception{
+	public Shop findById(Object id){
 		return dao.findById(id);
 	}
 
 	@Override
-	public List<Shop> findAll() throws Exception{
+	public List<Shop> findAll(){
 		return dao.findAll();
 	}
 
 	@Override
-	public int delete(String id) throws Exception{
+	public int delete(String id){
 		return dao.delete(id);
 	}
 
 	@Override
-	public List<Shop> findByPage(int limit, int start) throws Exception {
+	public List<Shop> findByPage(int limit, int start) {
 		return dao.findByPage(limit,start);
 	}
 
 	@Override
-	public Shop findById(String id) throws Exception {
+	public Shop findById(String id) {
 		return dao.findById(id);
 	}
 	
 	@Override
-	public Page<Shop> listByPage(int pageSize, int pageNo) throws Exception{
+	public Page<Shop> listByPage(int pageSize, int pageNo){
 		int limit = pageSize; 
 		int start = pageNo*pageSize;
 		int totalRecord = dao.countAll();
@@ -83,7 +83,7 @@ public class ShopServiceImpl extends BaseServiceImpl<Shop> implements ShopServic
 	}
 
 	@Override
-	public int countAll() throws Exception {
+	public int countAll() {
 		return dao.countAll();
 	}
 }

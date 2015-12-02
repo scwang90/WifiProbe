@@ -1,6 +1,7 @@
-package com.simpletech.wifiprobe.mapper;
+package com.simpletech.wifiprobe.mapper.api;
 
 import com.simpletech.wifiprobe.aspect.LoggingAspect;
+import com.simpletech.wifiprobe.mapper.api.TrackerMapper;
 import com.simpletech.wifiprobe.util.JacksonUtil;
 import org.junit.Before;
 import org.junit.Test;
@@ -28,8 +29,8 @@ public class TrackerMapperTester {
 	}
 
 	@Test
-	public void findShopByWiwiId() throws Exception{
-		Object result = mapper.findShopByFiwiId("1");
+	public void findLastLogByMacAndShop() throws Exception{
+		Object result = mapper.findLastLogByMacAndShop("1", "42a5ef8070a4");
 		System.out.println(JacksonUtil.toJson(result).replace("{","\n{"));
 	}
 

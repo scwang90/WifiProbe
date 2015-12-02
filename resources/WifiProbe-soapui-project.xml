@@ -1,0 +1,1306 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project id="4f815c40-3a01-4b90-9077-d2c8d8e72a9c" activeEnvironment="Default" name="WifiProbe" soapui-version="5.2.0" abortOnError="false" runType="SEQUENTIAL" resourceRoot="" xmlns:con="http://eviware.com/soapui/config">
+    <con:settings/>
+    <con:interface xsi:type="con:RestService" id="6bdf65b5-220a-43e0-a33b-865d5e4486a9" wadlVersion="http://wadl.dev.java.net/2009/02" name="http://222.85.149.5:8080" type="rest" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        <con:settings/>
+        
+        <con:definitionCache type="TEXT" rootPart=""/><con:endpoints>
+            <con:endpoint>http://222.85.149.5:8080</con:endpoint>
+        </con:endpoints>
+        <con:resource name="日志发送" path="/WifiProbe/api/tracker" id="8d344d05-ad1d-4f34-b21c-1ecfd1231903">
+            <con:settings/>
+            <con:parameters/>
+            <con:resource name="标准接口" path="mac/log" id="d454178d-6848-4107-983b-065d35e9bfb0">
+                <con:settings/>
+                <con:parameters/>
+                <con:method name="Method 1" id="f2998954-7238-476d-92e7-9c75e576cb96" method="GET">
+                    <con:settings/>
+                    <con:parameters/>
+                    <con:request name="Request 1" id="bbe67acb-a846-49d1-89a2-66c9789e9e78" mediaType="application/json">
+                        <con:settings/>
+                        <con:endpoint>http://222.85.149.5:8080</con:endpoint>
+                        <con:request/>
+                        <con:credentials>
+                            <con:authType>No Authorization</con:authType>
+                        </con:credentials>
+                        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+                        <con:jmsPropertyConfig/>
+                        <con:parameters/>
+                    </con:request>
+                </con:method>
+            </con:resource>
+            <con:resource name="兼容接口" path="mac/log/compat" id="50b88d2f-d202-4db4-b2dd-cef31410b038">
+                <con:settings/>
+                <con:parameters/>
+                <con:method name="Method 1" id="3ed29e6e-c02f-4dd0-8aab-04cdd8141525" method="POST">
+                    <con:settings/>
+                    <con:parameters/>
+                    <con:representation type="RESPONSE">
+                        <con:mediaType>text/json;charset=UTF-8</con:mediaType>
+                        <con:status>200</con:status>
+                        <con:params/>
+                        <con:element xmlns:com="http://222.85.149.5/WifiProbe/api/tracker/mac/log/compat">com:Response
+                        </con:element>
+                    </con:representation>
+                    <con:representation type="REQUEST">
+                        <con:mediaType>application/json</con:mediaType>
+                        <con:params/>
+                    </con:representation>
+                    <con:representation type="RESPONSE">
+                        <con:mediaType xsi:nil="true"/>
+                        <con:status>0</con:status>
+                        <con:params/>
+                        <con:element>data</con:element>
+                    </con:representation>
+                    <con:representation type="RESPONSE">
+                        <con:mediaType xsi:nil="true"/>
+                        <con:status>0</con:status>
+                        <con:params/>
+                        <con:element>data</con:element>
+                    </con:representation>
+                    <con:request name="Request 1" id="c4eaf7b4-6757-48eb-8711-a55fe56422e5" mediaType="application/json" postQueryString="false">
+                        <con:settings>
+                            <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+                        </con:settings>
+                        <con:endpoint>http://222.85.149.5:8080</con:endpoint>
+                        <con:request>{"data":[{"time":"","rssi":-78,"mac":"14:f6:5a:90:a6:63","id":"B068B6FFB1C4"}]}
+                        </con:request>
+                        <con:originalUri>http://222.85.149.5/WifiProbe/api/tracker/mac/log/compat</con:originalUri>
+                        <con:credentials>
+                            <con:authType>No Authorization</con:authType>
+                        </con:credentials>
+                        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+                        <con:jmsPropertyConfig/>
+                        <con:parameters/>
+                    </con:request>
+                </con:method>
+            </con:resource>
+        </con:resource>
+        <con:resource name="品牌统计" path="/WifiProbe/v1" id="e5123e4b-c980-4b53-99eb-8776131c9bcc">
+            <con:settings/>
+            <con:parameters/>
+            <con:resource name="品牌排行" path="area/2/device/brand/ranking/pv/10/0" id="c1209c4c-271f-4d73-84aa-2e82bf845b1b">
+                <con:settings/>
+                <con:parameters/>
+                <con:method name="Method 1" id="fc58ac14-5755-4969-b5e2-a80be796c8ab" method="GET">
+                    <con:settings/>
+                    <con:parameters/>
+                    <con:representation type="RESPONSE">
+                        <con:mediaType>text/json;charset=UTF-8</con:mediaType>
+                        <con:status>200</con:status>
+                        <con:params/>
+                        <con:element xmlns:ns="http://222.85.149.5/WifiProbe/v1/area/2/device/brand/ranking/pv/10/0">
+                            ns:Response
+                        </con:element>
+                    </con:representation>
+                    <con:request name="Request 1" id="2c917700-c7fb-4642-8e94-c811f29929fd" mediaType="application/json">
+                        <con:settings>
+                            <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+                        </con:settings>
+                        <con:endpoint>http://222.85.149.5:8080</con:endpoint>
+                        <con:request/>
+                        <con:originalUri>http://222.85.149.5/WifiProbe/v1/area/2/device/brand/ranking/pv/10/0
+                        </con:originalUri>
+                        <con:credentials>
+                            <con:authType>No Authorization</con:authType>
+                        </con:credentials>
+                        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+                        <con:jmsPropertyConfig/>
+                        <con:parameters/>
+                    </con:request>
+                </con:method>
+            </con:resource>
+            <con:resource name="活跃分布" path="area/1/user/liveness/map" id="079c905d-4bd9-47a5-a4e4-6a1c6d5088ef">
+                <con:settings/>
+                <con:parameters/>
+                <con:method name="Method 1" id="9c310356-1ed6-4501-8968-655e7714d1db" method="GET">
+                    <con:settings/>
+                    <con:parameters/>
+                    <con:representation type="FAULT">
+                        <con:mediaType>text/html;charset=utf-8</con:mediaType>
+                        <con:status>500</con:status>
+                        <con:params/>
+                        <con:element>html</con:element>
+                    </con:representation>
+                    <con:representation type="FAULT">
+                        <con:mediaType xsi:nil="true"/>
+                        <con:status>404</con:status>
+                        <con:params/>
+                        <con:element>data</con:element>
+                    </con:representation>
+                    <con:representation type="RESPONSE">
+                        <con:mediaType>text/json;charset=UTF-8</con:mediaType>
+                        <con:status>200</con:status>
+                        <con:params/>
+                        <con:element xmlns:map="http://222.85.149.5/WifiProbe/v1/area/1/customer/liveness/map">
+                            map:Response
+                        </con:element>
+                    </con:representation>
+                    <con:representation type="RESPONSE">
+                        <con:mediaType xsi:nil="true"/>
+                        <con:status>0</con:status>
+                        <con:params/>
+                        <con:element>data</con:element>
+                    </con:representation>
+                    <con:representation type="RESPONSE">
+                        <con:mediaType xsi:nil="true"/>
+                        <con:status>0</con:status>
+                        <con:params/>
+                        <con:element>data</con:element>
+                    </con:representation>
+                    <con:representation type="RESPONSE">
+                        <con:mediaType xsi:nil="true"/>
+                        <con:status>0</con:status>
+                        <con:params/>
+                        <con:element>data</con:element>
+                    </con:representation>
+                    <con:request name="Request 1" id="d1ca7dfd-aa8f-436f-b526-89c18dc0e082" mediaType="application/json">
+                        <con:settings>
+                            <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+                        </con:settings>
+                        <con:endpoint>http://222.85.149.5:8080</con:endpoint>
+                        <con:request/>
+                        <con:originalUri>http://222.85.149.5/WifiProbe/v1/area/1/customer/liveness/map</con:originalUri>
+                        <con:credentials>
+                            <con:authType>No Authorization</con:authType>
+                        </con:credentials>
+                        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+                        <con:jmsPropertyConfig/>
+                        <con:parameters/>
+                    </con:request>
+                </con:method>
+            </con:resource>
+            <con:resource name="活跃趋势" path="area/1/user/liveness/trend/day" id="6ca0d089-d2f1-4c2a-8499-e4a11cf96217">
+                <con:settings/>
+                <con:parameters>
+                    <con:parameter>
+                        <con:name>offset</con:name>
+                        <con:value/>
+                        <con:style>QUERY</con:style>
+                        <con:default/>
+                        <con:description xsi:nil="true"/>
+                    </con:parameter>
+                    <con:parameter>
+                        <con:name>span</con:name>
+                        <con:value/>
+                        <con:style>QUERY</con:style>
+                        <con:default/>
+                        <con:description xsi:nil="true"/>
+                    </con:parameter>
+                </con:parameters>
+                <con:method name="Method 1" id="45851b81-9ade-40bb-a314-64a145c4b269" method="GET">
+                    <con:settings/>
+                    <con:parameters/>
+                    <con:representation type="RESPONSE">
+                        <con:mediaType>text/json;charset=UTF-8</con:mediaType>
+                        <con:status>200</con:status>
+                        <con:params/>
+                        <con:element xmlns:day="http://222.85.149.5/WifiProbe/v1/area/1/customer/liveness/trend/day">
+                            day:Response
+                        </con:element>
+                    </con:representation>
+                    <con:request name="Request 1" id="a07d81ef-fdb9-45c0-b102-148ab845a1cd" mediaType="application/json">
+                        <con:settings>
+                            <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+                        </con:settings>
+                        <con:endpoint>http://222.85.149.5:8080</con:endpoint>
+                        <con:request/>
+                        <con:originalUri>http://222.85.149.5/WifiProbe/v1/area/1/customer/liveness/trend/day
+                        </con:originalUri>
+                        <con:credentials>
+                            <con:authType>No Authorization</con:authType>
+                        </con:credentials>
+                        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+                        <con:jmsPropertyConfig/>
+                        <con:parameters>
+                            <con:entry key="offset" value="0"/>
+                            <con:entry key="span" value="week"/>
+                        </con:parameters>
+                        <con:parameterOrder>
+                            <con:entry>offset</con:entry>
+                            <con:entry>span</con:entry>
+                        </con:parameterOrder>
+                    </con:request>
+                </con:method>
+            </con:resource>
+            <con:resource name="路过频次" path="area/1/past/frequency/map" id="79c6c451-8986-444c-bf39-ba181543f135">
+                <con:settings/>
+                <con:parameters/>
+                <con:method name="Method 1" id="aef74dd9-e6e6-47c1-a690-75e819991e23" method="GET">
+                    <con:settings/>
+                    <con:parameters/>
+                    <con:representation type="RESPONSE">
+                        <con:mediaType>text/json;charset=UTF-8</con:mediaType>
+                        <con:status>200</con:status>
+                        <con:params/>
+                        <con:element xmlns:map="http://222.85.149.5/WifiProbe/v1/area/1/past/frequency/map">
+                            map:Response
+                        </con:element>
+                    </con:representation>
+                    <con:representation type="FAULT">
+                        <con:mediaType xsi:nil="true"/>
+                        <con:status>404</con:status>
+                        <con:params/>
+                        <con:element>data</con:element>
+                    </con:representation>
+                    <con:request name="Request 1" id="dc245d06-dc85-4654-96af-c55a7f60a0d9" mediaType="application/json">
+                        <con:settings>
+                            <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+                        </con:settings>
+                        <con:endpoint>http://222.85.149.5:8080</con:endpoint>
+                        <con:request/>
+                        <con:originalUri>http://222.85.149.5/WifiProbe/v1/area/1/past/frequency/map</con:originalUri>
+                        <con:credentials>
+                            <con:authType>No Authorization</con:authType>
+                        </con:credentials>
+                        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+                        <con:jmsPropertyConfig/>
+                        <con:parameters/>
+                    </con:request>
+                </con:method>
+            </con:resource>
+            <con:resource name="时长趋势" path="area/5/visit/duration/trend/day" id="7cc42745-6be0-4849-85bb-8b887ddde199">
+                <con:settings/>
+                <con:parameters>
+                    <con:parameter>
+                        <con:name>offset</con:name>
+                        <con:value/>
+                        <con:style>QUERY</con:style>
+                        <con:default/>
+                        <con:description xsi:nil="true"/>
+                    </con:parameter>
+                    <con:parameter>
+                        <con:name>span</con:name>
+                        <con:value/>
+                        <con:style>QUERY</con:style>
+                        <con:default/>
+                        <con:description xsi:nil="true"/>
+                    </con:parameter>
+                </con:parameters>
+                <con:method name="Method 1" id="85edf066-42e8-416e-b74f-8f1c0f1a173f" method="GET">
+                    <con:settings/>
+                    <con:parameters/>
+                    <con:representation type="FAULT">
+                        <con:mediaType>text/html;charset=utf-8</con:mediaType>
+                        <con:status>404</con:status>
+                        <con:params/>
+                        <con:element>html</con:element>
+                    </con:representation>
+                    <con:representation type="RESPONSE">
+                        <con:mediaType>text/json;charset=UTF-8</con:mediaType>
+                        <con:status>200</con:status>
+                        <con:params/>
+                        <con:element xmlns:tren="http://222.85.149.5/WifiProbe/v1/area/1/past/duration/trend">
+                            tren:Response
+                        </con:element>
+                    </con:representation>
+                    <con:request name="Request 1" id="7fd38f96-eece-4154-ad8a-00c5ddf7ea79" mediaType="application/json">
+                        <con:settings>
+                            <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+                        </con:settings>
+                        <con:endpoint>http://222.85.149.5:8080</con:endpoint>
+                        <con:request/>
+                        <con:originalUri>http://222.85.149.5/WifiProbe/v1/area/1/past/duration/trend</con:originalUri>
+                        <con:credentials>
+                            <con:authType>No Authorization</con:authType>
+                        </con:credentials>
+                        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+                        <con:jmsPropertyConfig/>
+                        <con:parameters>
+                            <con:entry key="offset" value="0"/>
+                            <con:entry key="span" value="week"/>
+                        </con:parameters>
+                        <con:parameterOrder>
+                            <con:entry>offset</con:entry>
+                            <con:entry>span</con:entry>
+                        </con:parameterOrder>
+                    </con:request>
+                </con:method>
+            </con:resource>
+            <con:resource name="用户类型" path="area/1/user/type/span" id="11fb0392-127a-4848-801c-bddc29b7a804">
+                <con:settings/>
+                <con:parameters>
+                    <con:parameter>
+                        <con:name>offset</con:name>
+                        <con:value/>
+                        <con:style>QUERY</con:style>
+                        <con:default/>
+                        <con:description xsi:nil="true"/>
+                    </con:parameter>
+                    <con:parameter>
+                        <con:name>span</con:name>
+                        <con:value/>
+                        <con:style>QUERY</con:style>
+                        <con:default/>
+                        <con:description xsi:nil="true"/>
+                    </con:parameter>
+                </con:parameters>
+                <con:method name="Method 1" id="12684910-5ec1-4f8d-99e1-98c263ec4474" method="GET">
+                    <con:settings/>
+                    <con:parameters/>
+                    <con:representation type="FAULT">
+                        <con:mediaType>text/html;charset=utf-8</con:mediaType>
+                        <con:status>404</con:status>
+                        <con:params/>
+                        <con:element>html</con:element>
+                    </con:representation>
+                    <con:representation type="RESPONSE">
+                        <con:mediaType>text/json;charset=UTF-8</con:mediaType>
+                        <con:status>200</con:status>
+                        <con:params/>
+                        <con:element xmlns:span="http://222.85.149.5/WifiProbe/v1/area/5/visit/user/type/span">
+                            span:Response
+                        </con:element>
+                    </con:representation>
+                    <con:representation type="RESPONSE">
+                        <con:mediaType xsi:nil="true"/>
+                        <con:status>0</con:status>
+                        <con:params/>
+                        <con:element>data</con:element>
+                    </con:representation>
+                    <con:representation type="RESPONSE">
+                        <con:mediaType xsi:nil="true"/>
+                        <con:status>0</con:status>
+                        <con:params/>
+                        <con:element>data</con:element>
+                    </con:representation>
+                    <con:representation type="FAULT">
+                        <con:mediaType xsi:nil="true"/>
+                        <con:status>404</con:status>
+                        <con:params/>
+                        <con:element>data</con:element>
+                    </con:representation>
+                    <con:request name="Request 1" id="05067127-cc93-482c-918d-727a464bd1b7" mediaType="application/json">
+                        <con:settings>
+                            <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+                        </con:settings>
+                        <con:endpoint>http://222.85.149.5:8080</con:endpoint>
+                        <con:request/>
+                        <con:originalUri>http://222.85.149.5/WifiProbe/v1/area/5/visit/user/type/span</con:originalUri>
+                        <con:credentials>
+                            <con:authType>No Authorization</con:authType>
+                        </con:credentials>
+                        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+                        <con:jmsPropertyConfig/>
+                        <con:parameters>
+                            <con:entry key="offset" value="0"/>
+                            <con:entry key="span" value="month"/>
+                        </con:parameters>
+                        <con:parameterOrder>
+                            <con:entry>offset</con:entry>
+                            <con:entry>span</con:entry>
+                        </con:parameterOrder>
+                    </con:request>
+                </con:method>
+            </con:resource>
+            <con:resource name="用户趋势" path="area/1/user/type/trend/day" id="22f92531-46b2-4cee-ba5d-10c5ddf5b720">
+                <con:settings/>
+                <con:parameters>
+                    <con:parameter>
+                        <con:name>offset</con:name>
+                        <con:value/>
+                        <con:style>QUERY</con:style>
+                        <con:default/>
+                        <con:description xsi:nil="true"/>
+                    </con:parameter>
+                    <con:parameter>
+                        <con:name>span</con:name>
+                        <con:value/>
+                        <con:style>QUERY</con:style>
+                        <con:default/>
+                        <con:description xsi:nil="true"/>
+                    </con:parameter>
+                </con:parameters>
+                <con:method name="Method 1" id="5476a97a-884e-46f0-9a9e-5961188b20d4" method="GET">
+                    <con:settings/>
+                    <con:parameters/>
+                    <con:representation type="FAULT">
+                        <con:mediaType>text/html;charset=utf-8</con:mediaType>
+                        <con:status>404</con:status>
+                        <con:params/>
+                        <con:element>html</con:element>
+                    </con:representation>
+                    <con:representation type="RESPONSE">
+                        <con:mediaType>text/json;charset=UTF-8</con:mediaType>
+                        <con:status>200</con:status>
+                        <con:params/>
+                        <con:element xmlns:tren="http://222.85.149.5/WifiProbe/v1/area/1/user/type/trend">
+                            tren:Response
+                        </con:element>
+                    </con:representation>
+                    <con:request name="Request 1" id="d26853f8-28d9-42c4-8b2b-9fce96cdd0bd" mediaType="application/json">
+                        <con:settings>
+                            <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+                        </con:settings>
+                        <con:endpoint>http://222.85.149.5:8080</con:endpoint>
+                        <con:request/>
+                        <con:originalUri>http://222.85.149.5/WifiProbe/v1/area/1/user/type/trend</con:originalUri>
+                        <con:credentials>
+                            <con:authType>No Authorization</con:authType>
+                        </con:credentials>
+                        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+                        <con:jmsPropertyConfig/>
+                        <con:parameters>
+                            <con:entry key="offset" value="0"/>
+                            <con:entry key="span" value="month"/>
+                        </con:parameters>
+                        <con:parameterOrder>
+                            <con:entry>offset</con:entry>
+                            <con:entry>span</con:entry>
+                        </con:parameterOrder>
+                    </con:request>
+                </con:method>
+            </con:resource>
+            <con:resource name="客流趋势" path="area/1/visit/trend/day" id="7663bcca-e1d9-4429-8436-1cf9288a4486">
+                <con:settings/>
+                <con:parameters>
+                    <con:parameter>
+                        <con:name>offset</con:name>
+                        <con:value/>
+                        <con:style>QUERY</con:style>
+                        <con:default/>
+                        <con:description xsi:nil="true"/>
+                    </con:parameter>
+                    <con:parameter>
+                        <con:name>span</con:name>
+                        <con:value/>
+                        <con:style>QUERY</con:style>
+                        <con:default/>
+                        <con:description xsi:nil="true"/>
+                    </con:parameter>
+                </con:parameters>
+                <con:method name="Method 1" id="4147600f-1f40-4c83-9718-0e0712940aaa" method="GET">
+                    <con:settings/>
+                    <con:parameters/>
+                    <con:representation type="RESPONSE">
+                        <con:mediaType>text/json;charset=UTF-8</con:mediaType>
+                        <con:status>200</con:status>
+                        <con:params/>
+                        <con:element xmlns:day="http://222.85.149.5/WifiProbe/v1/area/1/visit/trend/day">day:Response
+                        </con:element>
+                    </con:representation>
+                    <con:request name="Request 1" id="9c5bc312-9a96-420d-ad67-2b7b482fbe13" mediaType="application/json">
+                        <con:settings>
+                            <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+                        </con:settings>
+                        <con:endpoint>http://222.85.149.5:8080</con:endpoint>
+                        <con:request/>
+                        <con:originalUri>http://222.85.149.5/WifiProbe/v1/area/1/visit/trend/day</con:originalUri>
+                        <con:credentials>
+                            <con:authType>No Authorization</con:authType>
+                        </con:credentials>
+                        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+                        <con:jmsPropertyConfig/>
+                        <con:parameters>
+                            <con:entry key="offset" value="0"/>
+                            <con:entry key="span" value="month"/>
+                        </con:parameters>
+                        <con:parameterOrder>
+                            <con:entry>offset</con:entry>
+                            <con:entry>span</con:entry>
+                        </con:parameterOrder>
+                    </con:request>
+                </con:method>
+            </con:resource>
+            <con:resource name="客流统计" path="area/1/visit/span" id="c97a584e-476e-4ed5-a40c-9dfa4e0671f9">
+                <con:settings/>
+                <con:parameters/>
+                <con:method name="Method 1" id="8115a9a7-8093-4aae-a230-48da9baf1bb5" method="GET">
+                    <con:settings/>
+                    <con:parameters/>
+                    <con:representation type="RESPONSE">
+                        <con:mediaType>text/json;charset=UTF-8</con:mediaType>
+                        <con:status>200</con:status>
+                        <con:params/>
+                        <con:element xmlns:span="http://222.85.149.5/WifiProbe/v1/area/1/visit/span">span:Response
+                        </con:element>
+                    </con:representation>
+                    <con:request name="Request 1" id="9b7ff5a7-b9a5-4a78-9070-ff59dd44650a" mediaType="application/json">
+                        <con:settings>
+                            <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+                        </con:settings>
+                        <con:endpoint>http://222.85.149.5:8080</con:endpoint>
+                        <con:request/>
+                        <con:originalUri>http://222.85.149.5/WifiProbe/v1/area/1/visit/span</con:originalUri>
+                        <con:credentials>
+                            <con:authType>No Authorization</con:authType>
+                        </con:credentials>
+                        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+                        <con:jmsPropertyConfig/>
+                        <con:parameters/>
+                    </con:request>
+                </con:method>
+            </con:resource>
+            <con:resource name="周期分布" path="area/1/visit/period/map" id="ab59a5b6-80ed-42f8-9b52-d686e2e7b95c">
+                <con:settings/>
+                <con:parameters/>
+                <con:method name="Method 1" id="e70539aa-681b-470f-8e49-0d05fae8652d" method="GET">
+                    <con:settings/>
+                    <con:parameters/>
+                    <con:representation type="RESPONSE">
+                        <con:mediaType>text/json;charset=UTF-8</con:mediaType>
+                        <con:status>200</con:status>
+                        <con:params/>
+                        <con:element xmlns:map="http://222.85.149.5/WifiProbe/v1/area/1/visit/period/map">map:Response
+                        </con:element>
+                    </con:representation>
+                    <con:request name="Request 1" id="048dcb69-61b0-4e33-bbe0-9bbe858a9a22" mediaType="application/json">
+                        <con:settings>
+                            <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+                        </con:settings>
+                        <con:endpoint>http://222.85.149.5:8080</con:endpoint>
+                        <con:request/>
+                        <con:originalUri>http://222.85.149.5/WifiProbe/v1/area/1/visit/period/map</con:originalUri>
+                        <con:credentials>
+                            <con:authType>No Authorization</con:authType>
+                        </con:credentials>
+                        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+                        <con:jmsPropertyConfig/>
+                        <con:parameters/>
+                    </con:request>
+                </con:method>
+            </con:resource>
+            <con:resource name="时长分布" path="area/1/visit/duration/map" id="89ab3d40-69f0-499d-bd7e-dcb9a1446020">
+                <con:settings/>
+                <con:parameters/>
+                <con:method name="Method 1" id="c2387c02-4549-40b0-a87f-5baa476a02fa" method="GET">
+                    <con:settings/>
+                    <con:parameters/>
+                    <con:representation type="RESPONSE">
+                        <con:mediaType>text/json;charset=UTF-8</con:mediaType>
+                        <con:status>200</con:status>
+                        <con:params/>
+                        <con:element xmlns:map="http://222.85.149.5/WifiProbe/v1/area/1/visit/duration/map">
+                            map:Response
+                        </con:element>
+                    </con:representation>
+                    <con:request name="Request 1" id="6285915a-b183-4937-97fa-2b8f3680f69e" mediaType="application/json">
+                        <con:settings>
+                            <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+                        </con:settings>
+                        <con:endpoint>http://222.85.149.5:8080</con:endpoint>
+                        <con:request/>
+                        <con:originalUri>http://222.85.149.5/WifiProbe/v1/area/1/visit/duration/map</con:originalUri>
+                        <con:credentials>
+                            <con:authType>No Authorization</con:authType>
+                        </con:credentials>
+                        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+                        <con:jmsPropertyConfig/>
+                        <con:parameters/>
+                    </con:request>
+                </con:method>
+            </con:resource>
+            <con:resource name="住店时长" path="area/1/visit/duration/span" id="6454f8b8-f87a-4ca8-a76a-79a2bfd70bbf">
+                <con:settings/>
+                <con:parameters/>
+                <con:method name="Method 1" id="7df481a4-cc5c-47fb-aa5d-517d100d8b5d" method="GET">
+                    <con:settings/>
+                    <con:parameters/>
+                    <con:representation type="RESPONSE">
+                        <con:mediaType>text/json;charset=UTF-8</con:mediaType>
+                        <con:status>200</con:status>
+                        <con:params/>
+                        <con:element xmlns:span="http://222.85.149.5/WifiProbe/v1/area/1/visit/duration/span">
+                            span:Response
+                        </con:element>
+                    </con:representation>
+                    <con:request name="Request 1" id="4188dba6-76a5-4bf6-9b6f-73570b3e8255" mediaType="application/json">
+                        <con:settings>
+                            <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+                        </con:settings>
+                        <con:endpoint>http://222.85.149.5:8080</con:endpoint>
+                        <con:request/>
+                        <con:originalUri>http://222.85.149.5/WifiProbe/v1/area/1/visit/duration/span</con:originalUri>
+                        <con:credentials>
+                            <con:authType>No Authorization</con:authType>
+                        </con:credentials>
+                        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+                        <con:jmsPropertyConfig/>
+                        <con:parameters/>
+                    </con:request>
+                </con:method>
+            </con:resource>
+            <con:resource name="到访频次" path="area/1/visit/frequency/map" id="e2f4a477-d788-41b8-ae79-2745b4d89bba">
+                <con:settings/>
+                <con:parameters/>
+                <con:method name="Method 1" id="0500de1a-7d66-491d-80ed-5a4a8ef3a0cf" method="GET">
+                    <con:settings/>
+                    <con:parameters/>
+                    <con:representation type="RESPONSE">
+                        <con:mediaType xsi:nil="true"/>
+                        <con:status>0</con:status>
+                        <con:params/>
+                        <con:element>data</con:element>
+                    </con:representation>
+                    <con:request name="Request 1" id="02b46ba3-2b73-43ef-81bc-cda89b793188" mediaType="application/json">
+                        <con:settings>
+                            <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+                        </con:settings>
+                        <con:endpoint>http://222.85.149.5:8080</con:endpoint>
+                        <con:request/>
+                        <con:originalUri>http://222.85.149.5/WifiProbe/v1/area/1/visit/frequency/map</con:originalUri>
+                        <con:credentials>
+                            <con:authType>No Authorization</con:authType>
+                        </con:credentials>
+                        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+                        <con:jmsPropertyConfig/>
+                        <con:parameters/>
+                    </con:request>
+                </con:method>
+            </con:resource>
+        </con:resource>
+    </con:interface>
+    <con:properties/>
+    <con:interface xsi:type="con:RestService" id="6bdf65b5-220a-43e0-a33b-865d5e4486a8" wadlVersion="http://wadl.dev.java.net/2009/02" name="http://118.118.118.6:8080" type="rest" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        <con:settings/>
+        
+        <con:definitionCache type="TEXT" rootPart=""/><con:endpoints>
+            <con:endpoint>http://118.118.118.6:8080</con:endpoint>
+        </con:endpoints>
+        <con:resource name="日志发送" path="/WifiProbe/api/tracker" id="8d344d05-ad1d-4f34-b21c-1ecfd1231903">
+            <con:settings/>
+            <con:parameters/>
+            <con:resource name="标准接口" path="mac/log" id="d454178d-6848-4107-983b-065d35e9bfb0">
+                <con:settings/>
+                <con:parameters/>
+                <con:method name="Method 1" id="f2998954-7238-476d-92e7-9c75e576cb96" method="GET">
+                    <con:settings/>
+                    <con:parameters/>
+                    <con:request name="Request 1" id="bbe67acb-a846-49d1-89a2-66c9789e9e78" mediaType="application/json">
+                        <con:settings/>
+                        <con:endpoint>http://118.118.118.6:8080</con:endpoint>
+                        <con:request/>
+                        <con:credentials>
+                            <con:authType>No Authorization</con:authType>
+                        </con:credentials>
+                        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+                        <con:jmsPropertyConfig/>
+                        <con:parameters/>
+                    <con:parameterOrder/></con:request>
+                </con:method>
+            </con:resource>
+            <con:resource name="兼容接口" path="mac/log/compat" id="50b88d2f-d202-4db4-b2dd-cef31410b038">
+                <con:settings/>
+                <con:parameters/>
+                <con:method name="Method 1" id="3ed29e6e-c02f-4dd0-8aab-04cdd8141525" method="POST">
+                    <con:settings/>
+                    <con:parameters/>
+                    <con:representation type="RESPONSE">
+                        <con:mediaType>text/json;charset=UTF-8</con:mediaType>
+                        <con:status>200</con:status>
+                        <con:params/>
+                        <con:element xmlns:com="http://118.118.118.6/WifiProbe/api/tracker/mac/log/compat">com:Response
+                        </con:element>
+                    </con:representation>
+                    <con:representation type="REQUEST">
+                        <con:mediaType>application/json</con:mediaType>
+                        <con:params/>
+                    </con:representation>
+                    <con:representation type="RESPONSE">
+                        <con:mediaType xsi:nil="true"/>
+                        <con:status>0</con:status>
+                        <con:params/>
+                        <con:element>data</con:element>
+                    </con:representation>
+                    <con:representation type="RESPONSE">
+                        <con:mediaType xsi:nil="true"/>
+                        <con:status>0</con:status>
+                        <con:params/>
+                        <con:element>data</con:element>
+                    </con:representation>
+                    <con:request name="Request 1" id="c4eaf7b4-6757-48eb-8711-a55fe56422e5" mediaType="application/json" postQueryString="false">
+                        <con:settings>
+                            <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+                        </con:settings>
+                        <con:endpoint>http://118.118.118.6:8080</con:endpoint>
+                        <con:request>{"data":[{"time":"","rssi":-78,"mac":"14:f6:5a:90:a6:63","id":"B068B6FFB1C4"}]}
+                        </con:request>
+                        <con:originalUri>http://118.118.118.6/WifiProbe/api/tracker/mac/log/compat</con:originalUri>
+                        <con:credentials>
+                            <con:authType>No Authorization</con:authType>
+                        </con:credentials>
+                        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+                        <con:jmsPropertyConfig/>
+                        <con:parameters/>
+                    <con:parameterOrder/></con:request>
+                </con:method>
+            </con:resource>
+        </con:resource>
+        <con:resource name="品牌统计" path="/WifiProbe/v1" id="e5123e4b-c980-4b53-99eb-8776131c9bcc">
+            <con:settings/>
+            <con:parameters/>
+            <con:resource name="品牌排行" path="area/2/device/brand/ranking/pv/10/0" id="c1209c4c-271f-4d73-84aa-2e82bf845b1b">
+                <con:settings/>
+                <con:parameters/>
+                <con:method name="Method 1" id="fc58ac14-5755-4969-b5e2-a80be796c8ab" method="GET">
+                    <con:settings/>
+                    <con:parameters/>
+                    <con:representation type="RESPONSE">
+                        <con:mediaType>text/json;charset=UTF-8</con:mediaType>
+                        <con:status>200</con:status>
+                        <con:params/>
+                        <con:element xmlns:ns="http://118.118.118.6/WifiProbe/v1/area/2/device/brand/ranking/pv/10/0">
+                            ns:Response
+                        </con:element>
+                    </con:representation>
+                    <con:request name="Request 1" id="2c917700-c7fb-4642-8e94-c811f29929fd" mediaType="application/json">
+                        <con:settings>
+                            <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+                        </con:settings>
+                        <con:endpoint>http://118.118.118.6:8080</con:endpoint>
+                        <con:request/>
+                        <con:originalUri>http://118.118.118.6/WifiProbe/v1/area/2/device/brand/ranking/pv/10/0
+                        </con:originalUri>
+                        <con:credentials>
+                            <con:authType>No Authorization</con:authType>
+                        </con:credentials>
+                        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+                        <con:jmsPropertyConfig/>
+                        <con:parameters/>
+                    </con:request>
+                </con:method>
+            </con:resource>
+            <con:resource name="活跃分布" path="area/1/user/liveness/map" id="079c905d-4bd9-47a5-a4e4-6a1c6d5088ef">
+                <con:settings/>
+                <con:parameters/>
+                <con:method name="Method 1" id="9c310356-1ed6-4501-8968-655e7714d1db" method="GET">
+                    <con:settings/>
+                    <con:parameters/>
+                    <con:representation type="FAULT">
+                        <con:mediaType>text/html;charset=utf-8</con:mediaType>
+                        <con:status>500</con:status>
+                        <con:params/>
+                        <con:element>html</con:element>
+                    </con:representation>
+                    <con:representation type="FAULT">
+                        <con:mediaType xsi:nil="true"/>
+                        <con:status>404</con:status>
+                        <con:params/>
+                        <con:element>data</con:element>
+                    </con:representation>
+                    <con:representation type="RESPONSE">
+                        <con:mediaType>text/json;charset=UTF-8</con:mediaType>
+                        <con:status>200</con:status>
+                        <con:params/>
+                        <con:element xmlns:map="http://118.118.118.6/WifiProbe/v1/area/1/customer/liveness/map">
+                            map:Response
+                        </con:element>
+                    </con:representation>
+                    <con:representation type="RESPONSE">
+                        <con:mediaType xsi:nil="true"/>
+                        <con:status>0</con:status>
+                        <con:params/>
+                        <con:element>data</con:element>
+                    </con:representation>
+                    <con:representation type="RESPONSE">
+                        <con:mediaType xsi:nil="true"/>
+                        <con:status>0</con:status>
+                        <con:params/>
+                        <con:element>data</con:element>
+                    </con:representation>
+                    <con:representation type="RESPONSE">
+                        <con:mediaType xsi:nil="true"/>
+                        <con:status>0</con:status>
+                        <con:params/>
+                        <con:element>data</con:element>
+                    </con:representation>
+                    <con:request name="Request 1" id="d1ca7dfd-aa8f-436f-b526-89c18dc0e082" mediaType="application/json">
+                        <con:settings>
+                            <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+                        </con:settings>
+                        <con:endpoint>http://118.118.118.6:8080</con:endpoint>
+                        <con:request/>
+                        <con:originalUri>http://118.118.118.6/WifiProbe/v1/area/1/customer/liveness/map</con:originalUri>
+                        <con:credentials>
+                            <con:authType>No Authorization</con:authType>
+                        </con:credentials>
+                        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+                        <con:jmsPropertyConfig/>
+                        <con:parameters/>
+                    </con:request>
+                </con:method>
+            </con:resource>
+            <con:resource name="活跃趋势" path="area/1/user/liveness/trend/day" id="6ca0d089-d2f1-4c2a-8499-e4a11cf96217">
+                <con:settings/>
+                <con:parameters>
+                    <con:parameter>
+                        <con:name>offset</con:name>
+                        <con:value/>
+                        <con:style>QUERY</con:style>
+                        <con:default/>
+                        <con:description xsi:nil="true"/>
+                    </con:parameter>
+                    <con:parameter>
+                        <con:name>span</con:name>
+                        <con:value/>
+                        <con:style>QUERY</con:style>
+                        <con:default/>
+                        <con:description xsi:nil="true"/>
+                    </con:parameter>
+                </con:parameters>
+                <con:method name="Method 1" id="45851b81-9ade-40bb-a314-64a145c4b269" method="GET">
+                    <con:settings/>
+                    <con:parameters/>
+                    <con:representation type="RESPONSE">
+                        <con:mediaType>text/json;charset=UTF-8</con:mediaType>
+                        <con:status>200</con:status>
+                        <con:params/>
+                        <con:element xmlns:day="http://118.118.118.6/WifiProbe/v1/area/1/customer/liveness/trend/day">
+                            day:Response
+                        </con:element>
+                    </con:representation>
+                    <con:request name="Request 1" id="a07d81ef-fdb9-45c0-b102-148ab845a1cd" mediaType="application/json">
+                        <con:settings>
+                            <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+                        </con:settings>
+                        <con:endpoint>http://118.118.118.6:8080</con:endpoint>
+                        <con:request/>
+                        <con:originalUri>http://118.118.118.6/WifiProbe/v1/area/1/customer/liveness/trend/day
+                        </con:originalUri>
+                        <con:credentials>
+                            <con:authType>No Authorization</con:authType>
+                        </con:credentials>
+                        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+                        <con:jmsPropertyConfig/>
+                        <con:parameters>
+                            <con:entry key="offset" value="0"/>
+                            <con:entry key="span" value="week"/>
+                        </con:parameters>
+                        <con:parameterOrder>
+                            <con:entry>offset</con:entry>
+                            <con:entry>span</con:entry>
+                        </con:parameterOrder>
+                    </con:request>
+                </con:method>
+            </con:resource>
+            <con:resource name="路过频次" path="area/1/past/frequency/map" id="79c6c451-8986-444c-bf39-ba181543f135">
+                <con:settings/>
+                <con:parameters/>
+                <con:method name="Method 1" id="aef74dd9-e6e6-47c1-a690-75e819991e23" method="GET">
+                    <con:settings/>
+                    <con:parameters/>
+                    <con:representation type="RESPONSE">
+                        <con:mediaType>text/json;charset=UTF-8</con:mediaType>
+                        <con:status>200</con:status>
+                        <con:params/>
+                        <con:element xmlns:map="http://118.118.118.6/WifiProbe/v1/area/1/past/frequency/map">
+                            map:Response
+                        </con:element>
+                    </con:representation>
+                    <con:representation type="FAULT">
+                        <con:mediaType xsi:nil="true"/>
+                        <con:status>404</con:status>
+                        <con:params/>
+                        <con:element>data</con:element>
+                    </con:representation>
+                    <con:request name="Request 1" id="dc245d06-dc85-4654-96af-c55a7f60a0d9" mediaType="application/json">
+                        <con:settings>
+                            <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+                        </con:settings>
+                        <con:endpoint>http://118.118.118.6:8080</con:endpoint>
+                        <con:request/>
+                        <con:originalUri>http://118.118.118.6/WifiProbe/v1/area/1/past/frequency/map</con:originalUri>
+                        <con:credentials>
+                            <con:authType>No Authorization</con:authType>
+                        </con:credentials>
+                        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+                        <con:jmsPropertyConfig/>
+                        <con:parameters/>
+                    </con:request>
+                </con:method>
+            </con:resource>
+            <con:resource name="时长趋势" path="area/5/visit/duration/trend/day" id="7cc42745-6be0-4849-85bb-8b887ddde199">
+                <con:settings/>
+                <con:parameters>
+                    <con:parameter>
+                        <con:name>offset</con:name>
+                        <con:value/>
+                        <con:style>QUERY</con:style>
+                        <con:default/>
+                        <con:description xsi:nil="true"/>
+                    </con:parameter>
+                    <con:parameter>
+                        <con:name>span</con:name>
+                        <con:value/>
+                        <con:style>QUERY</con:style>
+                        <con:default/>
+                        <con:description xsi:nil="true"/>
+                    </con:parameter>
+                </con:parameters>
+                <con:method name="Method 1" id="85edf066-42e8-416e-b74f-8f1c0f1a173f" method="GET">
+                    <con:settings/>
+                    <con:parameters/>
+                    <con:representation type="FAULT">
+                        <con:mediaType>text/html;charset=utf-8</con:mediaType>
+                        <con:status>404</con:status>
+                        <con:params/>
+                        <con:element>html</con:element>
+                    </con:representation>
+                    <con:representation type="RESPONSE">
+                        <con:mediaType>text/json;charset=UTF-8</con:mediaType>
+                        <con:status>200</con:status>
+                        <con:params/>
+                        <con:element xmlns:tren="http://118.118.118.6/WifiProbe/v1/area/1/past/duration/trend">
+                            tren:Response
+                        </con:element>
+                    </con:representation>
+                    <con:request name="Request 1" id="7fd38f96-eece-4154-ad8a-00c5ddf7ea79" mediaType="application/json">
+                        <con:settings>
+                            <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+                        </con:settings>
+                        <con:endpoint>http://118.118.118.6:8080</con:endpoint>
+                        <con:request/>
+                        <con:originalUri>http://118.118.118.6/WifiProbe/v1/area/1/past/duration/trend</con:originalUri>
+                        <con:credentials>
+                            <con:authType>No Authorization</con:authType>
+                        </con:credentials>
+                        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+                        <con:jmsPropertyConfig/>
+                        <con:parameters>
+                            <con:entry key="offset" value="0"/>
+                            <con:entry key="span" value="week"/>
+                        </con:parameters>
+                        <con:parameterOrder>
+                            <con:entry>offset</con:entry>
+                            <con:entry>span</con:entry>
+                        </con:parameterOrder>
+                    </con:request>
+                </con:method>
+            </con:resource>
+            <con:resource name="用户类型" path="area/1/user/type/span" id="11fb0392-127a-4848-801c-bddc29b7a804">
+                <con:settings/>
+                <con:parameters>
+                    <con:parameter>
+                        <con:name>offset</con:name>
+                        <con:value/>
+                        <con:style>QUERY</con:style>
+                        <con:default/>
+                        <con:description xsi:nil="true"/>
+                    </con:parameter>
+                    <con:parameter>
+                        <con:name>span</con:name>
+                        <con:value/>
+                        <con:style>QUERY</con:style>
+                        <con:default/>
+                        <con:description xsi:nil="true"/>
+                    </con:parameter>
+                </con:parameters>
+                <con:method name="Method 1" id="12684910-5ec1-4f8d-99e1-98c263ec4474" method="GET">
+                    <con:settings/>
+                    <con:parameters/>
+                    <con:representation type="FAULT">
+                        <con:mediaType>text/html;charset=utf-8</con:mediaType>
+                        <con:status>404</con:status>
+                        <con:params/>
+                        <con:element>html</con:element>
+                    </con:representation>
+                    <con:representation type="RESPONSE">
+                        <con:mediaType>text/json;charset=UTF-8</con:mediaType>
+                        <con:status>200</con:status>
+                        <con:params/>
+                        <con:element xmlns:span="http://118.118.118.6/WifiProbe/v1/area/5/visit/user/type/span">
+                            span:Response
+                        </con:element>
+                    </con:representation>
+                    <con:representation type="RESPONSE">
+                        <con:mediaType xsi:nil="true"/>
+                        <con:status>0</con:status>
+                        <con:params/>
+                        <con:element>data</con:element>
+                    </con:representation>
+                    <con:representation type="RESPONSE">
+                        <con:mediaType xsi:nil="true"/>
+                        <con:status>0</con:status>
+                        <con:params/>
+                        <con:element>data</con:element>
+                    </con:representation>
+                    <con:representation type="FAULT">
+                        <con:mediaType xsi:nil="true"/>
+                        <con:status>404</con:status>
+                        <con:params/>
+                        <con:element>data</con:element>
+                    </con:representation>
+                    <con:request name="Request 1" id="05067127-cc93-482c-918d-727a464bd1b7" mediaType="application/json">
+                        <con:settings>
+                            <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+                        </con:settings>
+                        <con:endpoint>http://118.118.118.6:8080</con:endpoint>
+                        <con:request/>
+                        <con:originalUri>http://118.118.118.6/WifiProbe/v1/area/5/visit/user/type/span</con:originalUri>
+                        <con:credentials>
+                            <con:authType>No Authorization</con:authType>
+                        </con:credentials>
+                        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+                        <con:jmsPropertyConfig/>
+                        <con:parameters>
+                            <con:entry key="offset" value="0"/>
+                            <con:entry key="span" value="month"/>
+                        </con:parameters>
+                        <con:parameterOrder>
+                            <con:entry>offset</con:entry>
+                            <con:entry>span</con:entry>
+                        </con:parameterOrder>
+                    </con:request>
+                </con:method>
+            </con:resource>
+            <con:resource name="用户趋势" path="area/1/user/type/trend/day" id="22f92531-46b2-4cee-ba5d-10c5ddf5b720">
+                <con:settings/>
+                <con:parameters>
+                    <con:parameter>
+                        <con:name>offset</con:name>
+                        <con:value/>
+                        <con:style>QUERY</con:style>
+                        <con:default/>
+                        <con:description xsi:nil="true"/>
+                    </con:parameter>
+                    <con:parameter>
+                        <con:name>span</con:name>
+                        <con:value/>
+                        <con:style>QUERY</con:style>
+                        <con:default/>
+                        <con:description xsi:nil="true"/>
+                    </con:parameter>
+                </con:parameters>
+                <con:method name="Method 1" id="5476a97a-884e-46f0-9a9e-5961188b20d4" method="GET">
+                    <con:settings/>
+                    <con:parameters/>
+                    <con:representation type="FAULT">
+                        <con:mediaType>text/html;charset=utf-8</con:mediaType>
+                        <con:status>404</con:status>
+                        <con:params/>
+                        <con:element>html</con:element>
+                    </con:representation>
+                    <con:representation type="RESPONSE">
+                        <con:mediaType>text/json;charset=UTF-8</con:mediaType>
+                        <con:status>200</con:status>
+                        <con:params/>
+                        <con:element xmlns:tren="http://118.118.118.6/WifiProbe/v1/area/1/user/type/trend">
+                            tren:Response
+                        </con:element>
+                    </con:representation>
+                    <con:request name="Request 1" id="d26853f8-28d9-42c4-8b2b-9fce96cdd0bd" mediaType="application/json">
+                        <con:settings>
+                            <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+                        </con:settings>
+                        <con:endpoint>http://118.118.118.6:8080</con:endpoint>
+                        <con:request/>
+                        <con:originalUri>http://118.118.118.6/WifiProbe/v1/area/1/user/type/trend</con:originalUri>
+                        <con:credentials>
+                            <con:authType>No Authorization</con:authType>
+                        </con:credentials>
+                        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+                        <con:jmsPropertyConfig/>
+                        <con:parameters>
+                            <con:entry key="offset" value="0"/>
+                            <con:entry key="span" value="month"/>
+                        </con:parameters>
+                        <con:parameterOrder>
+                            <con:entry>offset</con:entry>
+                            <con:entry>span</con:entry>
+                        </con:parameterOrder>
+                    </con:request>
+                </con:method>
+            </con:resource>
+            <con:resource name="客流趋势" path="area/1/visit/trend/day" id="7663bcca-e1d9-4429-8436-1cf9288a4486">
+                <con:settings/>
+                <con:parameters>
+                    <con:parameter>
+                        <con:name>offset</con:name>
+                        <con:value/>
+                        <con:style>QUERY</con:style>
+                        <con:default/>
+                        <con:description xsi:nil="true"/>
+                    </con:parameter>
+                    <con:parameter>
+                        <con:name>span</con:name>
+                        <con:value/>
+                        <con:style>QUERY</con:style>
+                        <con:default/>
+                        <con:description xsi:nil="true"/>
+                    </con:parameter>
+                </con:parameters>
+                <con:method name="Method 1" id="4147600f-1f40-4c83-9718-0e0712940aaa" method="GET">
+                    <con:settings/>
+                    <con:parameters/>
+                    <con:representation type="RESPONSE">
+                        <con:mediaType>text/json;charset=UTF-8</con:mediaType>
+                        <con:status>200</con:status>
+                        <con:params/>
+                        <con:element xmlns:day="http://118.118.118.6/WifiProbe/v1/area/1/visit/trend/day">day:Response
+                        </con:element>
+                    </con:representation>
+                    <con:request name="Request 1" id="9c5bc312-9a96-420d-ad67-2b7b482fbe13" mediaType="application/json">
+                        <con:settings>
+                            <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+                        </con:settings>
+                        <con:endpoint>http://118.118.118.6:8080</con:endpoint>
+                        <con:request/>
+                        <con:originalUri>http://118.118.118.6/WifiProbe/v1/area/1/visit/trend/day</con:originalUri>
+                        <con:credentials>
+                            <con:authType>No Authorization</con:authType>
+                        </con:credentials>
+                        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+                        <con:jmsPropertyConfig/>
+                        <con:parameters>
+                            <con:entry key="offset" value="0"/>
+                            <con:entry key="span" value="month"/>
+                        </con:parameters>
+                        <con:parameterOrder>
+                            <con:entry>offset</con:entry>
+                            <con:entry>span</con:entry>
+                        </con:parameterOrder>
+                    </con:request>
+                </con:method>
+            </con:resource>
+            <con:resource name="客流统计" path="area/1/visit/span" id="c97a584e-476e-4ed5-a40c-9dfa4e0671f9">
+                <con:settings/>
+                <con:parameters/>
+                <con:method name="Method 1" id="8115a9a7-8093-4aae-a230-48da9baf1bb5" method="GET">
+                    <con:settings/>
+                    <con:parameters/>
+                    <con:representation type="RESPONSE">
+                        <con:mediaType>text/json;charset=UTF-8</con:mediaType>
+                        <con:status>200</con:status>
+                        <con:params/>
+                        <con:element xmlns:span="http://118.118.118.6/WifiProbe/v1/area/1/visit/span">span:Response
+                        </con:element>
+                    </con:representation>
+                    <con:request name="Request 1" id="9b7ff5a7-b9a5-4a78-9070-ff59dd44650a" mediaType="application/json">
+                        <con:settings>
+                            <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+                        </con:settings>
+                        <con:endpoint>http://118.118.118.6:8080</con:endpoint>
+                        <con:request/>
+                        <con:originalUri>http://118.118.118.6/WifiProbe/v1/area/1/visit/span</con:originalUri>
+                        <con:credentials>
+                            <con:authType>No Authorization</con:authType>
+                        </con:credentials>
+                        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+                        <con:jmsPropertyConfig/>
+                        <con:parameters/>
+                    </con:request>
+                </con:method>
+            </con:resource>
+            <con:resource name="周期分布" path="area/1/visit/period/map" id="ab59a5b6-80ed-42f8-9b52-d686e2e7b95c">
+                <con:settings/>
+                <con:parameters/>
+                <con:method name="Method 1" id="e70539aa-681b-470f-8e49-0d05fae8652d" method="GET">
+                    <con:settings/>
+                    <con:parameters/>
+                    <con:representation type="RESPONSE">
+                        <con:mediaType>text/json;charset=UTF-8</con:mediaType>
+                        <con:status>200</con:status>
+                        <con:params/>
+                        <con:element xmlns:map="http://118.118.118.6/WifiProbe/v1/area/1/visit/period/map">map:Response
+                        </con:element>
+                    </con:representation>
+                    <con:request name="Request 1" id="048dcb69-61b0-4e33-bbe0-9bbe858a9a22" mediaType="application/json">
+                        <con:settings>
+                            <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+                        </con:settings>
+                        <con:endpoint>http://118.118.118.6:8080</con:endpoint>
+                        <con:request/>
+                        <con:originalUri>http://118.118.118.6/WifiProbe/v1/area/1/visit/period/map</con:originalUri>
+                        <con:credentials>
+                            <con:authType>No Authorization</con:authType>
+                        </con:credentials>
+                        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+                        <con:jmsPropertyConfig/>
+                        <con:parameters/>
+                    </con:request>
+                </con:method>
+            </con:resource>
+            <con:resource name="时长分布" path="area/1/visit/duration/map" id="89ab3d40-69f0-499d-bd7e-dcb9a1446020">
+                <con:settings/>
+                <con:parameters/>
+                <con:method name="Method 1" id="c2387c02-4549-40b0-a87f-5baa476a02fa" method="GET">
+                    <con:settings/>
+                    <con:parameters/>
+                    <con:representation type="RESPONSE">
+                        <con:mediaType>text/json;charset=UTF-8</con:mediaType>
+                        <con:status>200</con:status>
+                        <con:params/>
+                        <con:element xmlns:map="http://118.118.118.6/WifiProbe/v1/area/1/visit/duration/map">
+                            map:Response
+                        </con:element>
+                    </con:representation>
+                    <con:request name="Request 1" id="6285915a-b183-4937-97fa-2b8f3680f69e" mediaType="application/json">
+                        <con:settings>
+                            <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+                        </con:settings>
+                        <con:endpoint>http://118.118.118.6:8080</con:endpoint>
+                        <con:request/>
+                        <con:originalUri>http://118.118.118.6/WifiProbe/v1/area/1/visit/duration/map</con:originalUri>
+                        <con:credentials>
+                            <con:authType>No Authorization</con:authType>
+                        </con:credentials>
+                        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+                        <con:jmsPropertyConfig/>
+                        <con:parameters/>
+                    </con:request>
+                </con:method>
+            </con:resource>
+            <con:resource name="住店时长" path="area/1/visit/duration/span" id="6454f8b8-f87a-4ca8-a76a-79a2bfd70bbf">
+                <con:settings/>
+                <con:parameters/>
+                <con:method name="Method 1" id="7df481a4-cc5c-47fb-aa5d-517d100d8b5d" method="GET">
+                    <con:settings/>
+                    <con:parameters/>
+                    <con:representation type="RESPONSE">
+                        <con:mediaType>text/json;charset=UTF-8</con:mediaType>
+                        <con:status>200</con:status>
+                        <con:params/>
+                        <con:element xmlns:span="http://118.118.118.6/WifiProbe/v1/area/1/visit/duration/span">
+                            span:Response
+                        </con:element>
+                    </con:representation>
+                    <con:request name="Request 1" id="4188dba6-76a5-4bf6-9b6f-73570b3e8255" mediaType="application/json">
+                        <con:settings>
+                            <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+                        </con:settings>
+                        <con:endpoint>http://118.118.118.6:8080</con:endpoint>
+                        <con:request/>
+                        <con:originalUri>http://118.118.118.6/WifiProbe/v1/area/1/visit/duration/span</con:originalUri>
+                        <con:credentials>
+                            <con:authType>No Authorization</con:authType>
+                        </con:credentials>
+                        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+                        <con:jmsPropertyConfig/>
+                        <con:parameters/>
+                    </con:request>
+                </con:method>
+            </con:resource>
+            <con:resource name="到访频次" path="area/1/visit/frequency/map" id="e2f4a477-d788-41b8-ae79-2745b4d89bba">
+                <con:settings/>
+                <con:parameters/>
+                <con:method name="Method 1" id="0500de1a-7d66-491d-80ed-5a4a8ef3a0cf" method="GET">
+                    <con:settings/>
+                    <con:parameters/>
+                    <con:representation type="RESPONSE">
+                        <con:mediaType xsi:nil="true"/>
+                        <con:status>0</con:status>
+                        <con:params/>
+                        <con:element>data</con:element>
+                    </con:representation>
+                    <con:request name="Request 1" id="02b46ba3-2b73-43ef-81bc-cda89b793188" mediaType="application/json">
+                        <con:settings>
+                            <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+                        </con:settings>
+                        <con:endpoint>http://118.118.118.6:8080</con:endpoint>
+                        <con:request/>
+                        <con:originalUri>http://118.118.118.6/WifiProbe/v1/area/1/visit/frequency/map</con:originalUri>
+                        <con:credentials>
+                            <con:authType>No Authorization</con:authType>
+                        </con:credentials>
+                        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+                        <con:jmsPropertyConfig/>
+                        <con:parameters/>
+                    </con:request>
+                </con:method>
+            </con:resource>
+        </con:resource>
+    </con:interface>
+    <con:wssContainer/>
+    <con:oAuth2ProfileContainer/>
+    <con:sensitiveInformation/>
+</con:soapui-project>

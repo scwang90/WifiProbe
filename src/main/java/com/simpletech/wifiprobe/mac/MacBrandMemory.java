@@ -20,7 +20,7 @@ public class MacBrandMemory {
 
     static {
         InputStream stream = MacBrandMemory.class.getClassLoader().getResourceAsStream("premac.mem.txt");
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(stream))) {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(stream,"UTF-8"))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] splits = line.trim().split(":");
@@ -38,7 +38,7 @@ public class MacBrandMemory {
     }
 
     public static String parserBrandMac(String mac) {
-        mac = mac.trim().replace(":", "").substring(0, 6).toUpperCase();
+        mac = mac.trim().replaceAll("-|:", "").substring(0, 6).toUpperCase();
         String[] vals = memory.get(mac);
         if (vals != null) {
             String val = membrand.get(vals[0]);
@@ -50,7 +50,7 @@ public class MacBrandMemory {
     }
 
     public static String parser(String mac) {
-        mac = mac.trim().replace(":", "").substring(0, 6).toUpperCase();
+        mac = mac.trim().replaceAll("-|:", "").substring(0, 6).toUpperCase();
         String[] vals = memory.get(mac);
         if (vals != null) {
             if (vals.length > 1) {
@@ -59,6 +59,23 @@ public class MacBrandMemory {
             return vals[0];
         }
         return mac;
+    }
+
+    /**
+     * 转换失败返回null
+     * @param mac
+     * @return 品牌名称或者空
+     */
+    public static String parserNull(String mac) {
+        mac = mac.trim().replaceAll("-|:", "").substring(0, 6).toUpperCase();
+        String[] vals = memory.get(mac);
+        if (vals != null) {
+            if (vals.length > 1) {
+                return vals[1];
+            }
+            return vals[0];
+        }
+        return null;
     }
 
 }

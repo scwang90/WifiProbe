@@ -55,6 +55,25 @@ public class BaseController {
 	}
 
 	/**
+	 * 将对象转成 map 用于Json过滤
+	 *
+	 * @param model    对象
+	 * @param excludes 包含转换的字段
+	 * @return map
+	 * @throws Exception includes 中的参数错误
+	 */
+	protected Map<String, Object> mapExclude(Object model, String[] excludes) throws Exception {
+		Map<String, Object> map = new HashMap<>();
+		if (model != null) {
+			String[] includes = getInclude(model.getClass(), excludes);
+			for (String include : includes) {
+				map.put(include, AfReflecter.getMember(model, include));
+			}
+		}
+		return map;
+	}
+
+	/**
 	 * 将对象列表转成 map列表 用于Json过滤
 	 *
 	 * @param list     对象列表

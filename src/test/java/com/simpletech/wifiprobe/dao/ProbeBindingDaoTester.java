@@ -6,31 +6,31 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.simpletech.wifiprobe.model.Wifi;
+import com.simpletech.wifiprobe.model.ProbeBinding;
 import com.simpletech.wifiprobe.util.JacksonUtil;
 
 /**
- * 数据库表t_wifi的Dao层测试类
+ * 数据库表probe_binding的Dao层测试类
  * @author 树朾
- * @date 2015-11-02 17:16:40 中国标准时间
+ * @date 2015-11-24 18:16:03 中国标准时间
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:spring-*.xml")
-public class WifiDaoTester {
+public class ProbeBindingDaoTester {
 
 	@Autowired
-	WifiDao dao;
+	ProbeBindingDao dao;
 	
 	@Test
 	public void insert() throws Exception{
-		Wifi model = new Wifi();
+		ProbeBinding model = new ProbeBinding();
 		Object result = dao.insert(model);
 		System.out.println(JacksonUtil.toJson(result).replace("{","\n{"));
 	}
 	
 	@Test
 	public void update() throws Exception {
-		Wifi model = new Wifi();
+		ProbeBinding model = new ProbeBinding();
 		Object result = dao.update(model);
 		System.out.println(JacksonUtil.toJson(result).replace("{","\n{"));
 	}

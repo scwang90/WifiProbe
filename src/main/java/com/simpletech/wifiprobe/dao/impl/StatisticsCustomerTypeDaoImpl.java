@@ -1,7 +1,7 @@
 package com.simpletech.wifiprobe.dao.impl;
 
 import com.simpletech.wifiprobe.dao.StatisticsCustomerTypeDao;
-import com.simpletech.wifiprobe.mapper.ShopMapper;
+import com.simpletech.wifiprobe.mapper_shop.ShopMapper;
 import com.simpletech.wifiprobe.mapper.StatisticsCustomerTypeMapper;
 import com.simpletech.wifiprobe.model.Shop;
 import com.simpletech.wifiprobe.model.constant.Period;
@@ -56,7 +56,7 @@ public class StatisticsCustomerTypeDaoImpl implements StatisticsCustomerTypeDao 
     public List<CustomerTrendValue> customerTrend(String idshop,Period period, Date start, Date end) throws Exception {
         List<CustomerTrendValue> list= new ArrayList<>();
         Shop shop=shopMapper.findById(idshop);
-        int entry=(int)(shop.getConfigApiVisitDurationEnter()*60);
+        int entry=(int)(shop.getConfigProbeApiVisitDurationEnter()*60);
 //        CustomerValue count=mapper.countCustomer(idshop,start,end);
         switch (period) {
             case hour:
@@ -95,7 +95,7 @@ public class StatisticsCustomerTypeDaoImpl implements StatisticsCustomerTypeDao 
     public List<LivenessTrendValue> livenessTrend(String idshop,Period period,int min, int max, Date start, Date end) throws Exception {
         List<LivenessTrendValue> list= new ArrayList<>();
         Shop shop=shopMapper.findById(idshop);
-        int entry=shop.getConfigApiVisitDurationEnter().intValue();
+        int entry=shop.getConfigProbeApiVisitDurationEnter().intValue();
 //        CustomerValue count=mapper.countCustomer(idshop,start,end);
          switch (period) {
             case hour:

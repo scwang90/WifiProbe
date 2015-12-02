@@ -1,6 +1,7 @@
-package com.simpletech.wifiprobe.mapper;
+package com.simpletech.wifiprobe.mapper.api;
 
 import com.simpletech.wifiprobe.aspect.LoggingAspect;
+import com.simpletech.wifiprobe.mapper.api.StatisticsMapper;
 import com.simpletech.wifiprobe.util.JacksonUtil;
 import org.junit.Before;
 import org.junit.Test;
@@ -32,12 +33,6 @@ public class StatisticsMapperTester {
 	}
 
 	@Test
-	public void macvisit() throws Exception{
-		Object result = mapper.visitmac("1", "c4:6a:b7:3a:ec:11", monthf.parse("2015-11-0"), monthf.parse("2015-11-30"));
-		System.out.println(JacksonUtil.toJson(result).replace("{","\n{"));
-	}
-
-	@Test
 	public void visitFrequencyMap() throws Exception{
 		Object result = mapper.visitFrequencyMap("1", 1, 1, 1, monthf.parse("2015-11-0"), monthf.parse("2015-11-30"));
 		System.out.println(JacksonUtil.toJson(result).replace("{","\n{"));
@@ -50,8 +45,26 @@ public class StatisticsMapperTester {
 	}
 
 	@Test
-	public void visitEntryTrendHour() throws Exception{
-		Object result = mapper.visitEntryTrendHour("1", 1, monthf.parse("2015-11-0"), monthf.parse("2015-11-30"));
+	public void visitTrendHour() throws Exception{
+		Object result = mapper.visitTrendHour("1", 1, monthf.parse("2015-11-0"), monthf.parse("2015-11-30"));
+		System.out.println(JacksonUtil.toJson(result).replace("{","\n{"));
+	}
+
+	@Test
+	public void customerTypeSpan() throws Exception{
+		Object result = mapper.userTypeSpan("7", 60*10, monthf.parse("2015-11-30"), monthf.parse("2015-12-1"));
+		System.out.println(JacksonUtil.toJson(result).replace("{","\n{"));
+	}
+
+	@Test
+	public void visitSpan() throws Exception{
+		Object result = mapper.visitSpan("1", 1, monthf.parse("2015-11-0"), monthf.parse("2015-11-30"));
+		System.out.println(JacksonUtil.toJson(result).replace("{","\n{"));
+	}
+
+	@Test
+	public void deviceBrand() throws Exception{
+		Object result = mapper.deviceBrand("1", 60, "pv", monthf.parse("2015-11-0"), monthf.parse("2015-11-30"),10,1);
 		System.out.println(JacksonUtil.toJson(result).replace("{","\n{"));
 	}
 

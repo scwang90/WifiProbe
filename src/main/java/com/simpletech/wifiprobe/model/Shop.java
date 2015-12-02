@@ -6,206 +6,224 @@ import com.simpletech.wifiprobe.annotations.dbmodel.Table;
 import com.simpletech.wifiprobe.model.base.ModelBase;
 
 /**
- * 数据库表t_shop
+ * 数据库表shop
  * @author 树朾
- * @date 2015-11-06 15:39:46 中国标准时间
+ * @date 2015-11-26 15:36:56 中国标准时间
  */
-@Table("t_shop")
+@Table("shop")
 public class Shop extends ModelBase{
 
 	/**
 	 * ID主键
 	 */
 	@Id
-	private String id;
+	private String shopID;
 	/**
 	 * 名称
 	 */
-	private String name;
+	private String shopName;
+	/**
+	 * 删除标记
+	 */
+	private Byte deleteFlag;
+	/**
+	 * 描述
+	 */
+	private String description;
 	/**
 	 * 访问过期时间段（分钟）
 	 */
-	@Column("config_visit_expired")
-	private Integer configVisitExpired;
+	@Column("config_probe_visit_expired")
+	private Integer configProbeVisitExpired;
 	/**
 	 * 用户过期时间段（天）
 	 */
-	@Column("config_user_expired")
-	private Integer configUserExpired;
+	@Column("config_probe_user_expired")
+	private Integer configProbeUserExpired;
 	/**
-	 * 信号强度过滤（0-100）
+	 * 信号强度过滤（0 - 100）
 	 */
-	@Column("config_visit_signal")
-	private Integer configVisitSignal;
+	@Column("config_probe_visit_signal")
+	private Integer configProbeVisitSignal;
 	/**
 	 * WIFI 访客过期时间
 	 */
-	@Column("config_visit_expired_wifi")
-	private Integer configVisitExpiredWifi;
+	@Column("config_probe_visit_expired_wifi")
+	private Integer configProbeVisitExpiredWifi;
 	/**
 	 * WIFI 信号过滤
 	 */
-	@Column("config_visit_signal_wifi")
-	private Integer configVisitSignalWifi;
+	@Column("config_probe_visit_signal_wifi")
+	private Integer configProbeVisitSignalWifi;
 	/**
-	 * 到访次数统计规则（1,2,5）次数
+	 * 到访次数统计规则（1, 2, 5）次数
 	 */
-	@Column("config_api_visit_counts")
-	private String configApiVisitCounts;
+	@Column("config_probe_api_visit_counts")
+	private String configProbeApiVisitCounts;
 	/**
-	 * 到访时长统计规则（5,30,60,120）分钟
+	 * 到访时长统计规则（5, 30, 60, 120）分钟
 	 */
-	@Column("config_api_visit_duration")
-	private String configApiVisitDuration;
+	@Column("config_probe_api_visit_duration")
+	private String configProbeApiVisitDuration;
 	/**
 	 * 到访时长达到深访的标准（分钟）
 	 */
-	@Column("config_api_visit_duration_deep")
-	private Double configApiVisitDurationDeep;
+	@Column("config_probe_api_visit_duration_deep")
+	private Double configProbeApiVisitDurationDeep;
 	/**
 	 * 到访时长达到跳出的标准（分钟）
 	 */
-	@Column("config_api_visit_duration_jump")
-	private Double configApiVisitDurationJump;
+	@Column("config_probe_api_visit_duration_jump")
+	private Double configProbeApiVisitDurationJump;
 	/**
 	 * 到访时长达到入店的标准（分钟）
 	 */
-	@Column("config_api_visit_duration_enter")
-	private Double configApiVisitDurationEnter;
+	@Column("config_probe_api_visit_duration_enter")
+	private Double configProbeApiVisitDurationEnter;
 	/**
-	 * 到访周期统计规则（1,2,4,7,14）天
+	 * 到访周期统计规则（1, 2, 4, 7, 14）天
 	 */
-	@Column("config_api_visit_period")
-	private String configApiVisitPeriod;
+	@Column("config_probe_api_visit_period")
+	private String configProbeApiVisitPeriod;
 	/**
-	 * 活跃度统计(1,7,15,30天)
+	 * 活跃度统计(1, 7, 15, 30天)
 	 */
-	@Column("config_api_liveness")
-	private String configApiLiveness;
+	@Column("config_probe_api_liveness")
+	private String configProbeApiLiveness;
 	/**
-	 * 服务器时间
+	 * 创建时间
 	 */
-	@Column("create_time")
 	private java.util.Date createTime;
-	/**
-	 * 更新时间
-	 */
-	@Column("update_time")
-	private java.util.Date updateTime;
 
 	public Shop() {
 	}
 	
-	public String getId(){
-		return this.id;
+	public String getShopID(){
+		return this.shopID;
 	}
 
-	public void setId(String id) {
-		this.id = id;
+	public void setShopID(String shopID) {
+		this.shopID = shopID;
 	}
 	
-	public String getName(){
-		return this.name;
+	public String getShopName(){
+		return this.shopName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setShopName(String shopName) {
+		this.shopName = shopName;
 	}
 	
-	public Integer getConfigVisitExpired(){
-		return this.configVisitExpired;
+	public Byte getDeleteFlag(){
+		return this.deleteFlag;
 	}
 
-	public void setConfigVisitExpired(Integer configVisitExpired) {
-		this.configVisitExpired = configVisitExpired;
+	public void setDeleteFlag(Byte deleteFlag) {
+		this.deleteFlag = deleteFlag;
 	}
 	
-	public Integer getConfigUserExpired(){
-		return this.configUserExpired;
+	public String getDescription(){
+		return this.description;
 	}
 
-	public void setConfigUserExpired(Integer configUserExpired) {
-		this.configUserExpired = configUserExpired;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 	
-	public Integer getConfigVisitSignal(){
-		return this.configVisitSignal;
+	public Integer getConfigProbeVisitExpired(){
+		return this.configProbeVisitExpired;
 	}
 
-	public void setConfigVisitSignal(Integer configVisitSignal) {
-		this.configVisitSignal = configVisitSignal;
+	public void setConfigProbeVisitExpired(Integer configProbeVisitExpired) {
+		this.configProbeVisitExpired = configProbeVisitExpired;
 	}
 	
-	public Integer getConfigVisitExpiredWifi(){
-		return this.configVisitExpiredWifi;
+	public Integer getConfigProbeUserExpired(){
+		return this.configProbeUserExpired;
 	}
 
-	public void setConfigVisitExpiredWifi(Integer configVisitExpiredWifi) {
-		this.configVisitExpiredWifi = configVisitExpiredWifi;
+	public void setConfigProbeUserExpired(Integer configProbeUserExpired) {
+		this.configProbeUserExpired = configProbeUserExpired;
 	}
 	
-	public Integer getConfigVisitSignalWifi(){
-		return this.configVisitSignalWifi;
+	public Integer getConfigProbeVisitSignal(){
+		return this.configProbeVisitSignal;
 	}
 
-	public void setConfigVisitSignalWifi(Integer configVisitSignalWifi) {
-		this.configVisitSignalWifi = configVisitSignalWifi;
+	public void setConfigProbeVisitSignal(Integer configProbeVisitSignal) {
+		this.configProbeVisitSignal = configProbeVisitSignal;
 	}
 	
-	public String getConfigApiVisitCounts(){
-		return this.configApiVisitCounts;
+	public Integer getConfigProbeVisitExpiredWifi(){
+		return this.configProbeVisitExpiredWifi;
 	}
 
-	public void setConfigApiVisitCounts(String configApiVisitCounts) {
-		this.configApiVisitCounts = configApiVisitCounts;
+	public void setConfigProbeVisitExpiredWifi(Integer configProbeVisitExpiredWifi) {
+		this.configProbeVisitExpiredWifi = configProbeVisitExpiredWifi;
 	}
 	
-	public String getConfigApiVisitDuration(){
-		return this.configApiVisitDuration;
+	public Integer getConfigProbeVisitSignalWifi(){
+		return this.configProbeVisitSignalWifi;
 	}
 
-	public void setConfigApiVisitDuration(String configApiVisitDuration) {
-		this.configApiVisitDuration = configApiVisitDuration;
+	public void setConfigProbeVisitSignalWifi(Integer configProbeVisitSignalWifi) {
+		this.configProbeVisitSignalWifi = configProbeVisitSignalWifi;
 	}
 	
-	public Double getConfigApiVisitDurationDeep(){
-		return this.configApiVisitDurationDeep;
+	public String getConfigProbeApiVisitCounts(){
+		return this.configProbeApiVisitCounts;
 	}
 
-	public void setConfigApiVisitDurationDeep(Double configApiVisitDurationDeep) {
-		this.configApiVisitDurationDeep = configApiVisitDurationDeep;
+	public void setConfigProbeApiVisitCounts(String configProbeApiVisitCounts) {
+		this.configProbeApiVisitCounts = configProbeApiVisitCounts;
 	}
 	
-	public Double getConfigApiVisitDurationJump(){
-		return this.configApiVisitDurationJump;
+	public String getConfigProbeApiVisitDuration(){
+		return this.configProbeApiVisitDuration;
 	}
 
-	public void setConfigApiVisitDurationJump(Double configApiVisitDurationJump) {
-		this.configApiVisitDurationJump = configApiVisitDurationJump;
+	public void setConfigProbeApiVisitDuration(String configProbeApiVisitDuration) {
+		this.configProbeApiVisitDuration = configProbeApiVisitDuration;
 	}
 	
-	public Double getConfigApiVisitDurationEnter(){
-		return this.configApiVisitDurationEnter;
+	public Double getConfigProbeApiVisitDurationDeep(){
+		return this.configProbeApiVisitDurationDeep;
 	}
 
-	public void setConfigApiVisitDurationEnter(Double configApiVisitDurationEnter) {
-		this.configApiVisitDurationEnter = configApiVisitDurationEnter;
+	public void setConfigProbeApiVisitDurationDeep(Double configProbeApiVisitDurationDeep) {
+		this.configProbeApiVisitDurationDeep = configProbeApiVisitDurationDeep;
 	}
 	
-	public String getConfigApiVisitPeriod(){
-		return this.configApiVisitPeriod;
+	public Double getConfigProbeApiVisitDurationJump(){
+		return this.configProbeApiVisitDurationJump;
 	}
 
-	public void setConfigApiVisitPeriod(String configApiVisitPeriod) {
-		this.configApiVisitPeriod = configApiVisitPeriod;
+	public void setConfigProbeApiVisitDurationJump(Double configProbeApiVisitDurationJump) {
+		this.configProbeApiVisitDurationJump = configProbeApiVisitDurationJump;
 	}
 	
-	public String getConfigApiLiveness(){
-		return this.configApiLiveness;
+	public Double getConfigProbeApiVisitDurationEnter(){
+		return this.configProbeApiVisitDurationEnter;
 	}
 
-	public void setConfigApiLiveness(String configApiLiveness) {
-		this.configApiLiveness = configApiLiveness;
+	public void setConfigProbeApiVisitDurationEnter(Double configProbeApiVisitDurationEnter) {
+		this.configProbeApiVisitDurationEnter = configProbeApiVisitDurationEnter;
+	}
+	
+	public String getConfigProbeApiVisitPeriod(){
+		return this.configProbeApiVisitPeriod;
+	}
+
+	public void setConfigProbeApiVisitPeriod(String configProbeApiVisitPeriod) {
+		this.configProbeApiVisitPeriod = configProbeApiVisitPeriod;
+	}
+	
+	public String getConfigProbeApiLiveness(){
+		return this.configProbeApiLiveness;
+	}
+
+	public void setConfigProbeApiLiveness(String configProbeApiLiveness) {
+		this.configProbeApiLiveness = configProbeApiLiveness;
 	}
 	
 	public java.util.Date getCreateTime(){
@@ -214,14 +232,6 @@ public class Shop extends ModelBase{
 
 	public void setCreateTime(java.util.Date createTime) {
 		this.createTime = createTime;
-	}
-	
-	public java.util.Date getUpdateTime(){
-		return this.updateTime;
-	}
-
-	public void setUpdateTime(java.util.Date updateTime) {
-		this.updateTime = updateTime;
 	}
 	
 }

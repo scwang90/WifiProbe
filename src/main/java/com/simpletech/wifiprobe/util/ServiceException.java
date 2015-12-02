@@ -5,7 +5,7 @@ package com.simpletech.wifiprobe.util;
  * @author 树朾
  * @date 2015-11-02 17:16:40 中国标准时间
  */
-public class ServiceException extends Exception {
+public class ServiceException extends RuntimeException {
 
 	private static final long serialVersionUID = 3583566093089790852L;
 

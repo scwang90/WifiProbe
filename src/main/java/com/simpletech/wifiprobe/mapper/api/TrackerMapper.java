@@ -1,4 +1,4 @@
-package com.simpletech.wifiprobe.mapper;
+package com.simpletech.wifiprobe.mapper.api;
 
 import com.simpletech.wifiprobe.model.MacLog;
 import com.simpletech.wifiprobe.model.Shop;
@@ -14,15 +14,6 @@ import org.apache.ibatis.annotations.Update;
  * Created by Administrator on 2015/10/30.
  */
 public interface TrackerMapper {
-
-    /**
-     * 根据WIFIID获取店铺
-     * @param idwifi Wifi Id
-     * @return Shop or null
-     */
-//    @Select("SELECT t.id id , config_visit_expired configVisitExpired , config_user_expired configUserExpired , t.create_time createTime , t.update_time updateTime FROM t_wifi LEFT OUTER JOIN t_shop AS t ON t_wifi.idshop=t.id WHERE t_wifi.id=#{idwifi}")
-    @Select("SELECT id , config_visit_expired configVisitExpired , config_user_expired configUserExpired , config_visit_signal configVisitSignal , config_visit_expired_wifi configVisitExpiredWifi , config_visit_signal_wifi configVisitSignalWifi , create_time createTime , update_time updateTime  FROM t_shop WHERE id = (SELECT idshop FROM t_wifi WHERE id = #{idwifi})")
-    Shop findShopByFiwiId(@Param("idwifi") String idwifi) throws Exception;
 
     /**
      * 根据店铺ID和mac获取上一次 log

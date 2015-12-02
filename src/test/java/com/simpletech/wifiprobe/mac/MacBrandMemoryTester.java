@@ -1,9 +1,15 @@
 package com.simpletech.wifiprobe.mac;
 
+import com.mchange.v2.c3p0.ComboPooledDataSource;
+import com.simpletech.wifiprobe.model.*;
+import com.simpletech.wifiprobe.util.AfReflecter;
 import com.simpletech.wifiprobe.util.JacksonUtil;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.*;
+import java.sql.Connection;
+import java.sql.Statement;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -147,12 +153,21 @@ public class MacBrandMemoryTester {
 
     }};
 
+    /**
+     * 内存匹配测试（测试buildMapper生成的文件premac.mem.txt）
+     * @throws Exception
+     */
     @Test
     public void parserMapper() throws Exception {
         System.out.println(JacksonUtil.toJson(MacBrandMemory.parser("009069")));
         System.out.println(JacksonUtil.toJson(MacBrandMemory.parserBrandMac("009069")));
+        System.out.println(JacksonUtil.toJson(MacBrandMemory.parserNull("00-90:69")));
     }
 
+    /**
+     * 根据源mac数据源premac.txt生成新一代内存匹配支持数据源premac.mem.txt
+     * @throws Exception
+     */
     @Test
     public void buildMapper() throws Exception {
         Pattern pattern = Pattern.compile("(\\S+)\\s{2,}\\(base 16\\)\\s{2,}(.+)", Pattern.CASE_INSENSITIVE);
@@ -203,8 +218,8 @@ public class MacBrandMemoryTester {
                         }
                     }
                     String _remark = remarks.get(brand.toUpperCase());
-                    remark = (_remark==null)?remark:_remark;
-                    String out = patterm + ":" + brand + ((remark==null)?"":"," + remark);
+                    remark = (_remark==null)?brand:_remark;
+                    String out = patterm + ":" + brand.toUpperCase() + "," + remark;
 //                        System.out.println(out);
                     if (brand.length() < 3) {
                         System.out.println(company + "-" + line);
@@ -223,10 +238,10 @@ public class MacBrandMemoryTester {
             @Override
             public int compare(Map.Entry<String, String[]> o1, Map.Entry<String, String[]> o2) {
                 int compare = o1.getValue()[0].compareTo(o2.getValue()[0]);//品牌正序
-                return compare!=0?compare:o2.getKey().compareTo(o1.getKey());//mac倒序
+                return compare != 0 ? compare : o2.getKey().compareTo(o1.getKey());//mac倒序
             }
         });
-        try (PrintWriter writer = new PrintWriter(new FileWriter("src\\test\\resources\\premac.mem.txt"))) {
+        try (PrintWriter writer = new PrintWriter(new OutputStreamWriter(new FileOutputStream("src/test/resources/premac.mem.txt"),"UTF-8"))) {
             for (Map.Entry<String, String[]> entry : list) {
                 String out = entry.getKey() + ":" + entry.getValue()[0] + ((entry.getValue().length<2)?"":"," + entry.getValue()[1]);
                 writer.println(out);
@@ -235,4 +250,91 @@ public class MacBrandMemoryTester {
         }
     }
 
+    /**
+     * 寻找重复的品牌（大小写不一致）
+     * @throws Exception
+     */
+    @Test
+    public void doublet() throws Exception {
+        Map<String, List<String>> brandmap = new LinkedHashMap<>();
+        InputStream stream = ClassLoader.getSystemResourceAsStream("premac.mem.txt");
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(stream))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                line = line.trim();
+                String[] splits = line.trim().split(":");
+                String[] brands = splits[1].split(",");
+                List<String> list = brandmap.get(brands[0]);
+                if (list == null) {
+                    list = new ArrayList<>();
+                    brandmap.put(brands[0], list);
+                }
+                list.add(splits[0]);
+            }
+        }
+        List<Map.Entry<String, List<String>>> list = new ArrayList<>(brandmap.entrySet());
+        Collections.sort(list, new Comparator<Map.Entry<String, List<String>>>() {
+            @Override
+            public int compare(Map.Entry<String, List<String>> o1, Map.Entry<String, List<String>> o2) {
+                return Integer.compare(o1.getValue().size(), o2.getValue().size());
+            }
+        });
+        Collections.reverse(list);
+
+        brandmap = new HashMap<>();
+        for (Map.Entry<String, List<String>> entry : list) {
+            String key = entry.getKey().toLowerCase();
+            List<String> value = brandmap.get(key);
+            if (value != null) {
+                System.out.println("发现重复：" + entry.getKey() + " - " + entry.getValue());
+            } else {
+                brandmap.put(key,entry.getValue());
+            }
+        }
+
+    }
+
+
+    @Autowired
+    ComboPooledDataSource dataSource;
+
+    /**
+     * 添加到数据库
+     */
+    @Test
+    public void insertAll() throws Exception {
+        int index = 0,last = 0;
+        Connection connection = dataSource.getConnection();
+        connection.setAutoCommit(false);
+        Statement statement = connection.createStatement();
+        Object memory = AfReflecter.getMember(MacBrandMemory.class, "memory");
+        if (memory instanceof Map) {
+            Map<String,String[]> map = Map.class.cast(memory);
+            for (Map.Entry<String,String[]> entry : map.entrySet()) {
+                com.simpletech.wifiprobe.model.MacBrand model = new com.simpletech.wifiprobe.model.MacBrand();
+                model.setName(entry.getValue()[0]);
+                if (entry.getValue().length > 1) {
+                    model.setRemark(entry.getValue()[1]);
+                } else {
+                    model.setRemark(entry.getValue()[0]);
+                }
+                model.setMac(entry.getKey());
+                String sql = "INSERT INTO mac_brand ( mac , name , remark ) VALUES ( '%s' , '%s' , '%s' )";
+                statement.addBatch(String.format(sql,model.getMac(),model.getName().replace("'", " "),model.getRemark().replace("'"," ")));
+                if (++index % 1000 == 0) {
+                    System.out.println(last + "-" + index + ":正在提交....");
+                    int[] ints = statement.executeBatch();
+                    connection.commit();
+                    System.out.println(last + "-" + index + ":提交完成");
+                    System.out.println(JacksonUtil.toJson(ints) + "------------------------------------");
+                    last = index;
+                }
+            }
+            System.out.println(last + "-" + index + ":正在提交....");
+            int[] ints = statement.executeBatch();
+            connection.commit();
+            System.out.println(last + "-" + index + ":提交完成");
+            System.out.println(JacksonUtil.toJson(ints) + "====================================");
+        }
+    }
 }

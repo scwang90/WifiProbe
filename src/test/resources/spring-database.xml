@@ -2,11 +2,12 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
-       xsi:schemaLocation="
-          http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-          http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+          http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+          http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
 
-    <context:property-placeholder location="classpath:c3p0.properties"/>
+    <context:property-placeholder location="classpath:c3p0.properties" ignore-unresolvable="true"/>
 
     <!-- c3p0 connection pool configuration -->
     <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
@@ -42,6 +43,12 @@
         <property name="checkoutTimeout" value="10000"/>
     </bean>
 
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <!-- <property name="configLocation" value="classpath:mybatis-config.xml" /> -->
         <property name="dataSource" ref="dataSource"/>
@@ -65,7 +72,7 @@
     </bean>
     <bean id="shopMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">  
         <property name="sqlSessionFactory" ref="sqlSessionFactory" />  
-        <property name="mapperInterface" value="com.simpletech.wifiprobe.mapper.ShopMapper" />  
+        <property name="mapperInterface" value="com.simpletech.wifiprobe.mapper.shop.ShopMapper" />
     </bean>
     <bean id="visitMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">  
         <property name="sqlSessionFactory" ref="sqlSessionFactory" />  
@@ -77,7 +84,7 @@
     </bean>
     <bean id="wifiMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">  
         <property name="sqlSessionFactory" ref="sqlSessionFactory" />  
-        <property name="mapperInterface" value="com.simpletech.wifiprobe.mapper.WifiMapper" />  
+        <property name="mapperInterface" value="com.simpletech.wifiprobe.mapper.shop.WifiMapper" />
     </bean>
     -->
 

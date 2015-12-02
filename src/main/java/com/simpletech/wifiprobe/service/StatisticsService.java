@@ -4,8 +4,6 @@ import com.simpletech.wifiprobe.model.Visit;
 import com.simpletech.wifiprobe.model.constant.Period;
 import com.simpletech.wifiprobe.model.constant.RankingType;
 import com.simpletech.wifiprobe.model.entity.*;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.Date;
 import java.util.List;
@@ -17,20 +15,9 @@ import java.util.List;
 public interface StatisticsService {
 
     /**
-     * mac的访问记录
-     *
-     * @param idshop 网站ID
-     * @param mac    mac地址
-     * @param start  开始时间
-     * @param end    结束时间
-     * @return mac的访问记录
-     */
-    List<Visit> visitmac(String idshop, String mac, Date start, Date end) throws Exception;
-
-    /**
      * 店铺-到访频次-分布
      *
-     * @param idshop 网站ID
+     * @param idshop 区域ID
      * @param start  开始时间
      * @param end    结束时间
      * @return 统计数据
@@ -38,9 +25,19 @@ public interface StatisticsService {
     List<FrequencyMapValue> visitFrequencyMap(String idshop, Date start, Date end) throws Exception;
 
     /**
+     * 店铺-路过频次-分布
+     *
+     * @param idshop 区域ID
+     * @param start  开始时间
+     * @param end    结束时间
+     * @return 统计数据
+     */
+    List<FrequencyMapValue> pastFrequencyMap(String idshop, Date start, Date end) throws Exception;
+
+    /**
      * 店铺-驻店时长-分布
      *
-     * @param idshop 网站ID
+     * @param idshop 区域ID
      * @param start  开始时间
      * @param end    结束时间
      * @return 统计数据
@@ -50,7 +47,7 @@ public interface StatisticsService {
     /**
      * 统计店铺的到访周期
      *
-     * @param idshop 网站ID
+     * @param idshop 区域ID
      * @param start  开始时间
      * @param end    结束时间
      * @return 统计数据
@@ -60,7 +57,7 @@ public interface StatisticsService {
     /**
      * 店铺-驻店时长-时段
      *
-     * @param idshop 网站ID
+     * @param idshop 区域ID
      * @param start  开始时间
      * @param end    结束时间
      * @return 统计数据
@@ -70,7 +67,7 @@ public interface StatisticsService {
     /**
      * 店铺-驻店时长-趋势
      *
-     * @param idshop 网站ID
+     * @param idshop 区域ID
      * @param period 时段周期 [时|日|周|月]
      * @param start  开始时间
      * @param end    结束时间
@@ -79,21 +76,31 @@ public interface StatisticsService {
     List<DurationTrendValue> visitDurationTrend(String idshop, Period period, Date start, Date end) throws Exception;
 
     /**
-     * 店铺-入店人次-趋势
+     * 店铺-客流量-时段
      *
-     * @param idshop 网站ID
-     * @param period 时段周期 [时|日|周|月]
-     * @param start  开始时间 ("yyyyMMddHHmmss")
-     * @param end    结束时间 ("yyyyMMddHHmmss")
+     * @param idshop 区域ID
+     * @param start  开始时间
+     * @param end    结束时间
      * @return 统计数据
      */
-    List<EntryTrendValue> visitEntryTrend(String idshop, Period period, Date start, Date end) throws Exception;
+    EntryTrendValue visitSpan(String idshop, Date start, Date end) throws Exception;
+
+    /**
+     * 店铺-客流量-趋势
+     *
+     * @param idshop 区域ID
+     * @param period 时段周期 [时|日|周|月]
+     * @param start  开始时间
+     * @param end    结束时间
+     * @return 统计数据
+     */
+    List<EntryTrendValue> visitTrend(String idshop, Period period, Date start, Date end) throws Exception;
 
 
     /**
      * 店铺-设备品牌-排行
      *
-     * @param idshop 网站ID
+     * @param idshop 区域ID
      * @param ranktype 排序类型 按 vt|uv|pv
      * @param start    开始时间
      * @param end      结束时间
@@ -101,5 +108,65 @@ public interface StatisticsService {
      * @param skip     分页起始
      * @return 排行数据
      */
+    List<DeviceBrandValue> deviceBrandRank(String idshop, RankingType ranktype, Date start, Date end, int limit, int skip) throws Exception;
     List<DeviceBrandValue> deviceBrandRanking(String idshop, RankingType ranktype, Date start, Date end, int limit, int skip) throws Exception;
+
+    /**
+     * 店铺-新老用户-时段
+     *
+     * @param idshop 区域ID
+     * @param start  开始时间
+     * @param end    结束时间
+     * @return 新老用户
+     */
+    List<UserTypeSpanValue> userTypeSpan(String idshop, Date start, Date end) throws Exception;
+
+    /**
+     * 店铺-新老用户-趋势
+     *
+     * @param idshop 区域ID
+     * @param start    开始时间
+     * @param end      结束时间
+     * @return 新老用户趋势
+     */
+    List<UserTypeTrendValue> userTypeTrend(String idshop, Period period, Date start, Date end) throws Exception;
+
+    /**
+     * 店铺-活跃度-分布
+     *
+     * @param idshop 区域ID
+     * @param start  开始时间
+     * @param end    结束时间
+     * @return 活跃度分布
+     */
+    List<UserLivenessMapValue> userLivenessMap(String idshop, Date start, Date end) throws Exception;
+
+    /**
+     * 店铺-活跃度-趋势
+     *
+     * @param idshop 区域ID
+     * @param period 时段周期 [时|日|周|月]
+     * @param start  开始时间
+     * @param end    结束时间
+     * @return 活跃度趋势
+     */
+    List<UserLivenessTrendMapValue> userLivenessTrend(String idshop, Period period, Date start, Date end) throws Exception;
+
+    /**
+     * 探针-在线台数
+     *
+     * @param idshop 区域ID
+     * @return 在线台数
+     */
+    int onlineProbe(String idshop) throws Exception;
+    List<OnlineValue> onlineProbeAll() throws Exception;
+
+    /**
+     * 探针-在线人数
+     *
+     * @param idshop 区域ID
+     * @return 在线人数
+     */
+    int onlineUser(String idshop) throws Exception;
+    List<OnlineValue> onlineUserAll() throws Exception;
 }

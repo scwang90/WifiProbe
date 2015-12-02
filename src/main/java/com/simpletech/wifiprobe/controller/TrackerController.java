@@ -1,6 +1,7 @@
 package com.simpletech.wifiprobe.controller;
 
 import com.simpletech.wifiprobe.model.MacLog;
+import com.simpletech.wifiprobe.model.ProbeLog;
 import com.simpletech.wifiprobe.service.TrackerService;
 import com.simpletech.wifiprobe.util.JacksonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +43,7 @@ public class TrackerController {
         if (data instanceof List) {
             List<HashMap<String, Object>> list = (List) data;
             for (HashMap<String, Object> item : list) {
-                MacLog log = new MacLog();
+                ProbeLog log = new ProbeLog();
                 if (id == null) {
                     log.setIdwifi(item.get("id").toString().trim());
                 } else {
