@@ -34,6 +34,45 @@ public class StatisticsServiceImpl implements StatisticsService {
     @Autowired
     ShopDao shopDao;
 
+
+    @Override
+    public List<VisitTimeMapValue> visitTimeMap(String idsite, TimeType type, int days, Date start, Date end) {
+        List<VisitTimeMapValue> list = new ArrayList<>();
+        switch (type) {
+            case server:
+                list = mapper.visitServerTimeMap(idsite, start, end);
+                break;
+            case local:
+                list = mapper.visitLocalTimeMap(idsite, start, end);
+                break;
+        }
+        int tip = 0, tpv = 0, tuv = 0, tvt = 0, count = days > 0 ? days : 1;
+        for (VisitTimeMapValue value : list) {
+            value.setAvgip((int) Math.rint(1f * value.getIp() / count + 0.4));
+            value.setAvgvt((int) Math.rint(1f * value.getVt() / count + 0.4));
+            value.setAvguv((int) Math.rint(1f * value.getUv() / count + 0.4));
+            value.setAvgpv((int) Math.rint(1f * value.getPv() / count + 0.4));
+            tip += value.getAvgip();
+            tvt += value.getAvgvt();
+            tuv += value.getAvguv();
+            tpv += value.getAvgpv();
+        }
+        for (VisitTimeMapValue value : list) {
+            value.setRip(1f * value.getAvgip() / tip);
+            value.setRvt(1f * value.getAvgvt() / tvt);
+            value.setRuv(1f * value.getAvguv() / tuv);
+            value.setRpv(1f * value.getAvgpv() / tpv);
+        }
+        for (int i = 0, index = 0; i < 24; i++, index++) {
+            if (index == list.size() || list.get(index).getTime() > i) {
+                VisitTimeMapValue tmp = new VisitTimeMapValue();
+                tmp.setTime(i);
+                list.add(index, tmp);
+            }
+        }
+        return list;
+    }
+
     @Override
     public List<FrequencyMapValue> visitFrequencyMap(String idshop, Date start, Date end) throws Exception {
         List<FrequencyMapValue> values = new ArrayList<>();

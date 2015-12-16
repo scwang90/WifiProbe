@@ -15,6 +15,28 @@ import java.util.Map;
 public interface StatisticsMapper {
 
     /**
+     * 访问时间 - 服务器时间 - 分布
+     *
+     * @param idsite 网站IDE
+     * @param start  开始时间
+     * @param end    结束时间
+     * @return 访问时间
+     */
+    @Select("SELECT DATE_FORMAT(visit_servertime,'%H') time, COUNT(id) vt, SUM(count_visits) pv, COUNT(DISTINCT idvisitor) uv, COUNT(DISTINCT location_ip) ip FROM t_visit AS t WHERE idsite=${idsite} AND (visit_servertime BETWEEN #{start} AND #{end}) GROUP BY time ORDER BY time ")
+    List<VisitTimeMapValue> visitServerTimeMap(@Param("idsite") String idsite, @Param("start") Date start, @Param("end") Date end);
+
+    /**
+     * 浏览器时间 - 服务器时间 - 分布
+     *
+     * @param idsite 网站IDE
+     * @param start  开始时间
+     * @param end    结束时间
+     * @return 访问时间
+     */
+    @Select("SELECT DATE_FORMAT(visit_localtime,'%H') time, COUNT(id) vt, SUM(count_visits) pv, COUNT(DISTINCT idvisitor) uv, COUNT(DISTINCT location_ip) ip FROM t_visit AS t WHERE idsite=${idsite} AND (visit_servertime BETWEEN #{start} AND #{end}) GROUP BY time ORDER BY time ")
+    List<VisitTimeMapValue> visitLocalTimeMap(@Param("idsite") String idsite, @Param("start") Date start, @Param("end") Date end);
+
+    /**
      * 店铺-到访频次-分布
      * 统计店铺到访频次在min，max之间的条数
      *
@@ -62,10 +84,10 @@ public interface StatisticsMapper {
     /**
      * 获取[统计店铺的到访周期]所需的元数据
      *
-     * @param idshop      区域ID
-     * @param entry       入店标准时间（过滤用）
-     * @param start       开始时间
-     * @param end         结束时间
+     * @param idshop 区域ID
+     * @param entry  入店标准时间（过滤用）
+     * @param start  开始时间
+     * @param end    结束时间
      * @return 元数据-每个符合条件用户的平均周期列表-按小到大排序
      */
     @Select("SELECT AVG(time_from_last) period\n" +
@@ -130,6 +152,7 @@ public interface StatisticsMapper {
             "        AND (create_time BETWEEN #{start} AND #{end}) " +
             "      GROUP BY date) AS t")
     List<DurationTrendValue> visitDurationTrendHour(@Param("idshop") String idshop, @Param("entry") int entry, @Param("deep") int deep, @Param("jump") int jump, @Param("start") Date start, @Param("end") Date end) throws Exception;
+
     @Select("SELECT\n" +
             "  date,dur_avg, deep, jump, entry,\n" +
             "  deep / entry       rdeep,\n" +
@@ -146,6 +169,7 @@ public interface StatisticsMapper {
             "        AND (create_time BETWEEN #{start} AND #{end}) " +
             "      GROUP BY date) AS t")
     List<DurationTrendValue> visitDurationTrendDay(@Param("idshop") String idshop, @Param("entry") int entry, @Param("deep") int deep, @Param("jump") int jump, @Param("start") Date start, @Param("end") Date end) throws Exception;
+
     @Select("SELECT\n" +
             "  date,dur_avg, deep, jump, entry,\n" +
             "  deep / entry       rdeep,\n" +
@@ -162,6 +186,7 @@ public interface StatisticsMapper {
             "        AND (create_time BETWEEN #{start} AND #{end}) " +
             "      GROUP BY date) AS t")
     List<DurationTrendValue> visitDurationTrendWeek(@Param("idshop") String idshop, @Param("entry") int entry, @Param("deep") int deep, @Param("jump") int jump, @Param("start") Date start, @Param("end") Date end) throws Exception;
+
     @Select("SELECT\n" +
             "  date,dur_avg, deep, jump, entry,\n" +
             "  deep / entry       rdeep,\n" +
@@ -210,7 +235,7 @@ public interface StatisticsMapper {
      * 店铺-客流量-趋势
      *
      * @param idshop 区域ID
-     * @param entry   入店标准
+     * @param entry  入店标准
      * @param start  开始时间
      * @param end    结束时间
      * @return 统计数据
@@ -234,6 +259,7 @@ public interface StatisticsMapper {
             "    AND (create_time BETWEEN #{start} AND #{end}) " +
             "    GROUP BY date) AS t")
     List<EntryTrendValue> visitTrendHour(@Param("idshop") String idshop, @Param("entry") int entry, @Param("start") Date start, @Param("end") Date end) throws Exception;
+
     @Select("SELECT\n" +
             "  date,total,entry,past,nentry,oentry,\n" +
             "  past / total   rpast,\n" +
@@ -253,6 +279,7 @@ public interface StatisticsMapper {
             "    AND (create_time BETWEEN #{start} AND #{end}) " +
             "    GROUP BY date) AS t")
     List<EntryTrendValue> visitTrendDay(@Param("idshop") String idshop, @Param("entry") int entry, @Param("start") Date start, @Param("end") Date end) throws Exception;
+
     @Select("SELECT\n" +
             "  date,total,entry,past,nentry,oentry,\n" +
             "  past / total   rpast,\n" +
@@ -272,6 +299,7 @@ public interface StatisticsMapper {
             "    AND (create_time BETWEEN #{start} AND #{end}) " +
             "    GROUP BY date) AS t")
     List<EntryTrendValue> visitTrendWeek(@Param("idshop") String idshop, @Param("entry") int entry, @Param("start") Date start, @Param("end") Date end) throws Exception;
+
     @Select("SELECT\n" +
             "  date,total,entry,past,nentry,oentry,\n" +
             "  past / total   rpast,\n" +
@@ -296,7 +324,7 @@ public interface StatisticsMapper {
      * 店铺-设备品牌-排行
      *
      * @param idshop 区域ID
-     * @param entry   入店标准
+     * @param entry  入店标准
      * @param type   排序规则
      * @param start  开始时间
      * @param end    结束时间
@@ -333,6 +361,7 @@ public interface StatisticsMapper {
             "     AND (time_entry BETWEEN #{start} AND #{end})\n" +
             "  ) AS t2")
     List<DeviceBrandValue> deviceBrand(@Param("idshop") String idshop, @Param("entry") int entry, @Param("type") String type, @Param("start") Date start, @Param("end") Date end, @Param("limit") int limit, @Param("skip") int skip) throws Exception;
+
     @Select("SELECT end_brand name, COUNT(id) vt,COUNT(DISTINCT mac_device) uv,SUM(count_logs) pv FROM t_visit GROUP BY name ORDER BY ${type} DESC LIMIT ${skip},${limit}")
     List<DeviceBrandValue> doDeviceBrand(@Param("type") String type, @Param("limit") int limit, @Param("skip") int skip) throws Exception;
 
@@ -340,7 +369,7 @@ public interface StatisticsMapper {
      * 店铺-新老用户-时段
      *
      * @param idshop 区域ID
-     * @param entry   入店标准
+     * @param entry  入店标准
      * @param start  开始时间
      * @param end    结束时间
      * @return 新老用户
@@ -381,12 +410,13 @@ public interface StatisticsMapper {
             "     AND time_duration >= #{entry}\n" +
             "     AND (create_time BETWEEN #{start} AND #{end})\n" +
             "  ) AS t2")
-    Map<String,Object> userTypeSpan(@Param("idshop") String idshop, @Param("entry") int entry, @Param("start") Date start, @Param("end") Date end) throws Exception;
+    Map<String, Object> userTypeSpan(@Param("idshop") String idshop, @Param("entry") int entry, @Param("start") Date start, @Param("end") Date end) throws Exception;
+
     /**
      * 店铺-新老用户-趋势
      *
      * @param idshop 区域ID
-     * @param entry   入店标准
+     * @param entry  入店标准
      * @param start  开始时间
      * @param end    结束时间
      * @return 数量
@@ -405,7 +435,8 @@ public interface StatisticsMapper {
             "            AND time_duration >= #{entry}\n" +
             "            AND (create_time BETWEEN #{start} AND #{end})\n" +
             "      GROUP BY date) AS t")
-    List<UserTypeTrendValue> userTypeTrendHour(@Param("idshop") String idshop,@Param("entry") int entry, @Param("start") Date start, @Param("end") Date end) throws Exception;
+    List<UserTypeTrendValue> userTypeTrendHour(@Param("idshop") String idshop, @Param("entry") int entry, @Param("start") Date start, @Param("end") Date end) throws Exception;
+
     @Select("SELECT\n" +
             "  *,\n" +
             "  uv-nv ov,\n" +
@@ -420,7 +451,8 @@ public interface StatisticsMapper {
             "            AND time_duration >= #{entry}\n" +
             "            AND (create_time BETWEEN #{start} AND #{end})\n" +
             "      GROUP BY date) AS t")
-    List<UserTypeTrendValue> userTypeTrendDay(@Param("idshop") String idshop,@Param("entry") int entry, @Param("start") Date start, @Param("end") Date end) throws Exception;
+    List<UserTypeTrendValue> userTypeTrendDay(@Param("idshop") String idshop, @Param("entry") int entry, @Param("start") Date start, @Param("end") Date end) throws Exception;
+
     @Select("SELECT\n" +
             "  *,\n" +
             "  uv-nv ov,\n" +
@@ -435,7 +467,8 @@ public interface StatisticsMapper {
             "            AND time_duration >= #{entry}\n" +
             "            AND (create_time BETWEEN #{start} AND #{end})\n" +
             "      GROUP BY date) AS t")
-    List<UserTypeTrendValue> userTypeTrendWeek(@Param("idshop") String idshop,@Param("entry") int entry, @Param("start") Date start, @Param("end") Date end) throws Exception;
+    List<UserTypeTrendValue> userTypeTrendWeek(@Param("idshop") String idshop, @Param("entry") int entry, @Param("start") Date start, @Param("end") Date end) throws Exception;
+
     @Select("SELECT\n" +
             "  *,\n" +
             "  uv-nv ov,\n" +
@@ -454,6 +487,7 @@ public interface StatisticsMapper {
 
     /**
      * 店铺-顾客活跃度-分布
+     *
      * @param idshop 区域ID
      * @param min    最小周期时间
      * @param max    最大周期时间
@@ -472,6 +506,7 @@ public interface StatisticsMapper {
 
     /**
      * 店铺-顾客活跃度-趋势
+     *
      * @param idshop 区域ID
      * @param min    最小周期时间
      * @param max    最大周期时间
@@ -489,6 +524,7 @@ public interface StatisticsMapper {
             "  AND (create_time BETWEEN #{start} AND  #{end})\n" +
             "GROUP BY date")
     List<UserLivenessTrendValue> userLivenessTrendHour(@Param("idshop") String idshop, @Param("entry") int entry, @Param("min") int min, @Param("max") int max, @Param("start") Date start, @Param("end") Date end) throws Exception;
+
     @Select("SELECT\n" +
             "  DATE_FORMAT(create_time, '%y%m%d')       date,\n" +
             "  COUNT(id)                                vt,\n" +
@@ -500,6 +536,7 @@ public interface StatisticsMapper {
             "  AND (create_time BETWEEN #{start} AND  #{end})\n" +
             "GROUP BY date")
     List<UserLivenessTrendValue> userLivenessTrendDay(@Param("idshop") String idshop, @Param("entry") int entry, @Param("min") int min, @Param("max") int max, @Param("start") Date start, @Param("end") Date end) throws Exception;
+
     @Select("SELECT\n" +
             "  DATE_FORMAT(create_time, '%y-%u')     date,\n" +
             "  COUNT(id)                                vt,\n" +
@@ -511,6 +548,7 @@ public interface StatisticsMapper {
             "  AND (create_time BETWEEN #{start} AND  #{end})\n" +
             "GROUP BY date")
     List<UserLivenessTrendValue> userLivenessTrendWeek(@Param("idshop") String idshop, @Param("entry") int entry, @Param("min") int min, @Param("max") int max, @Param("start") Date start, @Param("end") Date end) throws Exception;
+
     @Select("SELECT\n" +
             "  DATE_FORMAT(create_time, '%y%m')     date,\n" +
             "  COUNT(id)                                vt,\n" +
@@ -533,6 +571,7 @@ public interface StatisticsMapper {
             "FROM t_visit\n" +
             "WHERE idshop = #{idshop} AND update_time >= #{time}")
     int onlineProbe(@Param("idshop") String idshop, @Param("time") Date time) throws Exception;
+
     @Select("SELECT idshop id,COUNT(DISTINCT idwifi) num\n" +
             "FROM t_visit\n" +
             "WHERE update_time >= #{time} GROUP BY idshop ")
@@ -548,6 +587,7 @@ public interface StatisticsMapper {
             "FROM t_visit\n" +
             "WHERE idshop = #{idshop} AND update_time >= #{time}")
     int onlineUser(@Param("idshop") String idshop, @Param("time") Date time) throws Exception;
+
     @Select("SELECT idshop id,COUNT(DISTINCT mac_device) num\n" +
             "FROM t_visit\n" +
             "WHERE update_time >= #{time} GROUP BY idshop ")

@@ -708,12 +708,12 @@
                         <con:params/>
                         <con:element>data</con:element>
                     </con:representation>
-                    <con:request name="Request 1" id="c4eaf7b4-6757-48eb-8711-a55fe56422e5" mediaType="application/json" postQueryString="false">
+                    <con:representation type="RESPONSE"><con:mediaType xsi:nil="true"/><con:status>0</con:status><con:params/><con:element>data</con:element></con:representation><con:request name="Request 1" id="c4eaf7b4-6757-48eb-8711-a55fe56422e5" mediaType="application/json" postQueryString="false">
                         <con:settings>
                             <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
                         </con:settings>
                         <con:endpoint>http://118.118.118.6:8080</con:endpoint>
-                        <con:request>{"data":[{"time":"","rssi":-78,"mac":"14:f6:5a:90:a6:63","id":"B068B6FFB1C4"}]}
+                        <con:request>{"data":[{"time":"","rssi":-78,"mac":"14:f6:5a:90:a6:63","id":"021122334455"}]}
                         </con:request>
                         <con:originalUri>http://118.118.118.6/WifiProbe/api/tracker/mac/log/compat</con:originalUri>
                         <con:credentials>

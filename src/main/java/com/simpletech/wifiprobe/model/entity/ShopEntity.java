@@ -39,7 +39,7 @@ public class ShopEntity extends Shop{
 
     @Override
     public Integer getConfigProbeVisitExpiredWifi() {
-        Integer value = shop.getConfigProbeVisitExpired();
+        Integer value = shop.getConfigProbeVisitExpiredWifi();
         value = (value==null||value.equals(0))?3:value;
         return value;
     }
@@ -51,7 +51,7 @@ public class ShopEntity extends Shop{
 
     @Override
     public Integer getConfigProbeVisitSignal() {
-        Integer value = shop.getConfigProbeVisitExpired();
+        Integer value = shop.getConfigProbeVisitSignal();
         value = (value==null||value.equals(0))?-100:value;
         return value;
     }
@@ -63,7 +63,7 @@ public class ShopEntity extends Shop{
 
     @Override
     public Integer getConfigProbeVisitSignalWifi() {
-        Integer value = shop.getConfigProbeVisitExpired();
+        Integer value = shop.getConfigProbeVisitSignalWifi();
         value = (value==null||value.equals(0))?-100:value;
         return value;
     }

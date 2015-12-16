@@ -3,6 +3,7 @@ package com.simpletech.wifiprobe.controller;
 import com.simpletech.wifiprobe.controller.base.BaseController;
 import com.simpletech.wifiprobe.model.constant.Period;
 import com.simpletech.wifiprobe.model.constant.RankingType;
+import com.simpletech.wifiprobe.model.constant.TimeType;
 import com.simpletech.wifiprobe.model.entity.*;
 import com.simpletech.wifiprobe.service.StatisticsService;
 import com.simpletech.wifiprobe.util.AfReflecter;
@@ -46,6 +47,7 @@ public class StatisticsController extends BaseController{
     public Object probeOnline(@PathVariable String areaId) throws Exception {
         return service.onlineProbe(areaId);
     }
+
     /**
      * 探针-在线台数
      *
@@ -71,6 +73,25 @@ public class StatisticsController extends BaseController{
             return service.onlineUserAll();
         else
             return service.onlineUser(areaId);
+    }
+
+    /**
+     * 访问时间-分布 （服务器时间，浏览器时间）
+     *
+     * @param areaId 网站ID
+     * @param type   时间类型  server-服务器时间|local-浏览器时间
+     * @param offset 偏移 0=当天 -1=昨天 1=明天 -2 2 -3...
+     * @param span   跨度 [day|week|month|year]
+     * @param start  开始时间 ("yyyyMMddHHmmss")
+     * @param end    结束时间 ("yyyyMMddHHmmss")
+     * @return 统计数据
+     */
+    @RequestMapping("visit/{type:server|local}/time/map")
+    public Object visitTimeMap(@PathVariable String areaId, @PathVariable TimeType type, String subsite, Integer offset, Period span, Date start, Date end) {
+        end = timeEnd(end, span, offset);
+        start = timeStart(start, span, offset);
+        int days = countDays(Period.day, start, end);
+        return service.visitTimeMap(areaId, type, days, start, end);
     }
 
     /**
@@ -321,6 +342,25 @@ public class StatisticsController extends BaseController{
     }
 
     /**
+     * 计算分割段数
+     *
+     * @param period 时段周期 [时|日|周|月]
+     * @param start  开始时间
+     * @param end    结束时间
+     * @return 段数
+     */
+    private int countDays(Period period, Date start, Date end) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(start);
+        int count = 0;
+        while (calendar.getTime().before(end)) {
+            count++;
+            calendar.add(period.getField(), 1);
+        }
+        return count;
+    }
+
+    /**
      * 检测时间分段合理性
      *
      * @param period 时段周期 [时|日|周|月]
@@ -347,11 +387,15 @@ public class StatisticsController extends BaseController{
      * @param offset 偏移
      * @return 开始时间
      */
-    private Date timeStart(Date start, Period span, Integer offset) throws ParseException {
+    private Date timeStart(Date start, Period span, Integer offset) {
         if (span != null && offset != null /*&& !Period.hour.equals(span)*/) {
             DateFormat format = span.getFormat();
             Calendar calendar = Calendar.getInstance();
-            calendar.setTime(format.parse(format.format(calendar.getTime())));
+            try {
+                calendar.setTime(format.parse(format.format(calendar.getTime())));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
             calendar.add(span.getField(), offset);
             return calendar.getTime();
         }
@@ -369,11 +413,15 @@ public class StatisticsController extends BaseController{
      * @param offset 偏移
      * @return 结束时间
      */
-    private Date timeEnd(Date end, Period span, Integer offset) throws Exception {
+    private Date timeEnd(Date end, Period span, Integer offset) {
         if (span != null && offset != null/* && !Period.hour.equals(span)*/) {
             DateFormat format = span.getFormat();
             Calendar calendar = Calendar.getInstance();
-            calendar.setTime(format.parse(format.format(calendar.getTime())));
+            try {
+                calendar.setTime(format.parse(format.format(calendar.getTime())));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
             calendar.add(span.getField(), offset + 1);
             return calendar.getTime();
         }

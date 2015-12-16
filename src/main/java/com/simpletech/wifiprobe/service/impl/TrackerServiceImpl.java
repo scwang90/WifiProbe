@@ -45,7 +45,7 @@ public class TrackerServiceImpl implements TrackerService {
             String idvisit = "";
             String idvisitwifi = "";
             synchronized (visitLock.getLock(shop.getShopID() + log.getMacDevice())) {
-                if (log.getSignalStrength() >= (100 - 30) * shop.getConfigProbeVisitSignal() / 100 - 100) {//信号过滤
+                if (log.getSignalStrength() >= shop.getConfigProbeVisitSignal() - 100) {//信号过滤
                     Visit lastVist = mapper.findLastVistByMacAndShop(shop.getShopID(), log.getMacDevice());
                     if (lastVist == null || lastVist.getTimeLeave().getTime() < now.getTime() - shop.getConfigProbeVisitExpired() * 60 * 1000l) {
                         Visit visit = new Visit();
@@ -71,7 +71,7 @@ public class TrackerServiceImpl implements TrackerService {
                         mapper.updateVisitByMacLog(macLog);
                     }
                 }
-                if (log.getSignalStrength() >= (100 - 30) * shop.getConfigProbeVisitSignalWifi() / 100 - 100) {//信号过滤
+                if (log.getSignalStrength() >= shop.getConfigProbeVisitSignalWifi() - 100) {//信号过滤
                     VisitWifi lastVist = mapper.findLastVisitWifiByMacAndShop(shop.getShopID(), log.getMacDevice());
                     if (lastVist == null || lastVist.getTimeLeave().getTime() < now.getTime() - shop.getConfigProbeVisitExpiredWifi() * 60 * 1000l) {
                         VisitWifi visit = new VisitWifi();
