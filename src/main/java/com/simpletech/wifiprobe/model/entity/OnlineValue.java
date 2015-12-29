@@ -9,6 +9,15 @@ public class OnlineValue {
     private String id;         //ID
     private int num;           //数值
 
+    public OnlineValue() {
+
+    }
+
+    public OnlineValue(String id, int num) {
+        this.id = id;
+        this.num = num;
+    }
+
     public String getId() {
         return id;
     }

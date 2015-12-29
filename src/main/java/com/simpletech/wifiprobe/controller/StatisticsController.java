@@ -7,15 +7,16 @@ import com.simpletech.wifiprobe.model.constant.TimeType;
 import com.simpletech.wifiprobe.model.entity.*;
 import com.simpletech.wifiprobe.service.StatisticsService;
 import com.simpletech.wifiprobe.util.AfReflecter;
+import com.simpletech.wifiprobe.util.AfStringUtil;
+import com.simpletech.wifiprobe.util.JacksonUtil;
 import com.simpletech.wifiprobe.util.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.web.bind.ServletRequestDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.BufferedReader;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -27,7 +28,7 @@ import java.util.*;
  */
 @RestController
 @RequestMapping("v1/area/{areaId}")
-public class StatisticsController extends BaseController{
+public class StatisticsController extends BaseController {
 
     @Autowired
     StatisticsService service;
@@ -52,26 +53,39 @@ public class StatisticsController extends BaseController{
      * 探针-在线台数
      *
      * @param areaId 区域ID
+     * @param body   店铺ID数组json格式参数
      * @return 在线台数
      */
     @RequestMapping("online/probe")
-    public Object onlineProbe(@PathVariable String areaId) throws Exception {
-        if ("all".equals(areaId))
+    public Object onlineProbe(@PathVariable String areaId, @RequestBody(required = false) String body) throws Exception {
+        if ("all".equals(areaId)) {
+            if (body != null && body.matches("^\\[\".+\"\\]$")) {
+                return service.onlineProbeShopIds(body);
+            } else if (body != null && body.trim().length() > 0) {
+                throw new ServiceException("请使用json:[\"id1\",\"id2\"]格式传参！");
+            }
             return service.onlineProbeAll();
-        else
+        } else
             return service.onlineProbe(areaId);
     }
+
     /**
      * 探针-在线人数
      *
      * @param areaId 区域ID
+     * @param body   店铺ID数组json格式参数
      * @return 在线人数
      */
     @RequestMapping("online/user")
-    public Object onlineUser(@PathVariable String areaId) throws Exception {
-        if ("all".equals(areaId))
+    public Object onlineUser(@PathVariable String areaId, @RequestBody(required = false) String body) throws Exception {
+        if ("all".equals(areaId)) {
+            if (body != null && body.matches("^\\[\".+\"\\]$")) {
+                return service.onlineUserShopIds(body);
+            } else if (body != null && body.trim().length() > 0) {
+                throw new ServiceException("请使用json:[\"id1\",\"id2\"]格式传参！");
+            }
             return service.onlineUserAll();
-        else
+        } else
             return service.onlineUser(areaId);
     }
 
@@ -241,7 +255,7 @@ public class StatisticsController extends BaseController{
     /**
      * 店铺-设备品牌-排行
      *
-     * @param areaId 区域ID
+     * @param areaId   区域ID
      * @param ranktype 排序类型 按 vt|uv|pv
      * @param offset   偏移 0=当天 -1=昨天 1=明天 -2 2 -3...
      * @param span     跨度 [day|week|month|year]
@@ -257,6 +271,7 @@ public class StatisticsController extends BaseController{
         start = timeStart(start, span, offset);
         return service.deviceBrandRanking(areaId, ranktype, start, end, limit, skip);
     }
+
     @RequestMapping("device/brand/rank/{ranktype:vt|uv|pv}/{limit:\\d+}/{skip:\\d+}")
     public Object deviceBrandRank(@PathVariable String areaId, @PathVariable RankingType ranktype, @PathVariable int limit, @PathVariable int skip, Integer offset, Period span, Date start, Date end) throws Exception {
         end = timeEnd(end, span, offset);
@@ -268,10 +283,10 @@ public class StatisticsController extends BaseController{
      * 店铺-新老用户-时段
      *
      * @param areaId 区域ID
-     * @param offset   偏移 0=当天 -1=昨天 1=明天 -2 2 -3...
-     * @param span     跨度 [day|week|month|year]
-     * @param start    开始时间 ("yyyyMMddHHmmss")
-     * @param end      结束时间 ("yyyyMMddHHmmss")
+     * @param offset 偏移 0=当天 -1=昨天 1=明天 -2 2 -3...
+     * @param span   跨度 [day|week|month|year]
+     * @param start  开始时间 ("yyyyMMddHHmmss")
+     * @param end    结束时间 ("yyyyMMddHHmmss")
      * @return 新老用户
      */
     @RequestMapping("user/type/span")
@@ -285,10 +300,10 @@ public class StatisticsController extends BaseController{
      * 店铺-新老用户-趋势
      *
      * @param areaId 区域ID
-     * @param offset   偏移 0=当天 -1=昨天 1=明天 -2 2 -3...
-     * @param span     跨度 [day|week|month|year]
-     * @param start    开始时间 ("yyyyMMddHHmmss")
-     * @param end      结束时间 ("yyyyMMddHHmmss")
+     * @param offset 偏移 0=当天 -1=昨天 1=明天 -2 2 -3...
+     * @param span   跨度 [day|week|month|year]
+     * @param start  开始时间 ("yyyyMMddHHmmss")
+     * @param end    结束时间 ("yyyyMMddHHmmss")
      * @return 新老用户趋势
      */
     @RequestMapping("user/type/trend/{period:hour|day|week|month}")
@@ -370,7 +385,7 @@ public class StatisticsController extends BaseController{
     private void doCheckPeriod(Period period, Date start, Date end) throws ServiceException {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(start);
-        int count = 0,max = 200;
+        int count = 0, max = 200;
         while (calendar.getTime().before(end)) {
             if (count++ > max) {
                 throw new ServiceException("数据量偏大，请调整时间跨度再试！");

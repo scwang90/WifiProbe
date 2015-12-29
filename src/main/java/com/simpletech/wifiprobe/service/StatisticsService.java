@@ -7,6 +7,7 @@ import com.simpletech.wifiprobe.model.entity.*;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 统计API Service
@@ -171,7 +172,8 @@ public interface StatisticsService {
      * @return 在线台数
      */
     int onlineProbe(String idshop);
-    List<OnlineValue> onlineProbeAll();
+    Map<String, Integer> onlineProbeAll();
+    Map<String,Integer> onlineProbeShopIds(String ids);
 
     /**
      * 探针-在线人数
@@ -180,5 +182,6 @@ public interface StatisticsService {
      * @return 在线人数
      */
     int onlineUser(String idshop);
-    List<OnlineValue> onlineUserAll();
+    Map<String, Integer> onlineUserAll();
+    Map<String,Integer> onlineUserShopIds(String ids);
 }

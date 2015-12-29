@@ -1,5 +1,7 @@
 package com.simpletech.wifiprobe.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * 客户类型（新老客户）时段
  * Created by ChenQi on 2015/11/4 10:36.
@@ -78,5 +80,15 @@ public class UserTypeSpanValue {
 
     public void setPeriod(int period) {
         this.period = period;
+    }
+
+    @JsonIgnore
+    public void setEmpty() {
+        this.setUv(0);
+        this.setVt(0);
+        this.setRuv(0);
+        this.setRvt(0);
+        this.setStay(0);
+        this.setPeriod(0);
     }
 }

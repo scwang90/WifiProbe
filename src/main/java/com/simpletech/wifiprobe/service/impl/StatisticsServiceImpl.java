@@ -7,16 +7,15 @@ import com.simpletech.wifiprobe.mapper.api.StatisticsMapper;
 import com.simpletech.wifiprobe.model.Shop;
 import com.simpletech.wifiprobe.model.constant.Period;
 import com.simpletech.wifiprobe.model.constant.RankingType;
+import com.simpletech.wifiprobe.model.constant.TimeType;
 import com.simpletech.wifiprobe.model.entity.*;
 import com.simpletech.wifiprobe.service.StatisticsService;
+import com.simpletech.wifiprobe.util.JacksonUtil;
 import com.simpletech.wifiprobe.util.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 统计API Service 实现
@@ -37,44 +36,44 @@ public class StatisticsServiceImpl implements StatisticsService {
 
     @Override
     public List<VisitTimeMapValue> visitTimeMap(String idsite, TimeType type, int days, Date start, Date end) {
-        List<VisitTimeMapValue> list = new ArrayList<>();
+        List<VisitTimeMapValue> values = new ArrayList<>();
         switch (type) {
             case server:
-                list = mapper.visitServerTimeMap(idsite, start, end);
+                values = mapper.visitServerTimeMap("" + idsite, start, end);
                 break;
             case local:
-                list = mapper.visitLocalTimeMap(idsite, start, end);
+                values = mapper.visitLocalTimeMap("" + idsite, start, end);
                 break;
         }
         int tip = 0, tpv = 0, tuv = 0, tvt = 0, count = days > 0 ? days : 1;
-        for (VisitTimeMapValue value : list) {
-            value.setAvgip((int) Math.rint(1f * value.getIp() / count + 0.4));
-            value.setAvgvt((int) Math.rint(1f * value.getVt() / count + 0.4));
-            value.setAvguv((int) Math.rint(1f * value.getUv() / count + 0.4));
-            value.setAvgpv((int) Math.rint(1f * value.getPv() / count + 0.4));
+        for (VisitTimeMapValue value : values) {
+            value.setAvgip((int) Math.rint(1.0f * value.getIp() / count + 0.4));
+            value.setAvgvt((int) Math.rint(1.0f * value.getVt() / count + 0.4));
+            value.setAvguv((int) Math.rint(1.0f * value.getUv() / count + 0.4));
+            value.setAvgpv((int) Math.rint(1.0f * value.getPv() / count + 0.4));
             tip += value.getAvgip();
             tvt += value.getAvgvt();
             tuv += value.getAvguv();
             tpv += value.getAvgpv();
         }
-        for (VisitTimeMapValue value : list) {
-            value.setRip(1f * value.getAvgip() / tip);
-            value.setRvt(1f * value.getAvgvt() / tvt);
-            value.setRuv(1f * value.getAvguv() / tuv);
-            value.setRpv(1f * value.getAvgpv() / tpv);
+        for (VisitTimeMapValue value : values) {
+            value.setRip(1.0f * value.getAvgip() / tip);
+            value.setRvt(1.0f * value.getAvgvt() / tvt);
+            value.setRuv(1.0f * value.getAvguv() / tuv);
+            value.setRpv(1.0f * value.getAvgpv() / tpv);
         }
-        for (int i = 0, index = 0; i < 24; i++, index++) {
-            if (index == list.size() || list.get(index).getTime() > i) {
+        for (int i = 0, index = i; i < 24; i++, index++) {
+            if (index == values.size() || values.get(index).getTime() > i) {
                 VisitTimeMapValue tmp = new VisitTimeMapValue();
                 tmp.setTime(i);
-                list.add(index, tmp);
+                values.add(index, tmp);
             }
         }
-        return list;
+        return values;
     }
 
     @Override
-    public List<FrequencyMapValue> visitFrequencyMap(String idshop, Date start, Date end) throws Exception {
+    public List<FrequencyMapValue> visitFrequencyMap(String idshop, Date start, Date end) {
         List<FrequencyMapValue> values = new ArrayList<>();
         Shop shop = shopDao.findById(idshop);
         if (shop != null) {
@@ -106,7 +105,7 @@ public class StatisticsServiceImpl implements StatisticsService {
     }
 
     @Override
-    public List<FrequencyMapValue> pastFrequencyMap(String idshop, Date start, Date end) throws Exception {
+    public List<FrequencyMapValue> pastFrequencyMap(String idshop, Date start, Date end) {
         List<FrequencyMapValue> values = new ArrayList<>();
         Shop shop = shopDao.findById(idshop);
         if (shop != null) {
@@ -138,7 +137,7 @@ public class StatisticsServiceImpl implements StatisticsService {
     }
 
     @Override
-    public List<DurationMapValue> visitDurationMap(String idshop, Date start, Date end) throws Exception {
+    public List<DurationMapValue> visitDurationMap(String idshop, Date start, Date end) {
         List<DurationMapValue> values = new ArrayList<>();
         Shop shop = shopDao.findById(idshop);
         if (shop != null) {
@@ -173,7 +172,7 @@ public class StatisticsServiceImpl implements StatisticsService {
     }
 
     @Override
-    public List<PeriodMapValue> visitPeriodMap(String idshop, Date start, Date end) throws Exception {
+    public List<PeriodMapValue> visitPeriodMap(String idshop, Date start, Date end) {
         List<PeriodMapValue> values = new ArrayList<>();
         Shop shop = shopDao.findById(idshop);
         if (shop != null) {
@@ -221,7 +220,7 @@ public class StatisticsServiceImpl implements StatisticsService {
     }
 
     @Override
-    public DurationSpanValue visitDurationSpan(String idshop, Date start, Date end) throws Exception {
+    public DurationSpanValue visitDurationSpan(String idshop, Date start, Date end) {
         DurationSpanValue value = new DurationSpanValue();
         Shop shop = shopDao.findById(idshop);
         if (shop != null) {
@@ -235,7 +234,7 @@ public class StatisticsServiceImpl implements StatisticsService {
     }
 
     @Override
-    public List<DurationTrendValue> visitDurationTrend(String idshop, Period period, Date start, Date end) throws Exception {
+    public List<DurationTrendValue> visitDurationTrend(String idshop, Period period, Date start, Date end) {
         List<DurationTrendValue> list = new ArrayList<>();
         Shop shop = shopDao.findById(idshop);
         if (shop != null) {
@@ -262,7 +261,7 @@ public class StatisticsServiceImpl implements StatisticsService {
     }
 
     @Override
-    public EntryTrendValue visitSpan(String idshop, Date start, Date end) throws Exception {
+    public EntryTrendValue visitSpan(String idshop, Date start, Date end) {
         Shop shop = shopDao.findById(idshop);
         if (shop != null) {
             shop = new ShopEntity(shop);
@@ -273,7 +272,7 @@ public class StatisticsServiceImpl implements StatisticsService {
     }
 
     @Override
-    public List<EntryTrendValue> visitTrend(String idshop, Period period, Date start, Date end) throws Exception {
+    public List<EntryTrendValue> visitTrend(String idshop, Period period, Date start, Date end) {
         List<EntryTrendValue> list = new ArrayList<>();
         Shop shop = shopDao.findById(idshop);
         if (shop != null) {
@@ -298,7 +297,7 @@ public class StatisticsServiceImpl implements StatisticsService {
     }
 
     @Override
-    public List<DeviceBrandValue> deviceBrandRanking(String idshop, RankingType ranktype, Date start, Date end, int limit, int skip) throws Exception {
+    public List<DeviceBrandValue> deviceBrandRanking(String idshop, RankingType ranktype, Date start, Date end, int limit, int skip) {
         Shop shop = shopDao.findById(idshop);
         if (shop != null) {
             shop = new ShopEntity(shop);
@@ -313,7 +312,7 @@ public class StatisticsServiceImpl implements StatisticsService {
     }
 
     @Override
-    public List<DeviceBrandValue> deviceBrandRank(String idshop, RankingType ranktype, Date start, Date end, int limit, int skip) throws Exception {
+    public List<DeviceBrandValue> deviceBrandRank(String idshop, RankingType ranktype, Date start, Date end, int limit, int skip) {
         Shop shop = shopDao.findById(idshop);
         if (shop != null) {
             shop = new ShopEntity(shop);
@@ -365,7 +364,7 @@ public class StatisticsServiceImpl implements StatisticsService {
     }
 
     @Override
-    public List<UserTypeSpanValue> userTypeSpan(String idshop, Date start, Date end) throws Exception {
+    public List<UserTypeSpanValue> userTypeSpan(String idshop, Date start, Date end) {
         List<UserTypeSpanValue> list = new ArrayList<>();
         Shop shop = shopDao.findById(idshop);
         if (shop != null) {
@@ -386,12 +385,7 @@ public class StatisticsServiceImpl implements StatisticsService {
                     value1.setPeriod(0);
                 }
             } catch (NullPointerException e) {
-                value1.setUv(0);
-                value1.setVt(0);
-                value1.setRuv(0);
-                value1.setRvt(0);
-                value1.setStay(0);
-                value1.setPeriod(0);
+                value1.setEmpty();
             }
             UserTypeSpanValue value2 = new UserTypeSpanValue();
             value2.setIsNewUser(false);
@@ -403,12 +397,7 @@ public class StatisticsServiceImpl implements StatisticsService {
                 value2.setStay(Double.valueOf(map.get("ostay").toString()).intValue());
                 value2.setPeriod(Double.valueOf(map.get("operiod").toString()).intValue());
             } catch (NullPointerException e) {
-                value2.setUv(0);
-                value2.setVt(0);
-                value2.setRuv(0);
-                value2.setRvt(0);
-                value2.setStay(0);
-                value2.setPeriod(0);
+                value1.setEmpty();
             }
             list.add(value1);
             list.add(value2);
@@ -417,7 +406,7 @@ public class StatisticsServiceImpl implements StatisticsService {
     }
 
     @Override
-    public List<UserTypeTrendValue> userTypeTrend(String idshop, Period period, Date start, Date end) throws Exception {
+    public List<UserTypeTrendValue> userTypeTrend(String idshop, Period period, Date start, Date end) {
         List<UserTypeTrendValue> list = new ArrayList<>();
         Shop shop = shopDao.findById(idshop);
         if (shop != null) {
@@ -442,7 +431,7 @@ public class StatisticsServiceImpl implements StatisticsService {
     }
 
     @Override
-    public List<UserLivenessMapValue> userLivenessMap(String idshop, Date start, Date end) throws Exception {
+    public List<UserLivenessMapValue> userLivenessMap(String idshop, Date start, Date end) {
         List<UserLivenessMapValue> list = new ArrayList<>();
         Shop shop = shopDao.findById(idshop);
         if (shop != null) {
@@ -482,7 +471,7 @@ public class StatisticsServiceImpl implements StatisticsService {
     }
 
     @Override
-    public List<UserLivenessTrendMapValue> userLivenessTrend(String idshop, Period period, Date start, Date end) throws Exception {
+    public List<UserLivenessTrendMapValue> userLivenessTrend(String idshop, Period period, Date start, Date end) {
         List<UserLivenessTrendMapValue> list = new ArrayList<>();
         Shop shop = shopDao.findById(idshop);
         if (shop != null) {
@@ -533,26 +522,77 @@ public class StatisticsServiceImpl implements StatisticsService {
     }
 
     @Override
-    public int onlineProbe(String idshop) throws Exception {
+    public int onlineProbe(String idshop) {
         Date time = new Date(System.currentTimeMillis() - 5 * 60 * 1000);
         return mapper.onlineProbe(idshop, time);
     }
 
     @Override
-    public int onlineUser(String idshop) throws Exception {
+    public int onlineUser(String idshop) {
         Date time = new Date(System.currentTimeMillis() - 5 * 60 * 1000);
         return mapper.onlineUser(idshop, time);
     }
 
     @Override
-    public List<OnlineValue> onlineProbeAll() throws Exception {
+    public Map<String, Integer> onlineProbeAll() {
         Date time = new Date(System.currentTimeMillis() - 5 * 60 * 1000);
-        return mapper.onlineProbeAll(time);
+        Map<String, Integer> values = new HashMap<>();
+        List<OnlineValue> onlineValues = mapper.onlineProbeAll(time);
+        for (OnlineValue value : onlineValues) {
+            values.put(value.getId(), value.getNum());
+        }
+        return values;
     }
 
     @Override
-    public List<OnlineValue> onlineUserAll() throws Exception {
+    public Map<String, Integer> onlineUserAll() {
         Date time = new Date(System.currentTimeMillis() - 5 * 60 * 1000);
-        return mapper.onlineUserAll(time);
+        Map<String, Integer> values = new HashMap<>();
+        List<OnlineValue> onlineValues = mapper.onlineUserAll(time);
+        for (OnlineValue value : onlineValues) {
+            values.put(value.getId(), value.getNum());
+        }
+        return values;
+    }
+
+    @Override
+    public Map<String, Integer> onlineProbeShopIds(String sids) {
+        List<String> ids = JacksonUtil.toObjectsNoException(sids, String.class);
+        if (ids == null) throw new ServiceException("请使用json:[\"id1\",\"id2\"]格式传参！");
+        Date time = new Date(System.currentTimeMillis() - 5 * 60 * 1000);
+        String wherein = sids.replace('"', '\'').replaceAll("\\[|\\]", "");
+        Map<String, Integer> values = new HashMap<>();
+        List<OnlineValue> onlineValues = mapper.onlineProbeShopIds(time, wherein);
+        for (OnlineValue value : onlineValues) {
+            values.put(value.getId(), value.getNum());
+        }
+        for (String id : ids) {
+            Integer value = values.get(id);
+            if (value == null) {
+                values.put(id, 0);
+            }
+        }
+        return values;
+
+    }
+
+    @Override
+    public Map<String, Integer> onlineUserShopIds(String sids) {
+        List<String> ids = JacksonUtil.toObjectsNoException(sids, String.class);
+        if (ids == null) throw new ServiceException("请使用json:[\"id1\",\"id2\"]格式传参！");
+        Date time = new Date(System.currentTimeMillis() - 5 * 60 * 1000);
+        String wherein = sids.replace('"', '\'').replaceAll("\\[|\\]", "");
+        Map<String, Integer> values = new HashMap<>();
+        List<OnlineValue> onlineValues = mapper.onlineUserShopIds(time, wherein);
+        for (OnlineValue value : onlineValues) {
+            values.put(value.getId(), value.getNum());
+        }
+        for (String id : ids) {
+            Integer value = values.get(id);
+            if (value == null) {
+                values.put(id, 0);
+            }
+        }
+        return values;
     }
 }

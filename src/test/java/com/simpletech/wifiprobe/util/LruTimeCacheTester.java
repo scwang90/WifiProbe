@@ -2,6 +2,9 @@ package com.simpletech.wifiprobe.util;
 
 import org.junit.Test;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * 时间缓存测试
  * Created by Administrator on 2015/11/17.
@@ -17,6 +20,15 @@ public class LruTimeCacheTester {
             System.out.println(cache.get("name"));
         }
         System.out.println("end");
+    }
+
+    @Test
+    public void array() {
+        List<String> list = Arrays.asList("1", "2", "3");
+        System.out.println(JacksonUtil.toJson(list).replace('"','\'').replaceAll("\\[|\\]",""));
+        System.out.println(JacksonUtil.toJson(list));
+        System.out.println(JacksonUtil.toJson(list).matches("^\\[\".+\"\\]$"));
+
     }
 
 }
