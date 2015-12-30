@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<con:soapui-project id="4f815c40-3a01-4b90-9077-d2c8d8e72a9c" activeEnvironment="Default" name="WifiProbe" soapui-version="5.2.0" abortOnError="false" runType="SEQUENTIAL" resourceRoot="" xmlns:con="http://eviware.com/soapui/config">
+<con:soapui-project id="4f815c40-3a01-4b90-9077-d2c8d8e72a9c" activeEnvironment="Default" name="WifiProbe" soapui-version="5.2.1" abortOnError="false" runType="SEQUENTIAL" resourceRoot="" xmlns:con="http://eviware.com/soapui/config">
     <con:settings/>
     <con:interface xsi:type="con:RestService" id="6bdf65b5-220a-43e0-a33b-865d5e4486a9" wadlVersion="http://wadl.dev.java.net/2009/02" name="http://222.85.149.5:8080" type="rest" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
         <con:settings/>
