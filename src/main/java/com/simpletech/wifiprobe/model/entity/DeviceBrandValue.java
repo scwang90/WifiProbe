@@ -9,7 +9,7 @@ public class DeviceBrandValue {
     private String name;        //排行名称
     private int uv;             //独立设备数
     private int vt;             //到访频次（独立设备在规定时间段内访问的次数）
-    private int pv;             //设备数
+    private int pv;             //接受到的探针数
     private float ruv;          //设备品牌占比
     private float rvt;          //访问频次占比
     private float rpv;          //设备数占比
