@@ -101,7 +101,7 @@ public class StatisticsController extends BaseController {
      * @return 统计数据
      */
     @RequestMapping("visit/{type:server|local}/time/map")
-    public Object visitTimeMap(@PathVariable String areaId, @PathVariable TimeType type, String subsite, Integer offset, Period span, Date start, Date end) {
+    public Object visitTimeMap(@PathVariable String areaId, @PathVariable TimeType type, Integer offset, Period span, Date start, Date end) {
         end = timeEnd(end, span, offset);
         start = timeStart(start, span, offset);
         int days = countDays(Period.day, start, end);
