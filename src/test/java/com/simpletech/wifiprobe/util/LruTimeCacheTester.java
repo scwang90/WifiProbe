@@ -1,5 +1,6 @@
 package com.simpletech.wifiprobe.util;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -23,12 +24,11 @@ public class LruTimeCacheTester {
     }
 
     @Test
-    public void array() {
+    public void array() throws JsonProcessingException {
         List<String> list = Arrays.asList("1", "2", "3");
         System.out.println(JacksonUtil.toJson(list).replace('"','\'').replaceAll("\\[|\\]",""));
         System.out.println(JacksonUtil.toJson(list));
         System.out.println(JacksonUtil.toJson(list).matches("^\\[\".+\"\\]$"));
-
     }
 
 }

@@ -31,7 +31,7 @@ public class DataMapperTest {
     @Transactional
     public void abnormalNewUserVisit() {
         List<Map<String,Object>> result = mapper.abnormalNewUserVisit(100, 0);
-        System.out.println(JacksonUtil.toJson(result).replace("{", "\n{"));
+        System.out.println(JacksonUtil.toJsonNoException(result).replace("{", "\n{"));
         for (Map<String,Object> map : result) {
             Date min = mapper.abnormalNewUserVisitMin(map.get("mac_device").toString(),map.get("idshop").toString());
             System.out.println(full.format(min));

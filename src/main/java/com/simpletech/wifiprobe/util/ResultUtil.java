@@ -23,7 +23,7 @@ public class ResultUtil {
 	 * @return String
 	 */
 	public static String getSuccess(Object mes) {
-		return JacksonUtil.toJson(new ResultUtil(mes, true));
+		return JacksonUtil.toJsonNoException(new ResultUtil(mes, true));
 	}
 
 	/**
@@ -33,7 +33,7 @@ public class ResultUtil {
 	 * @return String
 	 */
 	public static String getFailure(Object mes) {
-		return JacksonUtil.toJson(new ResultUtil(mes, false));
+		return JacksonUtil.toJsonNoException(new ResultUtil(mes, false));
 	}
 
 	public boolean isResult() {
